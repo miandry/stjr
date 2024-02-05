@@ -1,0 +1,7 @@
+stripe_custom.success:
+  path: '/stripe/success'
+  defaults:
+    _controller: '\Drupal\stripe_custom\Controller\StripeCustomController::success'
+    _title: 'Success page'
+  requirements:
+    _permission: 'access content'
