@@ -25,3 +25,8 @@
 
         page is here stripe_custom\Controller\StripeCustomController  
         route config for page is  stripe_custom.routing.yml 
+
+
+   3- user/login
+
+     username: admin  password: admin		
