@@ -14,5 +14,15 @@ class StripeCustomController extends ControllerBase {
         '#markup' => '<p> Here are the contents of your page </p>',
     ];
   }
+  public function dashboard() {
+    return [
+        '#markup' => '<p> Here are the contents of your page dashboard </p>',
+    ];
+  }
+  public function webhook() {
+    return [
+        '#markup' => '<p> Here are the contents of your page dashboard </p>',
+    ];
+  }
 
 }
