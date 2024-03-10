@@ -20,6 +20,7 @@
         "drupal/core-project-message": "^9.5",
         "drupal/core-recommended": "^9.5",
         "drupal/core-vendor-hardening": "^9.5",
+        "drush/drush": "^11.6",
         "stripe/stripe-php": "^13.10"
     },
     "conflict": {
