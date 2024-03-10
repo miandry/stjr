@@ -98,16 +98,22 @@ function drupal_helper_theme_suggestions_block_alter(array &$suggestions, array 
  * Adds body classes if certain regions have content.
  */
 function drupal_helper_preprocess_html(&$variables) {
- //   $query = Drupal::request()->query->all();
-  //  echo($query['lang']);
-   // if(isset($query['lang']) && $query['lang']){
-        // kint($query['lang']);
-        //  $languageManager = \Drupal::languageManager();
-        //  $customLanguageNegotiator  = \Drupal::service('drupal_helper.language_negotiator');
-        //  $languageManager->setNegotiator($customLanguageNegotiator);   
-        //  $languageManager->reset(); 
-        //  $languageManager->getNegotiator()->setLanguageCode($query['lang']);  
-  //  }
+  $config = \Drupal::config('drupal_helper.features');
+  $is_redirect_to_login_if_not_connect = $config->get('redirect_to_login_if_not_connect');
+  $route_match = \Drupal::service('current_route_match');
+
+  if($is_redirect_to_login_if_not_connect == 1){
+    $service = \Drupal::service('drupal.helper');
+    $current_user = \Drupal::currentUser();
+    if ($current_user->isAnonymous()) {
+        $route_name = $route_match->getRouteName();
+        if(  $route_name != 'user.login' ){
+            $service->helper->redirectTo('/user/login');
+        }
+    }
+}
+  
+
 }
   /**
  * Implements hook_theme_suggestions_HOOK_alter() for page templates.

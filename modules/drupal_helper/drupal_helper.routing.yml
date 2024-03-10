@@ -31,3 +31,12 @@ drupal_helper.manual_import:
      _permission: 'access administration pages'
    options:
      _admin_route: TRUE
+drupal_helper.features:
+   path: '/admin/config/helper/features'
+   defaults:
+     _form: '\Drupal\drupal_helper\Form\FeaturesForm'
+     _title: 'Features '
+   requirements:
+     _permission: 'access administration pages'
+   options:
+     _admin_route: TRUE     
