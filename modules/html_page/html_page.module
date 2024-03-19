@@ -32,7 +32,6 @@ function html_page_preprocess_html(&$variables)
     $node = \Drupal::request()->attributes->get('node');
     if ($node && $node->bundle()=='html_page') {
         $body = $node->body->value;
-     //   $var =  Json::decode($node->field_json->value);
         $var['entity'] = $node ;
         $variables['html_page'] = [
             '#type' => 'inline_template',
