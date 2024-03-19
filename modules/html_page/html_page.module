@@ -41,18 +41,4 @@ function html_page_preprocess_html(&$variables)
         ];
       
     }
-
-    // echo "hello go"; die();
-    // if (isset($variables['node']) && $variables['node']->getType() == 'html_page') {
-    //   $view_mode = $variables['view_mode'];
-    //   if($view_mode=='full') {
-    //     $node = ($variables['node']);
-    //     $body = $node->body->value ;
-    //     $variables['html_page'] = [
-    //       '#type' => 'inline_template',
-    //       '#template' => $body
-    //     ];
-    //    // $variables['html_page'] = \Drupal::service('renderer')->render($body);
-    //   }
-    // }
 }
