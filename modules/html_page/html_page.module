@@ -23,13 +23,6 @@ function html_page_help($route_name, RouteMatchInterface $route_match)
         default:
     }
 }
-function html_page_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-    if($form_id == "html_page_form"){
-
-    }
-
-}
-
 
 
 
