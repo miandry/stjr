@@ -62,4 +62,19 @@ class DrupalNodeHelper extends DrupalCommonHelper
         }
         return null;
     }
+    /**
+     * Get the latest node ID.
+     */
+    function getLatestNodeId() {
+        $entity_type_manager = \Drupal::service('entity_type.manager');
+        $node_storage = $entity_type_manager->getStorage('node');
+        $query = $node_storage->getQuery()
+        ->sort('nid', 'DESC')
+        ->range(0, 1);
+        $nids = $query->execute();
+        if (!empty($nids)) {
+        return reset($nids);
+        }
+        return NULL;
+    }
 }

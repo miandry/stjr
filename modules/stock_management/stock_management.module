@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * @file
+ * Contains html_page.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+use Drupal\Core\Form\FormStateInterface;
+/**
+ * Implements hook_help().
+ */
+function stock_management_help($route_name, RouteMatchInterface $route_match)
+{
+    switch ($route_name) {
+        // Main module help for the html_page module.
+        case 'help.page.html_page':
+            $output = '';
+            $output .= '<h3>' . t('stock_management') . '</h3>';
+            $output .= '<p>' . t('stock_management system') . '</p>';
+            return $output;
+        default:
+    }
+}
+
+
+/**
+ * Implements hook_form_alter().
+ */
+function stock_management_form_alter(&$form, &$form_state, $form_id) {
+    if ($form_id == 'node_stock_form') {
+      $service = \Drupal::service('drupal.helper');
+      $nid = $service->node->getLatestNodeId();
+      $form['title']['widget'][0]['value']["#default_value"] = 'ST0CK-'.$nid;
+      $form['title']['widget'][0]['value']['#attributes']['readonly']= 'readonly' ;
+    }
+}
+function stock_management_node_presave(\Drupal\node\NodeInterface $entity) {
+    $nid = $entity->id();
+    //insert node
+    if($entity->bundle() == 'stock' && $nid == null ){
+        $service = \Drupal::service('stock_management.manager');
+        $entity = $service->executeStockInsert($entity);
+    }
+
+}  
+function computed_field_field_benefice_compute($entity_type_manager, $entity, $fields, $delta){
+    $service = \Drupal::service('stock_management.manager');
+    return $service->executeComputedBenefice($entity);
+}
+
+function stock_management_node_delete(\Drupal\node\Entity\Node $entity) {
+    if($entity->bundle() == 'stock'){
+        $service = \Drupal::service('stock_management.manager');
+        $service->updateStockNumberOnDeleteStock($entity);
+    }
+}
