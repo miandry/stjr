@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Pharmacie</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.4/dist/bootstrap-table.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.4/dist/bootstrap-table.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.4/dist/bootstrap-table-locale-all.min.js"></script>
+
+	<style type="text/css">
+		.head-blue {
+			--bs-table-color: #fff;
+			--bs-table-bg: #61BDF6;
+		}
+		.active>.page-link, .page-link.active, .my-blue{
+			background-color: #61BDF6 !important;
+			border-color: #fff !important;
+			color: #fff !important;
+
+		}
+	</style>
+</head>
+<body>
+	{%  set conditions = {
+            'type': 'article'
+        } 
+   %}
+	{% set articles = node_parser_by_properties(conditions)%}
+
+    {% if saved %}
+        le commande est enregistrer 
+    {% endif %}
+                       
+
+	<div class="container">
+		<div class="row shadow rounded mt-5">
+			<div class="col-md-6">
+				<table id="table1" data-search="true" data-single-select="true" data-click-to-select="true" data-search-align="left" data-pagination="true" data-locale="fr-FR" data-thead-classes='head-blue'>
+					<thead>
+						<tr>
+							<th data-field="state" data-checkbox="true"></th>
+							<th data-field="id">ID</th>
+							<th data-field="name">name</th>
+							<th data-field="price">Prix unitaire</th>
+							<th data-field="categorie">Catégorie</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div id="toolbar" class="col-md-1 align-content-center">
+				<button id="add" class="btn my-blue" disabled><i class="fa fa-plus"></i> Ajouter</button>
+				
+			</div>
+			<div class="col align-content-center">
+				<table id="table2" data-toggle="table" data-show-footer="true" data-locale="fr-FR" data-thead-classes='head-blue'>
+					<thead>
+						<tr>
+							<th data-field="name">Nom</th>
+							<th data-field="price" >Prix Unitaire</th>
+							<th data-field="qte" data-footer-formatter="nameFormatter">Qte</th>
+							<th data-field="price_total" data-footer-formatter="priceFormatter">Prix Total</th>
+							<th data-field="id">ID</th>
+							<th data-formatter="operateFormatter" data-events= "window.operateEvents"></th>
+						</tr>
+					</thead>
+				</table>
+				<form id="my-form" action="">
+					<input type="hidden" id="post-data" name="data">
+				</form>
+				<div class="m-4 text-end">
+					<button id="submit-btn" class="btn my-blue">Valider</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var $table1 = $('#table1')
+		var $table2 = $('#table2')
+		var $add = $('#add')
+		var my_data = {
+			'items': [],
+			'total': 0
+		}
+		;
+		var my_total;
+
+		function operateFormatter(value, row, index) {
+			return [
+				'<a class="remove" href="javascript:void(0)" title="Remove">',
+				'<i class="fa fa-trash"></i>',
+				'</a>'
+				].join('')
+		}
+
+		window.operateEvents = {
+			'click .remove': function (e, value, row, index) {
+				$table2.bootstrapTable('remove', {
+					field: 'id',
+					values: [row.id]
+				})
+				my_data['items'] = my_data['items'].filter(item => item.id !== row.id);
+			}
+		}
+
+		function getidSelections() {
+			return $.map($table1.bootstrapTable('getSelections'), function (row) {
+				return row.id
+			})
+		}
+
+		$(function() {
+    	var data = 
+			[
+            {% for item in articles|reverse %}
+									{% set n = node_parser(item) %}
+    
+                           	{
+                                "id": "{{n.nid}}",
+                                "name": "{{n.title}}",
+                                "price": "{{n.field_prix_unitaire}}",
+                                "categorie": "{{n.field_categorie.title}}"
+                            },
+             {% endfor %}   
+
+			{
+				"id": "0756",
+				"name": "PRENATAL+DHA PLT",
+				"price": "11800",
+				"categorie": "PLT"
+			},
+			{
+				"id": "0076",
+				"name": "ACIVIR",
+				"price": "7900",
+				"categorie": "Bt"
+			},
+			{
+				"id": "0003",
+				"name": "ACTAPULGITE 3G SCHT",
+				"price": "900",
+				"categorie": "Scht"
+			},
+			{
+				"id": "0004",
+				"name": "ACTAPULGITE 1 G SCHT",
+				"price": "600",
+				"categorie": "Scht"
+			},
+			{
+				"id": "1093",
+				"name": "BIOFAR CALCIUM VIT D3",
+				"price": "25600",
+				"categorie": "Bte"
+			},
+			{
+				"id": "0030",
+				"name": "ACTICARBINE 600MG CP",
+				"price": "300",
+				"categorie": "Cpr"
+			},
+			{
+				"id": "0023",
+				"name": "ADVIL CP 400MG PQT DE 10",
+				"price": "8600",
+				"categorie": "plqt"
+			},
+			{
+				"id": "0022",
+				"name": "ADVIL SP ENF",
+				"price": "21700",
+				"categorie": "Fic"
+			},
+			{
+				"id": "1126",
+				"name": "AERIUS SP",
+				"price": "27800",
+				"categorie": "Fic"
+			},
+			{
+				"id": "0021",
+				"name": "BECLATE AERO250",
+				"price": "17400",
+				"categorie": "BTE"
+			},
+			{
+				"id": "0013",
+				"name": "AIGUILLE EPICRANIEN",
+				"price": "400",
+				"categorie": "Pce"
+			},
+			{
+				"id": "0045",
+				"name": "ALBENDAZOLE 400MG DESKA",
+				"price": "700",
+				"categorie": "Cp"
+			},
+			{
+				"id": "0010",
+				"name": "ALCOOL 60ML",
+				"price": "2700",
+				"categorie": "FLC"
+			},
+			{
+				"id": "0015",
+				"name": "ALCOOL 90° 30ML",
+				"price": "1400",
+				"categorie": "Flc"
+			},
+			{
+				"id": "0016",
+				"name": "ALCOOL 70° 125ML",
+				"price": "4400",
+				"categorie": "Flc"
+			},
+			{
+				"id": "0017",
+				"name": "ALCOOL 70 500ML",
+				"price": "11500",
+				"categorie": "FLC"
+			},
+			{
+				"id": "0014",
+				"name": "ALCOOL ETYLIQUE 90° 500ml",
+				"price": "13700",
+				"categorie": "FLC"
+			},
+			]
+			$table1.bootstrapTable({data: data})
+		})
+		$table1.on('check.bs.table uncheck.bs.table ' +
+			'check-all.bs.table uncheck-all.bs.table',
+			function () {
+				$add.prop('disabled', !$table1.bootstrapTable('getSelections').length)
+			})
+		$add.on('click', function () {
+			checked = $table1.bootstrapTable('getSelections')
+			$.confirm({
+				title: 'Ajouter le nombre de quantité',
+				theme: 'modern',
+				content: ''+
+				'<form action="" class="text-start">' +
+				'<strong>Nom: </strong> ' +checked[0].name +'</br><strong>Prix unitaire: </strong> ' +checked[0].price +
+				'<div class="row me-0"><div class="col-auto">'+
+				'<label for="qte" class="col-form-label">Qte</label>'+
+				'</div>'+
+				'<div class="col-auto">'+
+				'<input type="number" id="qte" class="form-control" min="1" value="1" required>'+
+				'</div></div>' +
+				'</form>',
+				buttons: {
+					formSubmit: {
+						text: 'Ajouter',
+						btnClass: 'btn-blue',
+						action: function () {
+							var qte = this.$content.find('#qte').val();
+							if(qte < 1){
+								$.alert('La quantité doit être valide');
+								return false;
+							}
+							$add.prop('disabled',true)
+							$table1.bootstrapTable('uncheckBy', {field: 'id', values: [checked[0].id]})
+							$table2.bootstrapTable('append', [
+							{
+								id: checked[0].id,
+								name: checked[0].name,
+								qte: qte,
+								price: checked[0].price,
+								price_total: qte*checked[0].price
+							}
+							])
+							my_data['items'].push({'id': checked[0].id, 'qte': qte})
+						}
+					},
+					cancel: function () {
+
+					},
+				},
+				onContentReady: function () {
+
+					var jc = this;
+					this.$content.find('form').on('submit', function (e) {
+
+						e.preventDefault();
+            jc.$$formSubmit.trigger('click'); // reference the button and click it
+        });
+				}
+			});
+		})
+		function priceFormatter(data) {
+			var field = this.field
+			my_total = data.map(function (row) {
+				return +row[field]
+			}).reduce(function (sum, i) {
+				return sum + i
+			}, 0)
+			return my_total
+		}
+
+		function nameFormatter(data, footerValue) {
+			return 'Total (Ar)'
+		}
+
+		$('#submit-btn').on('click', function(){
+			if(!my_total){
+				return false
+			}
+			my_data['total'] = my_total
+			console.log(my_data)
+			$('#post-data').val(JSON.stringify(my_data))
+			$('#my-form').submit() 
+
+		})
+	</script>
+</body>
+</html>
