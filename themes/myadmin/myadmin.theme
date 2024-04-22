@@ -12,7 +12,7 @@ function myadmin_preprocess_html(&$variables) {
       $service = \Drupal::service('commande_management.manager');
       $saved = $service->saveCommandes();
       if($saved){
-        $variables['saved'] = $com_new->id();
+        $variables['saved'] = $saved ;
       }
   }
 }
