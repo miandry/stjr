@@ -57,5 +57,7 @@ class StockManagement
            $pv  =   $this->calculatePrixDeVente($achat , $marge)  ;
            return $pv - $achat ; 
      }
+
+     
       
 }

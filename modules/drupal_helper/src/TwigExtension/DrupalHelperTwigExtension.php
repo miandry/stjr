@@ -5,7 +5,7 @@ use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\views\Views;
 use Twig\TwigFunction;
 use Twig\Extension\AbstractExtension;
-
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Class DrupalHelperTwigExtension.
@@ -103,8 +103,13 @@ class DrupalHelperTwigExtension extends AbstractExtension {
             new TwigFunction('storage_set',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'storage_set']),
             new TwigFunction('storage_get',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'storage_get']),
             new TwigFunction('storage_delete',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'storage_delete']),
-            new TwigFunction('user_password_forget',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'user_password_forget_twig'])       
+            new TwigFunction('user_password_forget',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'user_password_forget_twig'])  ,     
+            new TwigFunction('pathlocal_theme',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'twig_pathlocal_theme'])
+        
         ];
+    }
+    public static function twig_pathlocal_theme($theme_name){
+        return \Drupal::service('extension.list.theme')->getPath($theme_name);
     }
     public static function floatval_twig($string){
        return floatval($string);
@@ -163,9 +168,16 @@ class DrupalHelperTwigExtension extends AbstractExtension {
         return $query->execute();
     }
     public static function load_by_property_twig($entity_type,$filter){
-        return \Drupal::entityTypeManager()
+        $result=[];
+        $entities = \Drupal::entityTypeManager()
         ->getStorage($entity_type)
         ->loadByProperties($filter);
+        foreach ($entities as $id => $entity ) {
+        $storage = \Drupal::entityTypeManager()->getStorage($entity_type);
+        $storage->resetCache([$id]);
+        $result[$id] = $storage ;
+        }
+        return  $result ;
     }
     public static function image_twig($media,$option = []){
         $twig_base = new \Drupal\drupal_helper\DrupalHelper();
@@ -208,9 +220,15 @@ class DrupalHelperTwigExtension extends AbstractExtension {
         $twig_base = new \Drupal\drupal_helper\DrupalHelper();
         return $twig_base->helper->isExistUrl($url);
     }
-    public static function twig_redirect($url){
-        $twig_base = new \Drupal\drupal_helper\DrupalHelper();
-        return $twig_base->helper->redirectTo($url);
+    public static function twig_redirect($url,$params = null){
+        if($params){
+            $url = \Drupal\Core\Url::fromUri('internal:'.$url, ['query' =>  $params]);
+            $response = new RedirectResponse($url->toString());
+            $response->send();
+        }else{
+            $twig_base = new \Drupal\drupal_helper\DrupalHelper();
+            return $twig_base->helper->redirectTo($url);
+        }   
     }
     public static function twig_array_column($array, $string){
         return array_column($array, $string);

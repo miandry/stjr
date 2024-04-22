@@ -1,3 +1,0 @@
-services:
-  stripe_custom.manager:
-    class: Drupal\stripe_custom\StripeCustomService

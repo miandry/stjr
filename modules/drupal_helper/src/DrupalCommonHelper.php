@@ -34,38 +34,20 @@ class DrupalCommonHelper
         return $machineName;
     }
     public function storage_set($name,$values,$cache_time= 604800){
-        $is_exist = \Drupal::moduleHandler()->moduleExists('session_based_temp_store');
-        if( $is_exist){
-            $temp_store_factory = \Drupal::service('session_based_temp_store');
-            $temp_store = $temp_store_factory->get($name, $cache_time);
-            $temp_store->set($name,$values);
-            return true;
-        }else{
-            \Drupal::messenger()->addMessage('session_based_temp_store need to enabled','error');
-            return false;
-        }
+        $expiration_time = REQUEST_TIME + $cache_time;
+        $uid = \Drupal::currentUser()->id();
+        $tempstore = \Drupal::service('tempstore.private')->get('drupal_helper');
+        $tempstore->set($name."_".$uid ,$values,$expiration_time);
     }
-    public function storage_get($name,$cache_time= 604800){
-        $is_exist = \Drupal::moduleHandler()->moduleExists('session_based_temp_store');
-        if( $is_exist){
-            $temp_store_factory = \Drupal::service('session_based_temp_store');
-            $temp_store = $temp_store_factory->get($name, $cache_time);
-            return $temp_store->get($name);
-        }else{
-            \Drupal::messenger()->addMessage('session_based_temp_store need to enabled','error');
-            return false;
-        }
+    public function storage_get($name){
+        $tempstore = \Drupal::service('tempstore.private')->get('drupal_helper');
+        $uid = \Drupal::currentUser()->id();
+        return  $tempstore->get($name."_".$uid);
     }
-    public function storage_delete($name,$cache_time= 604800){
-        $is_exist = \Drupal::moduleHandler()->moduleExists('session_based_temp_store');
-        if($is_exist){
-            $temp_store_factory = \Drupal::service('session_based_temp_store');
-            $temp_store = $temp_store_factory->get($name, $cache_time);
-            return $temp_store->deleteAll();
-        }else{
-            \Drupal::messenger()->addMessage('session_based_temp_store need to enabled','error');
-            return false;
-        }
+    public function storage_delete($name){
+        $tempstore = \Drupal::service('tempstore.private')->get('drupal_helper');
+        $uid = \Drupal::currentUser()->id();
+        return  $tempstore->delete($name."_".$uid);
     }
     public static function is_module_exist($module_name)
     {
@@ -533,7 +515,7 @@ class DrupalCommonHelper
         }
         $params = Url::fromUri("internal:" . $alias)->getRouteParameters();
         $entity_type = key($params);
-        if($params[$entity_type] && $params[$entity_type] != ""){
+        if(isset($params[$entity_type]) && $params[$entity_type] != ""){
             $object =  \Drupal::entityTypeManager()->getStorage($entity_type)->load($params[$entity_type]);
             return $object  ;
         }else{
@@ -671,6 +653,27 @@ class DrupalCommonHelper
 
     }
 
+    public function send_mail_simple($message,$to,$from,$subject) {
+       // $to = "miandrilala9@yahoo.fr";
+       //  $subject = "Download link for file";
+       // $message = "Click the link below to download the file:<br>";
+       // $message .= "<a href='http://example.com/path/to/file.pdf'>Download File</a>";
+        // Headers
+        $headers = "From: ".$from."\r\n";
+        $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+        
+        // Send email
+        if (mail($to, $subject, $message, $headers)) {
+           $message = "Email sent successfully.";
+           \Drupal::logger('drupal_helper')->notice($message);
+           return true ;
+        } else {
+           $message = "Email sending failed.";
+          \Drupal::logger('drupal_helper')->error($message);
+          return false;
+        }
+        
+      }
     public function taxonomy_load_by_tid($tid, $type = "teaser")
     {
         if (is_numeric($tid)) {

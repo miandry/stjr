@@ -61,8 +61,22 @@ class DefaultTwigExtension extends AbstractExtension {
 
             new TwigFunction('media_parser', ['Drupal\entity_parser\TwigExtension\DefaultTwigExtension', 'media_parser_twig']),
             new TwigFunction('profile_parser', ['Drupal\entity_parser\TwigExtension\DefaultTwigExtension', 'profile_parser_twig']),
+            new TwigFunction('node_parser_by_properties', ['Drupal\entity_parser\TwigExtension\DefaultTwigExtension', 'node_parser_by_properties_twig']),
+
+
         ];
     }
+    public static function node_parser_by_properties_twig($conditions) {
+        $nodes = \Drupal::entityTypeManager()
+          ->getStorage('node')
+          ->loadByProperties($conditions);
+        $nodeStorage = \Drupal::service('entity_type.manager')->getStorage('node');
+        foreach($nodes as $key => $node){
+          $nodeStorage->resetCache([$key]);
+        }
+        return ($nodes);
+      }
+    
     public static function profile_parser_twig($term,$fields = [],$option = [] ){
         $parser = new EntityParser();
         if(isset($option['#entity_parser_extend'])){

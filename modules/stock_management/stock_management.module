@@ -56,3 +56,5 @@ function stock_management_node_delete(\Drupal\node\Entity\Node $entity) {
         $service->updateStockNumberOnDeleteStock($entity);
     }
 }
+
+

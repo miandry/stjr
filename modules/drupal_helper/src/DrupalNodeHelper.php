@@ -7,7 +7,7 @@
  * Time: 5:47 PM
  */
 namespace Drupal\drupal_helper;
-
+use Drupal\Core\Url;
 
 class DrupalNodeHelper extends DrupalCommonHelper
 {
@@ -62,15 +62,19 @@ class DrupalNodeHelper extends DrupalCommonHelper
         }
         return null;
     }
-    /**
+      /**
      * Get the latest node ID.
      */
-    function getLatestNodeId() {
+    function getLatestNodeId($bundle = null) {
+
         $entity_type_manager = \Drupal::service('entity_type.manager');
         $node_storage = $entity_type_manager->getStorage('node');
-        $query = $node_storage->getQuery()
-        ->sort('nid', 'DESC')
-        ->range(0, 1);
+        $query = $node_storage->getQuery();
+        $query->sort('nid', 'DESC');
+        $query->range(0, 1);
+        if($bundle){
+            $query->condition("type", $bundle);
+        }
         $nids = $query->execute();
         if (!empty($nids)) {
         return reset($nids);
