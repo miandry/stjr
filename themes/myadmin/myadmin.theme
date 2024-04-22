@@ -8,15 +8,11 @@ function myadmin_preprocess_html(&$variables) {
   $current_path = \Drupal::service('path.current')->getPath();
   $current_path_alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
   if ($current_path_alias == '/frontdesk') {
-    $variables['#cache']['max-age'] = 0;
-    // Get the GET parameter 'param' from the URL.
-    $param_value = \Drupal::request()->query->get('data');
-    if(   $param_value){
-      $arrayData = json_decode($param_value, TRUE);
-      // kint(    $arrayData );
-      $variables['saved'] = true;
-    }
-
-
+      $variables['#cache']['max-age'] = 0;
+      $service = \Drupal::service('commande_management.manager');
+      $saved = $service->saveCommandes();
+      if($saved){
+        $variables['saved'] = $com_new->id();
+      }
   }
 }
