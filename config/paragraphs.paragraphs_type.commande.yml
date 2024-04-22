@@ -1,0 +1,10 @@
+uuid: 662e7f82-ec5d-474a-856b-22fbb15f25c4
+langcode: fr
+status: true
+dependencies: {  }
+id: commande
+label: commande
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

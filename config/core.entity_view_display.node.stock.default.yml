@@ -1,0 +1,110 @@
+uuid: c702c668-5078-42ff-aff4-cd1a8d0d6984
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.field.node.stock.field_article
+    - field.field.node.stock.field_benefice
+    - field.field.node.stock.field_date
+    - field.field.node.stock.field_fournisseur
+    - field.field.node.stock.field_peremption
+    - field.field.node.stock.field_prix_d_achat
+    - field.field.node.stock.field_prix_unitaire
+    - field.field.node.stock.field_quantite
+    - field.field.node.stock.field_stock_unitaire
+    - node.type.stock
+  module:
+    - computed_field
+    - datetime
+    - user
+id: node.stock.default
+targetEntityType: node
+bundle: stock
+mode: default
+content:
+  field_article:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_benefice:
+    type: computed_string
+    label: above
+    settings:
+      sanitized: true
+      cache_unit: -1
+      cache_duration: 1
+    third_party_settings: {  }
+    weight: 110
+    region: content
+  field_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 109
+    region: content
+  field_fournisseur:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_peremption:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_prix_d_achat:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_prix_unitaire:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_quantite:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_stock_unitaire:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

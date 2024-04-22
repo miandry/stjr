@@ -1,0 +1,25 @@
+uuid: 66bad33b-154a-48b1-913a-0f8a5380d374
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - myadmin
+_core:
+  default_config_hash: n_nlgjggHVfQt2H__zvLOKB2YtjPDbQ5tHijF9LE1aM
+id: myadmin_site_branding
+theme: myadmin
+region: content
+weight: 0
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: true
+  use_site_slogan: false
+visibility: {  }

@@ -1,0 +1,23 @@
+uuid: ff51ba59-9925-44bb-834b-01b2d1ec2722
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+  theme:
+    - myadmin
+_core:
+  default_config_hash: 0gq3VPg-_UM69FCCWurLFIrrnIjC2HLKhwo9iQNtcUo
+id: myadmin_syndicate
+theme: myadmin
+region: content
+weight: 0
+provider: null
+plugin: node_syndicate_block
+settings:
+  id: node_syndicate_block
+  label: 'RSS feed'
+  label_display: '0'
+  provider: node
+  block_count: 10
+visibility: {  }

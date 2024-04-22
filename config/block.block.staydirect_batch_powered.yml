@@ -1,0 +1,22 @@
+uuid: 3de8ffde-a60a-47a9-95b6-880853a6889a
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - staydirect_batch
+_core:
+  default_config_hash: eYL19CLDyinGTWYQfBD1DswWzglEotE_kHnHx3AxTXM
+id: staydirect_batch_powered
+theme: staydirect_batch
+region: content
+weight: 0
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Powered by Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

@@ -1,0 +1,29 @@
+uuid: e414b07b-f4a9-4c4b-b7a7-d311f6278058
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_fournisseur
+    - node.type.fournisseur
+    - node.type.stock
+id: node.stock.field_fournisseur
+field_name: field_fournisseur
+entity_type: node
+bundle: stock
+label: Fournisseur
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      fournisseur: fournisseur
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

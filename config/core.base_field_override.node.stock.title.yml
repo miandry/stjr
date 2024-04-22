@@ -1,0 +1,18 @@
+uuid: 31f21db8-e15f-4537-87c7-c9a9764a1b8f
+langcode: fr
+status: true
+dependencies:
+  config:
+    - node.type.stock
+id: node.stock.title
+field_name: title
+entity_type: node
+bundle: stock
+label: Ref
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

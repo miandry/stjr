@@ -1,0 +1,11 @@
+uuid: ac6ca28c-0480-4afa-8bb7-0d0c2922e159
+langcode: fr
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.dci
+id: taxonomy_term.dci
+target_entity_type_id: taxonomy_term
+target_bundle: dci
+default_langcode: site_default
+language_alterable: false

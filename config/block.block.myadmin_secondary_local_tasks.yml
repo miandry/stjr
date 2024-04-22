@@ -1,0 +1,22 @@
+uuid: 596c172a-4cf2-4228-b2bd-f06006cd17fc
+langcode: en
+status: true
+dependencies:
+  theme:
+    - myadmin
+_core:
+  default_config_hash: ydSxdq7R66I8UMC460rOzlfzvlUL4VRbdwc6z9DWaUI
+id: myadmin_secondary_local_tasks
+theme: myadmin
+region: content
+weight: -2
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Secondary tabs'
+  label_display: '0'
+  provider: core
+  primary: false
+  secondary: true
+visibility: {  }

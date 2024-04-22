@@ -1,0 +1,39 @@
+uuid: 0a5a8318-46c4-41f3-a151-c2e6425b5a18
+langcode: fr
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.stock.field_article
+    - field.field.node.stock.field_benefice
+    - field.field.node.stock.field_date
+    - field.field.node.stock.field_fournisseur
+    - field.field.node.stock.field_peremption
+    - field.field.node.stock.field_prix_d_achat
+    - field.field.node.stock.field_prix_unitaire
+    - field.field.node.stock.field_quantite
+    - field.field.node.stock.field_stock_unitaire
+    - node.type.stock
+  module:
+    - user
+id: node.stock.teaser
+targetEntityType: node
+bundle: stock
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_article: true
+  field_benefice: true
+  field_date: true
+  field_fournisseur: true
+  field_peremption: true
+  field_prix_d_achat: true
+  field_prix_unitaire: true
+  field_quantite: true
+  field_stock_unitaire: true
+  langcode: true

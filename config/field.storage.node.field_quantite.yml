@@ -1,0 +1,20 @@
+uuid: 9b0fe153-2b02-430a-87c1-02ee096f410d
+langcode: fr
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_quantite
+field_name: field_quantite
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

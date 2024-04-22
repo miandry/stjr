@@ -1,0 +1,46 @@
+uuid: 09414ad7-ec99-4cb7-93a6-ae364a7290f4
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.field.node.fournisseur.field_adresse_local
+    - field.field.node.fournisseur.field_mail
+    - field.field.node.fournisseur.field_phone
+    - node.type.fournisseur
+  module:
+    - user
+id: node.fournisseur.default
+targetEntityType: node
+bundle: fournisseur
+mode: default
+content:
+  field_adresse_local:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_mail:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_phone:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

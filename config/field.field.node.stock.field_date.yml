@@ -1,0 +1,24 @@
+uuid: 95f01e24-e5ab-41fc-941d-98cb1d0c8f79
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_date
+    - node.type.stock
+  module:
+    - datetime
+id: node.stock.field_date
+field_name: field_date
+entity_type: node
+bundle: stock
+label: 'Date d''achat'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    default_date_type: now
+    default_date: now
+default_value_callback: ''
+settings: {  }
+field_type: datetime

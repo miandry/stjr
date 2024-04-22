@@ -1,0 +1,8 @@
+uuid: 6733ee7b-79ee-4ebe-8969-ce43bb6e759d
+langcode: fr
+status: true
+dependencies: {  }
+name: 'Stock Unitaire'
+vid: stock_unitaire
+description: ''
+weight: 0

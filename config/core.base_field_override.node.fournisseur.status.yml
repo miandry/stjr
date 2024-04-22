@@ -1,0 +1,22 @@
+uuid: a861587e-7625-42d3-8413-6bd159949818
+langcode: fr
+status: true
+dependencies:
+  config:
+    - node.type.fournisseur
+id: node.fournisseur.status
+field_name: status
+entity_type: node
+bundle: fournisseur
+label: Publié
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Activé
+  off_label: Désactivé
+field_type: boolean

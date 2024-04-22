@@ -1,0 +1,23 @@
+uuid: 4c94230e-affc-421b-8a39-b858ef699bb0
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tva
+    - node.type.article
+id: node.article.field_tva
+field_name: field_tva
+entity_type: node
+bundle: article
+label: 'Article avec TVA '
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Activé
+  off_label: Désactivé
+field_type: boolean

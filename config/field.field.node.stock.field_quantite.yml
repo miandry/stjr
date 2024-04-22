@@ -1,0 +1,23 @@
+uuid: baf4784f-7537-45c9-ac1c-28dc6732769f
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_quantite
+    - node.type.stock
+id: node.stock.field_quantite
+field_name: field_quantite
+entity_type: node
+bundle: stock
+label: Quantite
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

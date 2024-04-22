@@ -1,0 +1,8 @@
+uuid: 3cf418b1-cd7c-4e60-ac94-3b4fb381ac67
+langcode: fr
+status: true
+dependencies: {  }
+name: DCI
+vid: dci
+description: ''
+weight: 0

@@ -1,0 +1,31 @@
+uuid: 61885fe6-fe3f-4170-ad9f-ad43cb1ce053
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.commande.field_article
+    - field.field.paragraph.commande.field_quantite
+    - paragraphs.paragraphs_type.commande
+id: paragraph.commande.default
+targetEntityType: paragraph
+bundle: commande
+mode: default
+content:
+  field_article:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_quantite:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden: {  }

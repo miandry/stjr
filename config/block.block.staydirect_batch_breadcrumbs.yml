@@ -1,0 +1,22 @@
+uuid: 3ef66a9e-cfb8-4e23-8114-ac77a164be2a
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - staydirect_batch
+_core:
+  default_config_hash: VhBzWb7lMRtIOg9G7VSw_0uopi-7zXeHq4vXqqV1HFE
+id: staydirect_batch_breadcrumbs
+theme: staydirect_batch
+region: content
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

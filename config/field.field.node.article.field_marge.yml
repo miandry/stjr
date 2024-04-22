@@ -1,0 +1,25 @@
+uuid: fe7b0db7-342c-4b3d-93aa-52bfc13d013b
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_marge
+    - node.type.article
+id: node.article.field_marge
+field_name: field_marge
+entity_type: node
+bundle: article
+label: 'Marge actuelle'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: !!float 40
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: '%'
+field_type: decimal

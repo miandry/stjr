@@ -1,0 +1,21 @@
+uuid: 07d432f2-3b65-4dd8-bf5d-0c4e17d5a66b
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_templating_theme
+    - node.type.templating
+_core:
+  default_config_hash: eCyU1-8er0MzjXFj3mJWlk7QmMEqxC9AiDMF5OQCh8c
+id: node.templating.field_templating_theme
+field_name: field_templating_theme
+entity_type: node
+bundle: templating
+label: Thème
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

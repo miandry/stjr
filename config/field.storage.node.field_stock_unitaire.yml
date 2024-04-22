@@ -1,0 +1,20 @@
+uuid: 51139e83-88c8-4ffd-9ac6-0dde8eaa7541
+langcode: fr
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: node.field_stock_unitaire
+field_name: field_stock_unitaire
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

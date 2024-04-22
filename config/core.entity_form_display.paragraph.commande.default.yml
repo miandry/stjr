@@ -1,0 +1,33 @@
+uuid: 1926b4f1-e9bd-475f-a264-f913bc0dd08c
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.commande.field_article
+    - field.field.paragraph.commande.field_quantite
+    - paragraphs.paragraphs_type.commande
+id: paragraph.commande.default
+targetEntityType: paragraph
+bundle: commande
+mode: default
+content:
+  field_article:
+    type: entity_reference_autocomplete
+    weight: 0
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_quantite:
+    type: number
+    weight: 1
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

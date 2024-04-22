@@ -1,0 +1,23 @@
+uuid: be1b4e10-c15d-4ff3-805e-4c67224c8339
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_prix_unitaire
+    - node.type.stock
+id: node.stock.field_prix_unitaire
+field_name: field_prix_unitaire
+entity_type: node
+bundle: stock
+label: 'Prix de vente '
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

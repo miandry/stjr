@@ -1,0 +1,109 @@
+uuid: 2c4ad99e-a5ce-49cd-a5db-0f0cbd94ca19
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.field.node.stock.field_article
+    - field.field.node.stock.field_benefice
+    - field.field.node.stock.field_date
+    - field.field.node.stock.field_fournisseur
+    - field.field.node.stock.field_peremption
+    - field.field.node.stock.field_prix_d_achat
+    - field.field.node.stock.field_prix_unitaire
+    - field.field.node.stock.field_quantite
+    - field.field.node.stock.field_stock_unitaire
+    - node.type.stock
+  module:
+    - computed_field
+    - datetime
+id: node.stock.default
+targetEntityType: node
+bundle: stock
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_article:
+    type: entity_reference_autocomplete
+    weight: 6
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_benefice:
+    type: computed_string_widget
+    weight: 26
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_date:
+    type: datetime_default
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_fournisseur:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_peremption:
+    type: datetime_default
+    weight: 27
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_prix_d_achat:
+    type: number
+    weight: 9
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_quantite:
+    type: number
+    weight: 8
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 5
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 1
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  field_prix_unitaire: true
+  field_stock_unitaire: true
+  langcode: true
+  path: true
+  promote: true
+  status: true

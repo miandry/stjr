@@ -1,0 +1,11 @@
+uuid: eb6495bb-e6f1-4aee-b44a-a978f5a200fa
+langcode: fr
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.stock_unitaire
+id: taxonomy_term.stock_unitaire
+target_entity_type_id: taxonomy_term
+target_bundle: stock_unitaire
+default_langcode: site_default
+language_alterable: false

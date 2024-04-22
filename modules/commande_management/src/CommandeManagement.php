@@ -47,6 +47,14 @@ class CommandeManagement
             return false ;
        
        }
+       function savePaymentCommande($id){
+         $fields['field_status'] = "unpayed" ;    
+         
+       }
+
+       function updateStocks($status ,$items){
+         
+       }
      
       
 }

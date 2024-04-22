@@ -1,0 +1,23 @@
+uuid: 06977636-00ac-45dd-a8ac-613704543d15
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_total_vente
+    - node.type.commande
+id: node.commande.field_total_vente
+field_name: field_total_vente
+entity_type: node
+bundle: commande
+label: Total_vente
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

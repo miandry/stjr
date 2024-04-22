@@ -1,0 +1,23 @@
+uuid: 94ac8547-abd7-463d-bead-d946bc3757bb
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_prix_d_achat
+    - node.type.article
+id: node.article.field_prix_d_achat
+field_name: field_prix_d_achat
+entity_type: node
+bundle: article
+label: 'Prix d''achat actuelle'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: Ar
+field_type: integer

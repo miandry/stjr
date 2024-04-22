@@ -1,0 +1,22 @@
+uuid: 1dcc08b1-6f05-45e5-9cd2-8af7f90d219f
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - staydirect_batch
+_core:
+  default_config_hash: VfPFqqxfkomud5CO8DUijw85QIl9GIxh_nIxLOYESxg
+id: staydirect_batch_help
+theme: staydirect_batch
+region: content
+weight: 0
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }

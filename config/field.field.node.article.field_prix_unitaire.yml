@@ -1,0 +1,23 @@
+uuid: 128477d3-b644-41d7-bbcb-2afd227a7f25
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_prix_unitaire
+    - node.type.article
+id: node.article.field_prix_unitaire
+field_name: field_prix_unitaire
+entity_type: node
+bundle: article
+label: 'Prix de vente actuelle'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: Ar
+field_type: integer

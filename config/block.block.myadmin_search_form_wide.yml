@@ -1,0 +1,23 @@
+uuid: 87377e06-a616-4fe8-928d-402f590d70b3
+langcode: en
+status: true
+dependencies:
+  module:
+    - search
+  theme:
+    - myadmin
+_core:
+  default_config_hash: imMyHD6LYci0gtXq56qr9ZKGHzbEG9uFydrN5EhKtSU
+id: myadmin_search_form_wide
+theme: myadmin
+region: content
+weight: -5
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: 'Search form (wide)'
+  label_display: '0'
+  provider: search
+  page_id: ''
+visibility: {  }

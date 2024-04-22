@@ -1,0 +1,24 @@
+uuid: f6e19c5e-6073-40de-b680-77552578f127
+langcode: fr
+status: true
+dependencies:
+  config:
+    - node.type.templating
+_core:
+  default_config_hash: 9FrEHrn6Rjn08MgaYYR3EnfN6_Qhmm4tl9c6kdOugkI
+id: node.templating.status
+field_name: status
+entity_type: node
+bundle: templating
+label: Publié
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Activé
+  off_label: Désactivé
+field_type: boolean

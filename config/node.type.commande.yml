@@ -1,0 +1,18 @@
+uuid: 11f3427d-6b42-4445-84ce-c0441be9bed0
+langcode: fr
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: Commande
+type: commande
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

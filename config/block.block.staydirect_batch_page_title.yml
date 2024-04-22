@@ -1,0 +1,20 @@
+uuid: 228010c8-0f99-42f0-9a21-70144b2d3331
+langcode: en
+status: true
+dependencies:
+  theme:
+    - staydirect_batch
+_core:
+  default_config_hash: 6aOgWsNTXjqrDm98TXSAjP6qd2nCijD1xw45MrnbK-Y
+id: staydirect_batch_page_title
+theme: staydirect_batch
+region: content
+weight: -5
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

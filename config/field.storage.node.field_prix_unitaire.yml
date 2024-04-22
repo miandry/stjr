@@ -1,0 +1,24 @@
+uuid: d62a8a5f-aaae-4418-8e3e-a4f6654b30e1
+langcode: fr
+status: true
+dependencies:
+  module:
+    - field_permissions
+    - node
+third_party_settings:
+  field_permissions:
+    permission_type: public
+id: node.field_prix_unitaire
+field_name: field_prix_unitaire
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

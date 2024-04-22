@@ -1,0 +1,24 @@
+uuid: 4a3055f6-3bb0-47a5-aee6-943c297a4e35
+langcode: fr
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.dci
+id: taxonomy_term.dci.default
+targetEntityType: taxonomy_term
+bundle: dci
+mode: default
+content:
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  description: true
+  langcode: true
+  path: true
+  status: true

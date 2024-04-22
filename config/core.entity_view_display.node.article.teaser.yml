@@ -1,0 +1,39 @@
+uuid: ed58d00f-0aac-4c12-8108-bd6ccf10fa5a
+langcode: fr
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.article.field_categorie
+    - field.field.node.article.field_dci
+    - field.field.node.article.field_marge
+    - field.field.node.article.field_posologie
+    - field.field.node.article.field_prix_d_achat
+    - field.field.node.article.field_prix_unitaire
+    - field.field.node.article.field_quantite_stock
+    - field.field.node.article.field_stock_unitaire
+    - field.field.node.article.field_tva
+    - node.type.article
+  module:
+    - user
+_core:
+  default_config_hash: 83jX5ChAGdMzOxiDA_B1NjgebVMuD8lNVDgClg_QVP8
+id: node.article.teaser
+targetEntityType: node
+bundle: article
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_categorie: true
+  field_dci: true
+  field_marge: true
+  field_posologie: true
+  field_prix_d_achat: true
+  field_prix_unitaire: true
+  field_quantite_stock: true
+  field_stock_unitaire: true
+  field_tva: true
+  langcode: true

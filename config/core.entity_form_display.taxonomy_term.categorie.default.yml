@@ -1,0 +1,24 @@
+uuid: 44a03eb2-2627-4f7b-b77d-29d657ba9660
+langcode: fr
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.categorie
+id: taxonomy_term.categorie.default
+targetEntityType: taxonomy_term
+bundle: categorie
+mode: default
+content:
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  description: true
+  langcode: true
+  path: true
+  status: true

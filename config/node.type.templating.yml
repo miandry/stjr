@@ -1,0 +1,13 @@
+uuid: 71b1204c-7663-41c7-bc6e-d58672833834
+langcode: fr
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: _p_tOFzNQVkR_LnRgxqVq2agB7SGdWT52vHdc5zkSJM
+name: Templating
+type: templating
+description: 'Hook html file via Database for example : node--bootstrap5-article-full.html.twig'
+help: ''
+new_revision: true
+preview_mode: 0
+display_submitted: true

@@ -1,0 +1,29 @@
+uuid: ab9766e1-ec1a-49aa-889b-494275e35053
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_stock_unitaire
+    - node.type.article
+    - taxonomy.vocabulary.stock_unitaire
+id: node.article.field_stock_unitaire
+field_name: field_stock_unitaire
+entity_type: node
+bundle: article
+label: Unité
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      stock_unitaire: stock_unitaire
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

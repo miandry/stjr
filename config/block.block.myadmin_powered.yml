@@ -1,0 +1,22 @@
+uuid: ce04e2f1-a983-4066-b5c0-b6dbbb078f7b
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - myadmin
+_core:
+  default_config_hash: eYL19CLDyinGTWYQfBD1DswWzglEotE_kHnHx3AxTXM
+id: myadmin_powered
+theme: myadmin
+region: content
+weight: 0
+provider: null
+plugin: system_powered_by_block
+settings:
+  id: system_powered_by_block
+  label: 'Powered by Drupal'
+  label_display: '0'
+  provider: system
+visibility: {  }

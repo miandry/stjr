@@ -1,0 +1,18 @@
+uuid: 55877f8a-cda4-4e63-a5d6-7c07f151707e
+langcode: fr
+status: true
+dependencies:
+  config:
+    - node.type.fournisseur
+id: node.fournisseur.title
+field_name: title
+entity_type: node
+bundle: fournisseur
+label: 'Nom de fournisseur'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

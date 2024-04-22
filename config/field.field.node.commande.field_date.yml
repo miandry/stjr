@@ -1,0 +1,21 @@
+uuid: 5c3398ac-d3aa-4524-9308-902971af1c93
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_date
+    - node.type.commande
+  module:
+    - datetime
+id: node.commande.field_date
+field_name: field_date
+entity_type: node
+bundle: commande
+label: Date
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

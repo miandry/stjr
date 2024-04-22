@@ -1,0 +1,9 @@
+uuid: 17ca6941-69d3-40c1-a3bf-08f1bf12e4bb
+langcode: fr
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: DDulg3iy19JW2GwX0qrtfelUiRrf1vyaNonjxO6qtjI
+name: lg
+label: 'Large devices'
+breakpoint: 1200

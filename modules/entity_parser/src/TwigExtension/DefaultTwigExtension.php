@@ -57,7 +57,7 @@ class DefaultTwigExtension extends AbstractExtension {
             new TwigFunction('group_content_parser', ['Drupal\entity_parser\TwigExtension\DefaultTwigExtension', 'group_content_parser_twig']),
 
 
-            new TwigFunction('media_parser', ['Drupal\entity_parser\TwigExtension\DefaultTwigExtension', 'paragraph_parser_twig']),
+            new TwigFunction('paragraph_parser', ['Drupal\entity_parser\TwigExtension\DefaultTwigExtension', 'paragraph_parser_twig']),
 
             new TwigFunction('media_parser', ['Drupal\entity_parser\TwigExtension\DefaultTwigExtension', 'media_parser_twig']),
             new TwigFunction('profile_parser', ['Drupal\entity_parser\TwigExtension\DefaultTwigExtension', 'profile_parser_twig']),

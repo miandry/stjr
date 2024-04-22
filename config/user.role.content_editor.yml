@@ -1,0 +1,77 @@
+uuid: ab9bed85-9e6e-4afe-9363-05e8c309a2f0
+langcode: fr
+status: true
+dependencies:
+  config:
+    - node.type.article
+    - node.type.client
+    - node.type.commande
+    - node.type.fournisseur
+    - node.type.stock
+    - taxonomy.vocabulary.categorie
+    - taxonomy.vocabulary.dci
+    - taxonomy.vocabulary.stock_unitaire
+  module:
+    - comment
+    - contextual
+    - file
+    - node
+    - path
+    - system
+    - taxonomy
+    - toolbar
+_core:
+  default_config_hash: Wur9kcEOwY1Jal81NssKnz3RhVJxAvBwyWQBGcA_1Go
+id: content_editor
+label: 'Éditeur de contenu'
+weight: 2
+is_admin: false
+permissions:
+  - 'access administration pages'
+  - 'access content overview'
+  - 'access contextual links'
+  - 'access files overview'
+  - 'access toolbar'
+  - 'access user profiles'
+  - 'administer url aliases'
+  - 'bypass node access'
+  - 'create article content'
+  - 'create client content'
+  - 'create commande content'
+  - 'create fournisseur content'
+  - 'create stock content'
+  - 'create terms in categorie'
+  - 'create terms in dci'
+  - 'create terms in stock_unitaire'
+  - 'create url aliases'
+  - 'delete own article content'
+  - 'delete own client content'
+  - 'delete own fournisseur content'
+  - 'delete own stock content'
+  - 'delete terms in categorie'
+  - 'delete terms in dci'
+  - 'delete terms in stock_unitaire'
+  - 'edit any article content'
+  - 'edit any client content'
+  - 'edit any commande content'
+  - 'edit any fournisseur content'
+  - 'edit any stock content'
+  - 'edit own article content'
+  - 'edit own client content'
+  - 'edit own commande content'
+  - 'edit own comments'
+  - 'edit own fournisseur content'
+  - 'edit own stock content'
+  - 'edit terms in categorie'
+  - 'edit terms in dci'
+  - 'edit terms in stock_unitaire'
+  - 'revert all revisions'
+  - 'view all revisions'
+  - 'view article revisions'
+  - 'view client revisions'
+  - 'view commande revisions'
+  - 'view fournisseur revisions'
+  - 'view own unpublished content'
+  - 'view stock revisions'
+  - 'view the administration theme'
+  - 'view user email addresses'

@@ -1,0 +1,9 @@
+uuid: f5a8896b-b842-457f-9e6e-50f9cc9a1452
+langcode: fr
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 5_jvqAdeJPCVxRhC8DnY-cSMDZrflNdTB7QZj0nJqMk
+name: sm
+label: 'Small devices'
+breakpoint: 768

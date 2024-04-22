@@ -1,0 +1,17 @@
+uuid: 32a2c0cf-9f6b-4a73-8684-6fe36e941f54
+langcode: fr
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Fournisseur
+type: fournisseur
+description: ''
+help: ''
+new_revision: true
+preview_mode: 0
+display_submitted: true

@@ -1,0 +1,18 @@
+uuid: bd941cfe-e9d2-40be-b44a-ca8cac8a0581
+langcode: fr
+status: true
+dependencies:
+  config:
+    - node.type.commande
+id: node.commande.title
+field_name: title
+entity_type: node
+bundle: commande
+label: Ref
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

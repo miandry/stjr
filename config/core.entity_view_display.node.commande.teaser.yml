@@ -1,0 +1,31 @@
+uuid: 1c03593b-b735-4b3a-bf5f-675fe19dcc8d
+langcode: fr
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.commande.field_articles
+    - field.field.node.commande.field_client
+    - field.field.node.commande.field_date
+    - field.field.node.commande.field_total_achat
+    - field.field.node.commande.field_total_vente
+    - node.type.commande
+  module:
+    - user
+id: node.commande.teaser
+targetEntityType: node
+bundle: commande
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_articles: true
+  field_client: true
+  field_date: true
+  field_total_achat: true
+  field_total_vente: true
+  langcode: true

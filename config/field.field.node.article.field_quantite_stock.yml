@@ -1,0 +1,25 @@
+uuid: b6ba402f-8ad6-42b0-856d-8d58fb7cddd8
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_quantite_stock
+    - node.type.article
+id: node.article.field_quantite_stock
+field_name: field_quantite_stock
+entity_type: node
+bundle: article
+label: 'Quantite en stock'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: !!float 0
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: float

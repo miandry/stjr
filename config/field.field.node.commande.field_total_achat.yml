@@ -1,0 +1,23 @@
+uuid: a1ea858c-2f6e-4975-af1c-07c71c1bea80
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_total_achat
+    - node.type.commande
+id: node.commande.field_total_achat
+field_name: field_total_achat
+entity_type: node
+bundle: commande
+label: 'Total achat'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

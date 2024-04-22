@@ -1,0 +1,71 @@
+uuid: 4f6796fa-648b-4263-bd50-43414ad3d765
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.field.node.commande.field_articles
+    - field.field.node.commande.field_client
+    - field.field.node.commande.field_date
+    - field.field.node.commande.field_total_achat
+    - field.field.node.commande.field_total_vente
+    - node.type.commande
+  module:
+    - datetime
+    - entity_reference_revisions
+    - user
+id: node.commande.default
+targetEntityType: node
+bundle: commande
+mode: default
+content:
+  field_articles:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_client:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 105
+    region: content
+  field_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_total_achat:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  field_total_vente:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  langcode: true

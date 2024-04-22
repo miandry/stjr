@@ -1,0 +1,20 @@
+uuid: 19bee2e9-28d7-49f0-8203-0c4a469dcdb3
+langcode: en
+status: true
+dependencies:
+  theme:
+    - myadmin
+_core:
+  default_config_hash: 6aOgWsNTXjqrDm98TXSAjP6qd2nCijD1xw45MrnbK-Y
+id: myadmin_page_title
+theme: myadmin
+region: content
+weight: -5
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

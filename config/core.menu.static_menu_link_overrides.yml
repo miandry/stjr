@@ -1,0 +1,70 @@
+_core:
+  default_config_hash: CXhei_vpaZk-3f_Mj2cH0YmpK-ZpKHoSzVA3yZrDq0g
+langcode: fr
+definitions:
+  contact__site_page:
+    menu_name: footer
+    parent: ''
+    weight: 0
+    expanded: false
+    enabled: true
+  system__admin_content:
+    menu_name: admin
+    parent: 'menu_link_content:648be8dd-c603-4c4a-a2fc-bb09ef05c2e1'
+    weight: -79
+    expanded: false
+    enabled: true
+  system__admin_structure:
+    menu_name: admin
+    parent: 'menu_link_content:648be8dd-c603-4c4a-a2fc-bb09ef05c2e1'
+    weight: -78
+    expanded: false
+    enabled: true
+  system__themes_page:
+    menu_name: admin
+    parent: 'menu_link_content:648be8dd-c603-4c4a-a2fc-bb09ef05c2e1'
+    weight: -77
+    expanded: false
+    enabled: true
+  system__modules_list:
+    menu_name: admin
+    parent: 'menu_link_content:648be8dd-c603-4c4a-a2fc-bb09ef05c2e1'
+    weight: -76
+    expanded: false
+    enabled: true
+  system__admin_config:
+    menu_name: admin
+    parent: 'menu_link_content:648be8dd-c603-4c4a-a2fc-bb09ef05c2e1'
+    weight: -75
+    expanded: false
+    enabled: true
+  entity__user__collection:
+    menu_name: admin
+    parent: 'menu_link_content:648be8dd-c603-4c4a-a2fc-bb09ef05c2e1'
+    weight: -74
+    expanded: false
+    enabled: true
+  system__admin_reports:
+    menu_name: admin
+    parent: 'menu_link_content:648be8dd-c603-4c4a-a2fc-bb09ef05c2e1'
+    weight: -73
+    expanded: false
+    enabled: true
+  help__main:
+    menu_name: admin
+    parent: 'menu_link_content:648be8dd-c603-4c4a-a2fc-bb09ef05c2e1'
+    weight: -72
+    expanded: false
+    enabled: true
+  system__admin:
+    menu_name: admin
+    parent: ''
+    weight: -81
+    expanded: false
+    enabled: true
+  standard__front_page:
+    menu_name: main
+    parent: ''
+    weight: 0
+    expanded: false
+    enabled: false

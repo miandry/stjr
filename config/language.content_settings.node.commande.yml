@@ -1,0 +1,11 @@
+uuid: 64be7830-8f22-4e77-8fc5-fb34bcc476ae
+langcode: fr
+status: true
+dependencies:
+  config:
+    - node.type.commande
+id: node.commande
+target_entity_type_id: node
+target_bundle: commande
+default_langcode: site_default
+language_alterable: false

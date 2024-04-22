@@ -1,0 +1,22 @@
+uuid: 9bb316de-426c-45a5-9d56-562c89182850
+langcode: en
+status: true
+dependencies:
+  theme:
+    - staydirect_batch
+_core:
+  default_config_hash: nGE3EoPQQaQCuqTUtZgw0-KIzmrqdKDzdNQf2JyPUt4
+id: staydirect_batch_primary_local_tasks
+theme: staydirect_batch
+region: content
+weight: -4
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Primary tabs'
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: false
+visibility: {  }

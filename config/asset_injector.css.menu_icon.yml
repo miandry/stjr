@@ -1,0 +1,52 @@
+uuid: 955ff9ce-e613-499b-b1aa-c97a425337e3
+langcode: fr
+status: true
+dependencies:
+  module:
+    - context
+    - system
+id: menu_icon
+label: menu_icon
+code: |-
+  .toolbar .toolbar-bar .mes-articles:before{
+      -webkit-mask-image: url(https://img.icons8.com/?size=256&id=42271&format=png)!important;
+      mask-image: url(https://img.icons8.com/?size=256&id=42271&format=png)!important;
+  } 
+  .toolbar .toolbar-bar .mes-commandes:before{
+      -webkit-mask-image: url(https://img.icons8.com/?size=100&id=23169&format=png)!important;
+      mask-image: url(https://img.icons8.com/?size=100&id=23169&format=png)!important;
+  } 
+
+  .toolbar .toolbar-bar .mes-categories:before{
+      -webkit-mask-image: url(https://img.icons8.com/?size=160&id=vxOr7mumH0q9&format=png)!important;
+      mask-image: url(https://img.icons8.com/?size=160&id=vxOr7mumH0q9&format=png)!important;
+  } 
+  .toolbar .toolbar-bar .stock-unitaire:before{
+      -webkit-mask-image: url(https://img.icons8.com/?size=100&id=13705&format=png)!important;
+      mask-image: url(https://img.icons8.com/?size=100&id=13705&format=png)!important;
+  }
+  .toolbar .toolbar-bar .fournisseurs:before{
+      -webkit-mask-image: url( https://img.icons8.com/?size=512&id=3157&format=png)!important;
+      mask-image: url( https://img.icons8.com/?size=512&id=3157&format=png)!important;
+  }
+  .toolbar .toolbar-bar .stocks:before{
+      -webkit-mask-image: url( https://img.icons8.com/?size=96&id=18969&format=png)!important;
+      mask-image: url(  https://img.icons8.com/?size=96&id=18969&format=png)!important;
+  }
+media: all
+preprocess: true
+conditions:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '*'
+  context_all:
+    id: context_all
+    negate: null
+    values: ''
+  context:
+    id: context
+    negate: null
+    values: ''
+contexts: {  }
+conditions_require_all: true

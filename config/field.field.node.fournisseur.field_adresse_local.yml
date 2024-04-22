@@ -1,0 +1,19 @@
+uuid: 301a1ebf-c0d2-446b-ac5b-94f961729001
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_adresse_local
+    - node.type.fournisseur
+id: node.fournisseur.field_adresse_local
+field_name: field_adresse_local
+entity_type: node
+bundle: fournisseur
+label: 'Adresse Local'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

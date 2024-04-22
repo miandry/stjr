@@ -1,0 +1,22 @@
+uuid: d34526d9-a458-4c82-b345-aadec301873e
+langcode: fr
+status: true
+dependencies:
+  config:
+    - node.type.stock
+id: node.stock.status
+field_name: status
+entity_type: node
+bundle: stock
+label: Publié
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Activé
+  off_label: Désactivé
+field_type: boolean

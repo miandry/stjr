@@ -1,0 +1,18 @@
+uuid: f8ad68f1-db01-41ce-bfb8-9e453986ac63
+langcode: fr
+status: true
+dependencies:
+  config:
+    - node.type.client
+id: node.client.title
+field_name: title
+entity_type: node
+bundle: client
+label: 'Reference client'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

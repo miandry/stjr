@@ -1,0 +1,23 @@
+uuid: 378e97a0-189f-40d4-8fbd-eddc74ce8357
+langcode: en
+status: true
+dependencies:
+  module:
+    - search
+  theme:
+    - staydirect_batch
+_core:
+  default_config_hash: imMyHD6LYci0gtXq56qr9ZKGHzbEG9uFydrN5EhKtSU
+id: staydirect_batch_search_form_wide
+theme: staydirect_batch
+region: content
+weight: -5
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: 'Search form (wide)'
+  label_display: '0'
+  provider: search
+  page_id: ''
+visibility: {  }

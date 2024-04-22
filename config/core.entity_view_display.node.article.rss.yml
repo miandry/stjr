@@ -1,0 +1,39 @@
+uuid: 8dff6d83-5fd8-418e-84ee-38ba99ebea31
+langcode: fr
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.rss
+    - field.field.node.article.field_categorie
+    - field.field.node.article.field_dci
+    - field.field.node.article.field_marge
+    - field.field.node.article.field_posologie
+    - field.field.node.article.field_prix_d_achat
+    - field.field.node.article.field_prix_unitaire
+    - field.field.node.article.field_quantite_stock
+    - field.field.node.article.field_stock_unitaire
+    - field.field.node.article.field_tva
+    - node.type.article
+  module:
+    - user
+_core:
+  default_config_hash: 2rIr6K5Q0UQ9khg0zE_CK-PtJH76UL-BDDZcZnZzwCc
+id: node.article.rss
+targetEntityType: node
+bundle: article
+mode: rss
+content:
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_categorie: true
+  field_dci: true
+  field_marge: true
+  field_posologie: true
+  field_prix_d_achat: true
+  field_prix_unitaire: true
+  field_quantite_stock: true
+  field_stock_unitaire: true
+  field_tva: true
+  langcode: true

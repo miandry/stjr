@@ -1,0 +1,12 @@
+third_party_settings:
+  field_group:
+    group_html_code:
+      label: 'MAIN TAB'
+    group_js:
+      label: Javascript
+    group_html:
+      label: Html
+    group_css_tab:
+      label: Css
+    group_information:
+      label: Information

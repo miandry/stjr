@@ -1,0 +1,23 @@
+uuid: b40e74cc-c1f6-4323-93d6-4bdaa336f606
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_prix_d_achat
+    - node.type.stock
+id: node.stock.field_prix_d_achat
+field_name: field_prix_d_achat
+entity_type: node
+bundle: stock
+label: 'Prix d''achat'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: Ar
+field_type: integer

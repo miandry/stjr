@@ -1,0 +1,27 @@
+uuid: 52193c84-f62e-4501-b732-6be89ba1e323
+langcode: fr
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.fournisseur.field_adresse_local
+    - field.field.node.fournisseur.field_mail
+    - field.field.node.fournisseur.field_phone
+    - node.type.fournisseur
+  module:
+    - user
+id: node.fournisseur.teaser
+targetEntityType: node
+bundle: fournisseur
+mode: teaser
+content:
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_adresse_local: true
+  field_mail: true
+  field_phone: true
+  langcode: true

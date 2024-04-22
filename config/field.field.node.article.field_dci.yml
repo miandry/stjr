@@ -1,0 +1,29 @@
+uuid: 5bffab71-cb1d-46d8-81cf-433514bbc2fd
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dci
+    - node.type.article
+    - taxonomy.vocabulary.dci
+id: node.article.field_dci
+field_name: field_dci
+entity_type: node
+bundle: article
+label: DCI
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      dci: dci
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

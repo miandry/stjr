@@ -1,0 +1,11 @@
+uuid: 0020d1a0-d025-4ffb-9db0-92f332940b55
+langcode: fr
+status: true
+dependencies:
+  config:
+    - node.type.fournisseur
+id: node.fournisseur
+target_entity_type_id: node
+target_bundle: fournisseur
+default_langcode: site_default
+language_alterable: false

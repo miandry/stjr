@@ -1,0 +1,28 @@
+uuid: 311bf43b-dee0-442b-bf3a-6e55f77adf0a
+langcode: fr
+status: true
+dependencies:
+  module:
+    - ace_editor
+_core:
+  default_config_hash: rzGIG0ja3ZFE6OtAQnZtyoSVcJN_0_sfZrsqgH_E50M
+name: javascript_code
+format: javascript_code
+weight: 0
+filters:
+  ace_filter:
+    id: ace_filter
+    provider: ace_editor
+    status: false
+    weight: 0
+    settings:
+      theme: cobalt
+      syntax: html
+      height: 500px
+      width: 700px
+      font_size: 12pt
+      line_numbers: '1'
+      show_invisibles: '0'
+      print_margins: '1'
+      auto_complete: true
+      use_wrap_mode: '1'
