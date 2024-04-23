@@ -8,11 +8,13 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.4/dist/bootstrap-table.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.4/dist/bootstrap-table.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.4/dist/bootstrap-table-locale-all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 	<style type="text/css">
 		.head-blue {
@@ -30,14 +32,19 @@
 <body>
 	{%  set conditions = {
             'type': 'article'
-        } 
+        }
    %}
 	{% set articles = node_parser_by_properties(conditions)%}
+  {%  set condition2 = {
+    'type': 'client'
+  }
+  %}
+  {% set clients = node_parser_by_properties(condition2)%}
 
     {% if saved %}
-        le commande est enregistrer 
+        le commande est enregistrer
     {% endif %}
-                       
+
 
 	<div class="container">
 		<div class="row shadow rounded mt-5">
@@ -49,17 +56,17 @@
 							<th data-field="id">ID</th>
 							<th data-field="name">name</th>
 							<th data-field="price">Prix unitaire</th>
-							<th data-field="categorie">Catégorie</th>
+							<th data-field="qte">Quantité en stock</th>
 						</tr>
 					</thead>
 				</table>
 			</div>
 			<div id="toolbar" class="col-md-1 align-content-center">
 				<button id="add" class="btn my-blue" disabled><i class="fa fa-plus"></i> Ajouter</button>
-				
+
 			</div>
-			<div class="col align-content-center">
-				<table id="table2" data-toggle="table" data-show-footer="true" data-locale="fr-FR" data-thead-classes='head-blue'>
+			<div class="col-md-5 align-content-center">
+				<table id="table2" data-toggle="table" data-show-footer="true" data-locale="fr-FR" data-thead-classes='head-blue' data-fixed-scroll="true">
 					<thead>
 						<tr>
 							<th data-field="name">Nom</th>
@@ -71,11 +78,18 @@
 						</tr>
 					</thead>
 				</table>
-				<form id="my-form" action="">
-					<input type="hidden" id="post-data" name="data">
-				</form>
-				<div class="m-4 text-end">
-					<button id="submit-btn" class="btn my-blue">Valider</button>
+				<div class="m-4 text-center">
+          <form id="my-form" action="" method="POST">
+            <input type="hidden" id="post-data" name="data">
+            <select class="js-client-select" id="client" name="client" required>
+              <option value="">-- Client --</option>
+              {% for item in  clients|reverse %}
+                {% set n = node_parser(item) %}
+                <option value="{{ n.nid }}">{{ n.title }}</option>
+              {% endfor %}
+            </select>
+            <button id="submit-btn" class="btn my-blue">Enregistrer</button>
+          </form>
 				</div>
 			</div>
 		</div>
@@ -117,121 +131,18 @@
 		}
 
 		$(function() {
-    	var data = 
+    	var data =
 			[
             {% for item in articles|reverse %}
 									{% set n = node_parser(item) %}
-    
+
                            	{
                                 "id": "{{n.nid}}",
                                 "name": "{{n.title}}",
                                 "price": "{{n.field_prix_unitaire}}",
-                                "categorie": "{{n.field_categorie.title}}"
+                                "qte": "{{n.field_quantite_stock}}"
                             },
-             {% endfor %}   
-
-			{
-				"id": "0756",
-				"name": "PRENATAL+DHA PLT",
-				"price": "11800",
-				"categorie": "PLT"
-			},
-			{
-				"id": "0076",
-				"name": "ACIVIR",
-				"price": "7900",
-				"categorie": "Bt"
-			},
-			{
-				"id": "0003",
-				"name": "ACTAPULGITE 3G SCHT",
-				"price": "900",
-				"categorie": "Scht"
-			},
-			{
-				"id": "0004",
-				"name": "ACTAPULGITE 1 G SCHT",
-				"price": "600",
-				"categorie": "Scht"
-			},
-			{
-				"id": "1093",
-				"name": "BIOFAR CALCIUM VIT D3",
-				"price": "25600",
-				"categorie": "Bte"
-			},
-			{
-				"id": "0030",
-				"name": "ACTICARBINE 600MG CP",
-				"price": "300",
-				"categorie": "Cpr"
-			},
-			{
-				"id": "0023",
-				"name": "ADVIL CP 400MG PQT DE 10",
-				"price": "8600",
-				"categorie": "plqt"
-			},
-			{
-				"id": "0022",
-				"name": "ADVIL SP ENF",
-				"price": "21700",
-				"categorie": "Fic"
-			},
-			{
-				"id": "1126",
-				"name": "AERIUS SP",
-				"price": "27800",
-				"categorie": "Fic"
-			},
-			{
-				"id": "0021",
-				"name": "BECLATE AERO250",
-				"price": "17400",
-				"categorie": "BTE"
-			},
-			{
-				"id": "0013",
-				"name": "AIGUILLE EPICRANIEN",
-				"price": "400",
-				"categorie": "Pce"
-			},
-			{
-				"id": "0045",
-				"name": "ALBENDAZOLE 400MG DESKA",
-				"price": "700",
-				"categorie": "Cp"
-			},
-			{
-				"id": "0010",
-				"name": "ALCOOL 60ML",
-				"price": "2700",
-				"categorie": "FLC"
-			},
-			{
-				"id": "0015",
-				"name": "ALCOOL 90° 30ML",
-				"price": "1400",
-				"categorie": "Flc"
-			},
-			{
-				"id": "0016",
-				"name": "ALCOOL 70° 125ML",
-				"price": "4400",
-				"categorie": "Flc"
-			},
-			{
-				"id": "0017",
-				"name": "ALCOOL 70 500ML",
-				"price": "11500",
-				"categorie": "FLC"
-			},
-			{
-				"id": "0014",
-				"name": "ALCOOL ETYLIQUE 90° 500ml",
-				"price": "13700",
-				"categorie": "FLC"
-			},
+             {% endfor %}
 			]
 			$table1.bootstrapTable({data: data})
 		})
@@ -252,7 +163,7 @@
 				'<label for="qte" class="col-form-label">Qte</label>'+
 				'</div>'+
 				'<div class="col-auto">'+
-				'<input type="number" id="qte" class="form-control" min="1" value="1" required>'+
+				'<input type="number" id="qte" class="form-control" min="1" max="' +checked[0].qte +'" value="1" required>'+
 				'</div></div>' +
 				'</form>',
 				buttons: {
@@ -308,16 +219,18 @@
 			return 'Total (Ar)'
 		}
 
-		$('#submit-btn').on('click', function(){
-			if(!my_total){
+		$('#my-form').on('submit', function(){
+			if(!my_total || !$('#client').val()){
 				return false
 			}
 			my_data['total'] = my_total
 			console.log(my_data)
 			$('#post-data').val(JSON.stringify(my_data))
-			$('#my-form').submit() 
 
 		})
+    $('.js-client-select').select2({
+        width: "50%"
+    });
 	</script>
 </body>
 </html>
