@@ -37,6 +37,23 @@
 				background-color: white;
 				padding: 15px;
 			}
+        .select2-container .select2-selection--single {
+          height: 37px;
+          margin-top: 4px;
+          padding: .375rem .75rem;
+          font-size: 1rem;
+          font-weight: 400;
+          line-height: 1.5;
+          color: var(--bs-body-color);
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          background-color: var(--bs-body-bg);
+          background-clip: padding-box;
+          border: var(--bs-border-width) solid var(--bs-border-color);
+          border-radius: var(--bs-border-radius);
+          transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
 		</style>
 	</head>
 	<body class="body-front">
@@ -54,6 +71,7 @@
 		{% if saved %}
 			le commande est enregistrer
 		{% endif %}
+    {% set params = get_parameter() %}
 
 
 		<div class="container">
@@ -79,21 +97,23 @@
 						Ajouter</button>
 
 				</div>
-				<div class="col-md-5 align-content-center">
-					<div class="m-4 text-center">
-						<form id="my-form" action="" method="POST">
-							<input type="hidden" id="post-data" name="data">
-							<select class="js-client-select" id="client" name="client" required>
-								<option value="">-- Client --</option>
-								{% for item in  clients|reverse %}
-									{% set n = node_parser(item) %}
-									<option value="{{ n.nid }}">{{ n.title }}</option>
-								{% endfor %}
-							</select>
-							<button id="submit-btn" class="btn my-blue">Enregistrer</button>
-						</form>
+				<div class="col-md-5">
+					<div class="mt-2 mb-2 text-center">
+						<div class="row">
+              <form id="my-form" class="col-md-6 p-0" action="" method="POST">
+                <input type="hidden" id="post-data" name="data">
+                <select class="js-client-select" id="client" name="client" required>
+                  <option value="">--- Choisir client ---</option>
+                  {% for item in  clients|reverse %}
+                    {% set n = node_parser(item) %}
+                    <option value="{{ n.nid }}" {% if n.nid == params['client'] %}selected{% endif %}>{{ n.title }}</option>
+                  {% endfor %}
+                </select>
+              </form>
+              <button id="add-client" class="btn my-blue col-md-5">Ajouter nouveau client</button>
+            </div>
 					</div>
-					<table id="table2" data-toggle="table" data-show-footer="true" data-locale="fr-FR" data-thead-classes='head-blue' data-height="460" data-fixed-scroll="true">
+					<table id="table2" data-toggle="table" data-show-footer="true" data-locale="fr-FR" data-thead-classes='head-blue' data-height="480" data-fixed-scroll="true">
 						<thead>
 							<tr>
 								<th data-field="name">Nom</th>
@@ -105,7 +125,7 @@
 							</tr>
 						</thead>
 					</table>
-
+          <button id="submit-btn" class="btn my-blue mt-2">Enregistrer</button>
 				</div>
 			</div>
 		</div>
@@ -120,7 +140,7 @@
 				}
 				;
 				var my_total;
-		
+
 				function operateFormatter(value, row, index) {
 					return [
 						'<a class="remove" href="javascript:void(0)" title="Remove">',
@@ -128,7 +148,7 @@
 						'</a>'
 						].join('')
 				}
-		
+
 				window.operateEvents = {
 					'click .remove': function (e, value, row, index) {
 						$table2.bootstrapTable('remove', {
@@ -138,19 +158,19 @@
 						my_data['items'] = my_data['items'].filter(item => item.id !== row.id);
 					}
 				}
-		
+
 				function getidSelections() {
 					return $.map($table1.bootstrapTable('getSelections'), function (row) {
 						return row.id
 					})
 				}
-		
+
 				$(function() {
 		    	var data =
 					[
 		            {% for item in articles|reverse %}
 											{% set n = node_parser(item) %}
-		
+
 		                           	{
 		                                "id": "{{n.nid}}",
 		                                "name": "{{n.title}}",
@@ -178,7 +198,7 @@
 						'<label for="qte" class="col-form-label">Qte</label>'+
 						'</div>'+
 						'<div class="col-auto">'+
-						'<input type="number" id="qte" class="form-control" min="1" max="' +checked[0].qte +'" value="1" required>'+
+						'<input type="number" id="qte" class="form-control" min="1" max="' +checked[0].qte +'" data-max="' +checked[0].qte +'" value="1" required>'+
 						'</div></div>' +
 						'</form>',
 						buttons: {
@@ -187,7 +207,8 @@
 								btnClass: 'btn-blue',
 								action: function () {
 									var qte = this.$content.find('#qte').val();
-									if(qte < 1){
+									var max = this.$content.find('#qte').data('max');
+									if(qte < 1 || qte > max ){
 										$.alert('La quantité doit être valide');
 										return false;
 									}
@@ -206,18 +227,48 @@
 								}
 							},
 							cancel: function () {
-		
+
 							},
 						},
 						onContentReady: function () {
-		
+
 							var jc = this;
 							this.$content.find('form').on('submit', function (e) {
-		
+
 								e.preventDefault();
 		            jc.$$formSubmit.trigger('click'); // reference the button and click it
 		        });
 						}
+					});
+				})
+				$('#add-client').on('click', function () {
+					$.confirm({
+						title: 'Ajouter nouveau client',
+						theme: 'modern',
+						content: ''+
+						'<form action="" method="POST" id="new-client-form" class="text-start">' +
+						'<div class="row me-0"><div class="col-md-3">'+
+						'<label for="name-client" class="col-form-label">Référence<font color="red">*</font></label>'+
+						'</div>'+
+						'<div class="col-auto">'+
+						'<input type="text" class="form-control" id="name-client" name="name" required>'+
+						'</div></div>' +
+						'<div class="row me-0"><div class="col-md-3">'+
+						'<label for="phone" class="col-form-label">Phone</label>'+
+						'</div>'+
+						'<div class="col-auto mt-1">'+
+						'<input type="text" name="phone" class="form-control">'+
+						'</div></div>' +
+              '<input type="hidden" name="new_client" value="1">'+
+              '<button class="btn my-blue mt-2" type="submit">Ajouter</button>'+
+						'</form>',
+            buttons: {
+              yes: {
+                isHidden: true, // hide the button
+              },
+						},
+            backgroundDismiss: true,
+            closeIcon: true,
 					});
 				})
 				function priceFormatter(data) {
@@ -229,22 +280,22 @@
 					}, 0)
 					return my_total
 				}
-		
+
 				function nameFormatter(data, footerValue) {
 					return 'Total (Ar)'
 				}
-		
-				$('#my-form').on('submit', function(){
+
+				$('#submit-btn').on('click', function(){
 					if(!my_total || !$('#client').val()){
 						return false
 					}
 					my_data['total'] = my_total
-					console.log(my_data)
 					$('#post-data').val(JSON.stringify(my_data))
-		
+          $('#my-form').submit()
+
 				})
 		    $('.js-client-select').select2({
-		        width: "50%"
+		        width: "90%"
 		    });
 			</script>
 	</body>

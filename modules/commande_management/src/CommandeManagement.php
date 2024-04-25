@@ -9,9 +9,9 @@
 
 namespace Drupal\commande_management;
 
-use Drupal\Core\Datetime\DrupalDateTime; 
+use Drupal\Core\Datetime\DrupalDateTime;
 
-class CommandeManagement 
+class CommandeManagement
 {
 
        function saveCommandes(){
@@ -22,18 +22,18 @@ class CommandeManagement
             if(isset($params["data"])){
                $arrayData = json_decode($params["data"], TRUE);
                $fields['title'] = "COM-".$nid  ;
-   
+
                $date_obj = new DrupalDateTime();
                $date = $date_obj->format('Y-m-d');
-               $fields['field_date'] =  $date ; 
+               $fields['field_date'] =  $date ;
                $fields['field_total_vente'] = $arrayData['total'] ;
-   
+
                if(isset($params['client'])){
                   $fields['field_client'] = $params['client'] ;
                }
-               $fields['field_status'] = "unpayed" ;    
+               $fields['field_status'] = "unpayed" ;
                $items = [];
-               foreach($arrayData['items'] as $key => $item){    
+               foreach($arrayData['items'] as $key => $item){
                // $article = \Drupal::service('entity_parser.manager')->node_parser( $item["id"]);
                $items[$key] = [
                   'field_article' => $item["id"],
@@ -47,18 +47,29 @@ class CommandeManagement
                   $nid = $service->helper->redirectTo("/frontdesk?new=".$com_new->id());
                   return true;
                }
-            } 
+            }
+            if(isset($params["new_client"])){
+              $fields['title'] = $params['name'];
+              $fields['field_phone'] = $params['phone'];
+              $new_client = \Drupal::service('crud')->save('node', 'client', $fields);
+              if(is_object($new_client )){
+                $service = \Drupal::service('drupal.helper');
+                $nid = $service->helper->redirectTo("/frontdesk?client=".$new_client->id());
+                return true;
+              }
+
+            }
             return false ;
-       
+
        }
        function savePaymentCommande($id){
-         $fields['field_status'] = "unpayed" ;    
-         
+         $fields['field_status'] = "unpayed" ;
+
        }
 
        function updateStocks($status ,$items){
-         
+
        }
-     
-      
+
+
 }
