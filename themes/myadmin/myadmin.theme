@@ -11,9 +11,16 @@ function myadmin_preprocess_html(&$variables) {
       $variables['#cache']['max-age'] = 0;
       $service = \Drupal::service('commande_management.manager');
       $saved = $service->saveCommandes();
-      
+
       if($saved){
         $variables['saved'] = $saved ;
       }
   }
+  if (strpos($current_path_alias, "/comande/") !== false) {
+    $variables['#cache']['max-age'] = 0;
+    $service = \Drupal::service('commande_management.manager');
+    $saved = $service->savePaymentCommande();
+
+  } 
+
 }

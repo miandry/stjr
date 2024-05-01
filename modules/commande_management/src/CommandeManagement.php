@@ -62,8 +62,23 @@ class CommandeManagement
             return false ;
 
        }
+       
+
        function savePaymentCommande($id){
-         $fields['field_status'] = "unpayed" ;
+         $service = \Drupal::service('drupal.helper');
+         $params = $service->helper->get_parameter();
+         if(isset($params["com_id"]) && isset($params["with_tva"])){
+            $fields['field_status'] = "payed" ;
+            $fields['field_status'] = "payed" ;
+            $com_new = \Drupal::service('crud')->save('node', 'commande', $fields);
+            if(is_object($com_new )){
+               $service = \Drupal::service('drupal.helper');
+             //  $nid = $service->helper->redirectTo("/frontdesk?new=".$com_new->id());
+               return true;
+            }
+         }
+         return false ;
+      
 
        }
 

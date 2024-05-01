@@ -3,6 +3,11 @@
 {#{{kint(n.field_articles[0])}} {{die()}}#}
 {% set params = get_parameter() %}
 {{ attach_library('myadmin/bootstrap_css') }}
+<style>
+.bg-gin{
+  background-color:var(--colorGinToolBarBackground);
+}
+</style>
 <div class="container">
   <section id="invoice">
     <div class="container my-md-5 py-5">
@@ -10,11 +15,11 @@
       <div class=" d-md-flex justify-content-between align-items-center  mb-5  ">
         <div class="mt-5 mt-md-0">
           <h2 class="display-6 text-primary fw-bold">Commande </h2>
-          <p class="m-0">N°: {{ n.title }}</p>
+          <p class="m-0">Reference : {{ n.title }}</p>
         </div>
       </div>
 
-      <div class="bg-light rounded-5 p-5">
+      <div class="bg-gin rounded-5 p-5">
         <div class="d-md-flex justify-content-between">
           <div>
             <p class="text-primary fw-bold">Info client</p>
@@ -28,7 +33,6 @@
             <h5>Date</h5>
             <ul class="list-unstyled">
               <li><span class="fw-semibold">Date de commande:</span> 20 May, 2024</li>
-              <li><span class="fw-semibold">Date de paiment:</span> 20 June, 2024</li>
             </ul>
           </div>
         </div>
@@ -75,25 +79,18 @@
         </tbody>
       </table>
 
-      <div class="bg-light rounded-5 p-5">
+      <div class="rounded-5 p-5">
         <div class="d-md-flex justify-content-between mt-4">
           <div class="mt-5 mt-md-0">
-            <p class="text-primary fw-bold">Payment Method</p>
-            <h5>Payment Info</h5>
-            <ul class="list-unstyled">
-              <li><span class="fw-semibold">Account No: </span> 102 3345 56938</li>
-              <li><span class="fw-semibold">Account Name: </span> William Peter</li>
-              <li><span class="fw-semibold">Branch Name: </span> XYZ </li>
+          <form>
+                       <input type="hidden" name="com_id" value=" {{ n.nid }}" />
 
-            </ul>
+<button type="submit" class="btn btn-primary">Confimer payement Recues</button>
+<button type="submit" class="btn btn-secondary">Annuler le Commande </button>
+         </form>
           </div>
           <div class="text-md-end mt-5 mt-md-0">
-            <p class="text-primary fw-bold">Date</p>
-            <h5>Invoice Date</h5>
-            <ul class="list-unstyled">
-              <li><span class="fw-semibold">Invoice Date:</span> 20 May, 2024</li>
-              <li><span class="fw-semibold">Due Date:</span> 20 June, 2024</li>
-            </ul>
+           
           </div>
         </div>
       </div>

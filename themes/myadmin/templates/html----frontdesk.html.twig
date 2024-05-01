@@ -90,13 +90,11 @@
 						</p>
 						<hr>
 						<p class="mb-0"> Veuillez passer le Reference commande au Caissier pour le paiement</p>
-						<button type="button" class="close" data-bs-dismiss="alert" aria-label="Close" 
-					style="position: absolute;top: 15px;right: 15px;"><span aria-hidden="true">×</span>
-							</button>
+		                <hr>
+						<a class="btn my-blue mt-2" href="/frontdesk" > Passer un nouveau commande </a>	
 					</div>
-
-				{% endif %}
-				<div class="col-md-6">
+                {% else  %}
+						<div class="col-md-6">
 					<table id="table1" data-search="true" data-single-select="true" data-click-to-select="true" data-search-align="left" data-pagination="true" data-locale="fr-FR" data-thead-classes='head-blue'>
 						<thead>
 							<tr>
@@ -145,6 +143,8 @@
 					</table>
 					<button id="submit-btn" class="btn my-blue mt-2">Enregistrer</button>
 				</div>
+				{% endif %}
+		
 			</div>
 		</div>
 

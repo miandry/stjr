@@ -56,5 +56,10 @@ function stock_management_node_delete(\Drupal\node\Entity\Node $entity) {
         $service->updateStockNumberOnDeleteStock($entity);
     }
 }
-
+function stock_management_node_insert(\Drupal\node\Entity\Node $entity) {
+    if($entity->bundle() == 'commande'){
+        $service = \Drupal::service('stock_management.manager');
+        $service->addStockNumberOnInsertCommande($entity);
+    }
+}
 
