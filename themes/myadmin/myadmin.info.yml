@@ -4,3 +4,6 @@ base theme: gin
 description: 'Admin Theme'
 core_version_requirement: ^8.8 || ^9
 package: 'Default'
+regions:
+  content: Content
+  hidden: 'Hidden'

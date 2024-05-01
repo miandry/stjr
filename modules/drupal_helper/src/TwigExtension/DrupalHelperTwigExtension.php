@@ -104,9 +104,23 @@ class DrupalHelperTwigExtension extends AbstractExtension {
             new TwigFunction('storage_get',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'storage_get']),
             new TwigFunction('storage_delete',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'storage_delete']),
             new TwigFunction('user_password_forget',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'user_password_forget_twig'])  ,     
-            new TwigFunction('pathlocal_theme',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'twig_pathlocal_theme'])
-        
+            new TwigFunction('pathlocal_theme',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'twig_pathlocal_theme']),
+            new TwigFunction('set_config',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'set_config']),
+            new TwigFunction('get_config',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'get_config']),
+            new TwigFunction('delete_config',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'delete_config'])    
         ];
+    }
+    public static function set_config($name,$value){
+        $twig_base = new  \Drupal\drupal_helper\DrupalHelper();
+        return  $twig_base->helper->set_config($name,$value);
+    }
+    public static function get_config($name){
+        $twig_base = new  \Drupal\drupal_helper\DrupalHelper();
+        return  $twig_base->helper->get_config($name);
+    }
+    public  static function delete_config($name){
+        $twig_base = new  \Drupal\drupal_helper\DrupalHelper();
+        return  $twig_base->helper->delete_config($name);
     }
     public static function twig_pathlocal_theme($theme_name){
         return \Drupal::service('extension.list.theme')->getPath($theme_name);

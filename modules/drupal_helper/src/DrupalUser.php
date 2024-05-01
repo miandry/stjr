@@ -52,4 +52,15 @@ class DrupalUser {
     }
     return false ;
   }
+  public function getUserLastId(){
+    $last_user_id = false ;
+      $query = \Drupal::entityQuery('user')
+      ->sort('uid', 'DESC')
+      ->range(0, 1); // Get only one result.
+      $result = $query->execute();
+      if (!empty($result)) {
+      $last_user_id = reset($result);
+      }
+      return    $last_user_id ;
+  }
 }

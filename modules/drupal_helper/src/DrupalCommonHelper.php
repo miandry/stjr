@@ -832,6 +832,24 @@ class DrupalCommonHelper
         }
         return $paragraph;
     }
+    public function set_config($name,$value){
+        $status = \Drupal::configFactory()->getEditable('drupal_helper.values')
+        ->set($name, $value)
+        ->save();
+    }
+    public function get_config($name){
+        $config = \Drupal::config('drupal_helper.values');
+        return $config->get($name);
+    }
+    public function delete_config($name){
+        $config = \Drupal::configFactory()->getEditable('drupal_helper.values');
+        $config->clear($name);           
+        return $config->save();
+    }
+    public function clean_config(){
+        $config = \Drupal::configFactory()->getEditable('drupal_helper.values')->delete();
+        return $config->save();
+    }
 
     public function getConfigContains($filter){
         $configs = \Drupal::configFactory()->listAll();

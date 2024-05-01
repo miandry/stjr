@@ -127,8 +127,7 @@ function drupal_helper_theme_suggestions_page_alter(array &$suggestions, array $
       }
     }
   }
-
-  /**
+/**
  * Implements hook_theme_suggestions_HOOK_alter() for HTML.
  */
 function drupal_helper_theme_suggestions_html_alter(array &$suggestions, array $variables) {
@@ -136,4 +135,4 @@ function drupal_helper_theme_suggestions_html_alter(array &$suggestions, array $
     $path = \Drupal::service('path.current')->getPath();
     $current_path = \Drupal::service('path_alias.manager')->getAliasByPath($path);
     $suggestions[] = 'html__' . str_replace('/', '__', $current_path);
-  }
+}
