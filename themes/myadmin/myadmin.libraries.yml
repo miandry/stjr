@@ -1,14 +1,24 @@
 bootstrap_css:
   css:
     theme:
-      vendor/bootstrap/css/bootstrap.min.css: { weight: 99999 }
+      vendor/bootstrap/css/bootstrap.min.css: {}
 
 bootstrap_full:
   css:
     theme:
-      vendor/bootstrap/css/bootstrap.min.css: { weight: -99 }
+      vendor/bootstrap/css/bootstrap.min.css: {}
   js:
-    vendor/bootstrap/js/bootstrap.min.js: { weight: -99 }
+    vendor/popper/popper.min.js: {}
+    vendor/bootstrap/js/bootstrap.min.js: {}
   dependencies:
     - core/jquery
 
+
+bootstrap_table:
+  css:
+    theme:
+      vendor/bootstrap-table-master/dist/bootstrap-table.min.css: {}
+  js:
+    vendor/bootstrap-table-master/dist/bootstrap-table.min.js: {}
+  dependencies:
+    - myadmin/bootstrap_full
