@@ -17,6 +17,11 @@
           <h2 class="display-6 text-primary fw-bold">Commande </h2>
           <p class="m-0">Reference : {{ n.title }}</p>
         </div>
+        <div class="mt-5 mt-md-0 me-5">
+          {% if n.field_status == "payed" %}
+          <h5 class="text-primary fw-bold">Paiement effectué </h5>
+          {% endif %}
+        </div>
       </div>
 
       <div class="bg-gin rounded-5 p-5">
@@ -82,15 +87,27 @@
       <div class="rounded-5 p-5">
         <div class="d-md-flex justify-content-between mt-4">
           <div class="mt-5 mt-md-0">
-          <form>
-                       <input type="hidden" name="com_id" value=" {{ n.nid }}" />
-
-<button type="submit" class="btn btn-primary">Confimer payement Recues</button>
-<button type="submit" class="btn btn-secondary">Annuler le Commande </button>
-         </form>
+            {% if n.field_status != "payed" %}
+              <div class="d-flex">
+                <form action="" method="POST" onsubmit="return confirm('Voulez-vous vraiment confirmer la commande?');">
+                  <input type="hidden" name="status" value="payed" />
+                  <button type="submit" class="btn btn-primary">Confimer payement Recues</button>
+                </form>
+                <form action="" method="POST" onsubmit="return confirm('VOulez-vous vraiment annuler la commande?');">
+                  <input type="hidden" name="status" value="cancel" />
+                  <button type="submit" class="btn btn-secondary">Annuler le Commande </button>
+                </form>
+              </div>
+            {% endif %}
+            {% if n.field_status == "payed" %}
+              <form action="" method="POST">
+                <input type="hidden" name="telecharger" value="1" />
+                <button type="submit" class="btn btn-primary">Télécharger la facture</button>
+              </form>
+            {% endif %}
           </div>
           <div class="text-md-end mt-5 mt-md-0">
-           
+
           </div>
         </div>
       </div>

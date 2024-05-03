@@ -10,6 +10,7 @@
 namespace Drupal\commande_management;
 
 use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\node\Entity\Node;
 
 class CommandeManagement
 {
@@ -62,23 +63,21 @@ class CommandeManagement
             return false ;
 
        }
-       
 
-       function savePaymentCommande($id){
+
+       function savePaymentCommande($nid){
          $service = \Drupal::service('drupal.helper');
          $params = $service->helper->get_parameter();
-         if(isset($params["com_id"]) && isset($params["with_tva"])){
-            $fields['field_status'] = "payed" ;
-            $fields['field_status'] = "payed" ;
-            $com_new = \Drupal::service('crud')->save('node', 'commande', $fields);
-            if(is_object($com_new )){
-               $service = \Drupal::service('drupal.helper');
-             //  $nid = $service->helper->redirectTo("/frontdesk?new=".$com_new->id());
-               return true;
-            }
+         $commande = Node::load($nid);
+         if(isset($params["status"]) ){
+           $commande->field_status = $params["status"];
+           $commande->save();
+           $service = \Drupal::service('drupal.helper');
+           $service->helper->redirectTo("/commande/".$nid);
+           return true;
          }
          return false ;
-      
+
 
        }
 
