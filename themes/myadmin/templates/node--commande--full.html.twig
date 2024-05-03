@@ -48,38 +48,39 @@
       <table class="table border my-5">
         <thead>
         <tr class="bg-primary">
-          <th scope="col" class="text-white">Description</th>
-          <th scope="col" class="text-white">Prix u.</th>
-          <th scope="col" class="text-white">Qte</th>
-          <th scope="col" class="text-white">Total</th>
+          <th scope="col">Description</th>
+          <th scope="col">Prix u.</th>
+          <th scope="col">Qte</th>
+          <th scope="col">Total</th>
         </tr>
         </thead>
         <tbody>
         {% for article in n.field_articles %}
+          {% set a = node_parser(article.field_article.nid) %}
           <tr>
-            <td>{{ article.field_article.title }}</td>
-            <td>{{ article.field_article.field_prix_unitaire }}</td>
+            <td>{{ a.title }}</td>
+            <td>{{ a.field_prix_unitaire }}</td>
             <td>{{ article.field_quantite }}</td>
-            <td>$700.00</td>
+            <td>{{ a.field_prix_unitaire * article.field_quantite }}</td>
           </tr>
         {% endfor %}
         <tr>
           <td></td>
           <td></td>
           <td class="fw-bold">Sub-Total</td>
-          <td class="fw-bold">$2,350.00</td>
+          <td class="fw-bold">{{ n.field_total_vente }}</td>
         </tr>
         <tr>
           <td></td>
           <td></td>
-          <td class="fw-bold">Discount</td>
-          <td class="fw-bold">$470.00</td>
+          <td class="fw-bold">TVA</td>
+          <td class="fw-bold"></td>
         </tr>
         <tr>
           <td></td>
           <td></td>
           <td class="text-primary fs-5 fw-bold">Grand-Total</td>
-          <td class="text-primary fs-5 fw-bold">$1,880.00</td>
+          <td class="text-primary fs-5 fw-bold">{{ n.field_total_vente }}</td>
         </tr>
         </tbody>
       </table>
