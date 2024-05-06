@@ -7,6 +7,19 @@
 .bg-gin{
   background-color:var(--colorGinToolBarBackground);
 }
+.text-custom-payed{
+  color:#28a745;
+    text-transform: uppercase;
+}
+.text-custom-unpayed{
+  color:#d2322d;
+    text-transform: uppercase;
+}
+.text-custom-cancel{
+  color:#6c6c6c;
+    text-transform: uppercase;
+}
+
 </style>
 <div class="container">
   <section id="invoice">
@@ -14,12 +27,18 @@
 
       <div class=" d-md-flex justify-content-between align-items-center  mb-5  ">
         <div class="mt-5 mt-md-0">
-          <h2 class="display-6 text-primary fw-bold">Commande </h2>
+          <h2 class="display-6 fw-bold">Commande </h2>
           <p class="m-0">Reference : {{ n.title }}</p>
         </div>
         <div class="mt-5 mt-md-0 me-5">
           {% if n.field_status == "payed" %}
-          <h5 class="text-primary fw-bold">Paiement effectué </h5>
+             <h5 class="text-custom-payed fw-bold">Commande payé  </h5>
+          {% endif %}
+          {% if n.field_status == "unpayed" %}
+             <h5 class="text-custom-unpayed fw-bold"> En Attente de paiement  </h5>
+          {% endif %}
+          {% if n.field_status == "cancel" %}
+             <h5 class="text-custom-cancel fw-bold">Commande Annulé  </h5>
           {% endif %}
         </div>
       </div>
@@ -27,65 +46,73 @@
       <div class="bg-gin rounded-5 p-5">
         <div class="d-md-flex justify-content-between">
           <div>
+           {% if client %}
             <p class="text-primary fw-bold">Info client</p>
             <h5>{{ client.title }}</h5>
-            <ul class="list-unstyled">
-              <li>{{ client.field_phone }}</li>
-            </ul>
+            <p>{{ client.field_phone }}</p>
+           {% endif %} 
           </div>
-          <div class="text-md-end mt-5">
+          <div class="text-md-end ">
             <p class="text-primary fw-bold">Info commande</p>
             <h5>Date</h5>
             <ul class="list-unstyled">
-              <li><span class="fw-semibold">Date de commande:</span> 20 May, 2024</li>
+              <li><span class="fw-semibold">Antananarivo, le </span> {{ n.created |date('d-m-Y') }}</li>
             </ul>
           </div>
         </div>
       </div>
+   
 
 
-
-      <table class="table border my-5">
+      <table class="table border my-4">
         <thead>
         <tr class="bg-primary">
           <th scope="col">Description</th>
-          <th scope="col">Prix u.</th>
+          <th scope="col">Prix unitaire</th>
           <th scope="col">Qte</th>
-          <th scope="col">Total</th>
+          <th scope="col">Montant</th>
         </tr>
         </thead>
         <tbody>
+        {% set total = 0 %}
+           {% set total_tva  = 0 %}
         {% for article in n.field_articles %}
           {% set a = node_parser(article.field_article.nid) %}
+          {% set montant = a.field_prix_unitaire * article.field_quantite %}
+       
           <tr>
-            <td>{{ a.title }}</td>
-            <td>{{ a.field_prix_unitaire }}</td>
+            <td>{{ a.title }} {% if (a.field_tva == 1) %} ( Avec TVA 20% ){% endif %} </td>
+            <td>{{ price(a.field_prix_unitaire) }} Ar</td>
             <td>{{ article.field_quantite }}</td>
-            <td>{{ a.field_prix_unitaire * article.field_quantite }}</td>
+            <td>{{ price(montant) }} Ar</td>
           </tr>
+          {% if (a.field_tva == 1) %} 
+           {% set total_tva = total_tva + montant*0.20 %}
+          {% endif %}
+            {% set total = total +  montant %}
         {% endfor %}
         <tr>
           <td></td>
           <td></td>
-          <td class="fw-bold">Sub-Total</td>
-          <td class="fw-bold">{{ n.field_total_vente }}</td>
+          <td class="fw-bold">Sous total</td>
+          <td class="fw-bold">{{ price(total) }} Ar</td>
         </tr>
         <tr>
           <td></td>
           <td></td>
-          <td class="fw-bold">TVA</td>
-          <td class="fw-bold"></td>
+          <td class="fw-bold">TVA 20% </td>
+          <td class="fw-bold">{{price(total_tva)}} Ar </td>
         </tr>
         <tr>
           <td></td>
           <td></td>
-          <td class="text-primary fs-5 fw-bold">Grand-Total</td>
-          <td class="text-primary fs-5 fw-bold">{{ n.field_total_vente }}</td>
+          <td class="text-primary fs-5 fw-bold">Total</td>
+          <td class="text-primary fs-5 fw-bold">{{ price(total_tva + total) }} Ar</td>
         </tr>
         </tbody>
       </table>
 
-      <div class="rounded-5 p-5">
+      <div class="rounded-5">
         <div class="d-md-flex justify-content-between mt-4">
           <div class="mt-5 mt-md-0">
             {% if n.field_status != "payed" %}
@@ -95,8 +122,8 @@
                   <button type="submit" class="btn btn-primary">Confimer payement Recues</button>
                 </form>
                 <form action="" method="POST" onsubmit="return confirm('VOulez-vous vraiment annuler la commande?');">
-                  <input type="hidden" name="status" value="cancel" />
-                  <button type="submit" class="btn btn-secondary">Annuler le Commande </button>
+                  <input type="hidden" name="status" value="cancel" /> 
+                  <button type="submit" style="margin-left:20px" class="btn btn-secondary">Annuler le Commande </button>
                 </form>
               </div>
             {% endif %}
