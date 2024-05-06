@@ -628,15 +628,12 @@ hr {
 </style>
 </head>
 
+{% set params = get_parameter() %}
+{% set n = (node_parser(params.id)) %}
+{% set client = node_parser(.nid) %}
 
 
-
-
-
-                    
-                                                                                                              
-                                                
-                                                               
+                                                                                                                                                                                  
 <body cz-shortcut-listen="true" class="body-invoice">
 <!-- Container -->
 <div class="container-fluid invoice-container">
@@ -645,7 +642,7 @@ hr {
   <div class="row align-items-left">
     <div class="col-sm-12 text-left text-left mb-3 mb-sm-0">
       <h1>STAYDIRECT</h1>
-      <h4 class="text-7 mb-0">Invoice #INV-349 </h4>
+      <h4 class="text-7 mb-0">FACTURE #INV-349 </h4>
     </div>
   </div>
   <hr>

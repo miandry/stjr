@@ -62,4 +62,19 @@ function stock_management_node_insert(\Drupal\node\Entity\Node $entity) {
         $service->addStockNumberOnInsertCommande($entity);
     }
 }
+function stock_management_node_update(\Drupal\node\Entity\Node $entity) {
+    if($entity->bundle() == 'commande'){
+            // Load the original node.
+        $original_entity = $entity->original ;
+        $original_field_value = $original_entity->get('field_status')->value;
+        $updated_field_value = $entity->get('field_status')->value;
+        if ($original_field_value !== $updated_field_value && $updated_field_value == "cancel") {    
+
+            $service = \Drupal::service('stock_management.manager');
+            $service->decreaseStockNumberOnCancelCommande($entity);  
+        }
+
+
+    }
+}
 

@@ -32,6 +32,21 @@ class StockManagement
              $article->save();
         }
      }
+     function decreaseStockNumberOnCancelCommande($entity){
+      $commande = \Drupal::service('entity_parser.manager')->node_parser($entity);
+        $articles =   $commande["field_articles"];
+        foreach ($articles as $article) {
+         $para = \Drupal::service('entity_parser.manager')->paragraph_parser($article["id"]);
+         $article = $para['field_article']["#object"];
+         $nbrStock = 0;
+             if($article->field_quantite_stock 
+                && $article->field_quantite_stock->value ){
+                $nbrStock = $article->field_quantite_stock->value ;                            
+             }
+             $article->field_quantite_stock->value = $nbrStock + $para["field_quantite"];
+             $article->save();
+        }
+     }
      function updateStockNumberOnDeleteStock($entity){
         $article = $entity->field_article->entity;
         $nbrStock = 0;
