@@ -18,6 +18,7 @@ use Drupal\Component\Serialization\Exception\InvalidDataTypeException;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Config\FileStorage;
 use Drupal\media\Entity\Media;
+use GuzzleHttp\Exception\RequestException;
 
 class DrupalCommonHelper
 {   
@@ -1198,9 +1199,7 @@ class DrupalCommonHelper
             }
         }
     }
-    function urlExist($url) {
-        return curl_init($url) !== false;
-    }
+
     function exportToCSV($array,$fields,$filename = "export.csv"){
         header('Content-Type: application/csv');
         header('Content-Disposition: attachment; filename="'.$filename.'";');
@@ -1216,5 +1215,32 @@ class DrupalCommonHelper
         fclose($handle);
         ob_flush();
         exit();
+    }
+    function sendGetRequest($url, $param = '')
+    {
+        $url_path = $url.'?'. $param;
+        $status = $this->urlExist($url_path);
+        if($status){
+            try {
+                    $response = \Drupal::httpClient()
+                        ->get($url_path);
+                    return $response;
+                } catch (RequestException $e) {
+                    \Drupal::logger('drupal_helper')->error('Guzzle HTTP request error: @error', ['@error' => $e->getMessage()]);                  
+                    return NULL;
+                  } catch (\Exception $e) {
+                    \Drupal::logger('drupal_helper')->error('An unexpected error occurred: @error', ['@error' => $e->getMessage()]);    
+                    return NULL;
+                  }       
+        }else{
+            return false ;
+        }
+    }
+    function urlExist($url) {
+        $file_headers = @get_headers($url);
+        if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {
+            return false;
+        }
+        return true;
     }
 }

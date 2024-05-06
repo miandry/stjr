@@ -1,0 +1,55 @@
+
+{% set commande  = node_parser(content) %}
+
+<div class="details-commande">
+   <div class="row commande-header">
+    <div class="col-md-5 commande-th">
+         <strong>Article</strong>
+    </div>
+    <div class="col-md-3 commande-th">
+      <strong>Prix unitaire</strong>
+    </div>
+    <div class="col-md-1 commande-th">
+      <strong>Qte</strong>
+    </div>
+    <div class="col-md-2 commande-th">
+      <strong>Montant</strong>
+    </div>
+  </div>
+    {% set total = 0 %}
+    {% for key, n in commande.field_articles %}
+    {% set article = node_parser(n.field_article.nid) %}
+    {% set sum = article.field_prix_unitaire * n.field_quantite  %}
+    <div class="row commande-body">
+        <div class="col-md-5 commande-col">
+            {{article.title}}
+        </div>
+        <div class="col-md-3 commande-col">
+         {{price(article.field_prix_unitaire)}} Ar 
+        </div>
+        <div class="col-md-1 commande-col">
+        {{n.field_quantite}}
+        </div>
+        <div class="col-md-2 commande-col">
+        {{price(sum)}} Ar
+        </div>
+  </div>
+
+    {% set total = sum + total %}
+    {% endfor %}
+    <div class="row commande-body">
+        <div class="col-md-5 commande-col">
+        </div>
+        <div class="col-md-3 commande-col">
+        </div>
+        <div class="col-md-1 commande-col">
+              Total 
+        </div>
+        <div class="col-md-2 commande-col">
+        <strong>{{price(total)}} Ar</strong>
+        </div>
+   </div>
+
+
+
+</div>

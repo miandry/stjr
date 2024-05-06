@@ -1,16 +1,16 @@
 {% set el = paragraph_parser(paragraph) %}
 {% set article = node_parser(el.field_article.nid) %}
-<div class="row">
-  <div class="col-md-3">
+<div class="row details-order">
+  <div class="col-md-3 title-order">
     {{ article.title }}
   </div>
-  <div class="col-md-3">
+  <div class="col-md-3 prix_unitaire">
     {{ article.field_prix_unitaire }}
   </div>
-  <div class="col-md-3">
+  <div class="col-md-3 quantity">
     {{ el.field_quantite }}
   </div>
-  <div class="col-md-3">
+  <div class="col-md-3 total_price">
     {{ el.field_quantite * article.field_prix_unitaire }}
   </div>
 </div>

@@ -107,8 +107,30 @@ class DrupalHelperTwigExtension extends AbstractExtension {
             new TwigFunction('pathlocal_theme',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'twig_pathlocal_theme']),
             new TwigFunction('set_config',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'set_config']),
             new TwigFunction('get_config',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'get_config']),
-            new TwigFunction('delete_config',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'delete_config'])    
+            new TwigFunction('delete_config',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'delete_config']),
+            new TwigFunction('loader_twig_file',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'loader_twig_file'])    
+         
         ];
+    }
+    // templates/file.twig.html
+    public static function loader_twig_file($uri,$values){
+            // Get the absolute path of the file.
+            $path = DRUPAL_ROOT.$uri;
+            // Check if the file exists and is readable.
+            if (file_exists($path) && is_readable($path)) {
+              $output = file_get_contents($path);
+              return [
+                '#type' => 'inline_template',
+                '#template' => $output,
+                '#context' => [
+                    'content' => $values,
+                ],
+              ];
+            }
+            else {
+              \Drupal::messenger()->addError('The file does not exist or is not readable.');
+     
+            }
     }
     public static function set_config($name,$value){
         $twig_base = new  \Drupal\drupal_helper\DrupalHelper();
