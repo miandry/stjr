@@ -1,0 +1,17 @@
+
+
+ {% set node = node_parser(row._entity) %}
+
+
+ {% if node.field_status =="payed" %}
+ <span class="badge badge-paid"> Commande payé </span>
+ {% endif %}
+
+
+  {% if node.field_status =="unpayed" %}
+ <span class="badge badge-unpaid"> En Attente de paiement </span>
+ {% endif %}
+
+   {% if node.field_status =="cancel" %}
+ <span class="badge badge-cancel"> Commande Annulé </span>
+ {% endif %}
