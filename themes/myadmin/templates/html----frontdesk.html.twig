@@ -76,8 +76,11 @@
 		{% set params = get_parameter() %}
 
 
-		<div class="container">
-			<h1 class="mt-4">Pharamacie RABE</h1>
+		<div class="container pt-5">
+      <div class="d-flex align-items-center">
+        <img src="{{ file_url(directory ~ '/images/logo.jpg') }}" width="150"/>
+        <h1 class="mt-4">PHARMACIE</h1>
+      </div>
 
 			<div class="row shadow rounded mt-5 fixed-height main-front">
 				{% if params.new  %}
@@ -93,7 +96,7 @@
 
 							<div class="row">
 					   <div class="col-md-6">
-					         						<a class="btn my-blue mt-2" href="/frontdesk" > Passer un nouveau commande </a>	
+					         						<a class="btn my-blue mt-2" href="/frontdesk" > Passer un nouveau commande </a>
 					   </div>
 					   <div class="col-md-6">
 					       <a  href="/dashboard" style="float:right"  class="btn mt-2 btn-secondary"> Retour à la plateforme</a>
@@ -148,15 +151,15 @@
 							</tr>
 						</thead>
 					</table>
-			
+
 				</div>
 				<div class="row">
 					   <div class="col-md-6"><a  href="/dashboard"  class="btn mt-2 btn-secondary"> Retour à la plateforme</a></div>
 					   <div class="col-md-6"><button style="float:right" id="submit-btn" class="btn my-blue mt-2">Enregistrer</button></div>
 			    </div>
-				
+
 				{% endif %}
-		        
+
 			</div>
 		</div>
 
@@ -170,7 +173,7 @@
 						}
 						;
 						var my_total;
-		
+
 						function operateFormatter(value, row, index) {
 							return [
 								'<a class="remove" href="javascript:void(0)" title="Remove">',
@@ -178,7 +181,7 @@
 								'</a>'
 								].join('')
 						}
-		
+
 						window.operateEvents = {
 							'click .remove': function (e, value, row, index) {
 								$table2.bootstrapTable('remove', {
@@ -188,19 +191,19 @@
 								my_data['items'] = my_data['items'].filter(item => item.id !== row.id);
 							}
 						}
-		
+
 						function getidSelections() {
 							return $.map($table1.bootstrapTable('getSelections'), function (row) {
 								return row.id
 							})
 						}
-		
+
 						$(function() {
 				    	var data =
 							[
 				            {% for item in articles|reverse %}
 													{% set n = node_parser(item) %}
-		
+
 				                           	{
 				                                "id": "{{n.nid}}",
 				                                "name": "{{n.title}}",
@@ -257,14 +260,14 @@
 										}
 									},
 									cancel: function () {
-		
+
 									},
 								},
 								onContentReady: function () {
-		
+
 									var jc = this;
 									this.$content.find('form').on('submit', function (e) {
-		
+
 										e.preventDefault();
 				            jc.$$formSubmit.trigger('click'); // reference the button and click it
 				        });
@@ -310,11 +313,11 @@
 							}, 0)
 							return my_total
 						}
-		
+
 						function nameFormatter(data, footerValue) {
 							return 'Total (Ar)'
 						}
-		
+
 						$('#submit-btn').on('click', function(){
 							if(!my_total || !$('#client').val()){
 								return false
@@ -322,13 +325,13 @@
 							my_data['total'] = my_total
 							$('#post-data').val(JSON.stringify(my_data))
 		          $('#my-form').submit()
-		
+
 						})
 				    $('.js-client-select').select2({
 				        width: "90%"
 				    });
 
-					
+
 					</script>
 	</body>
 </html>
