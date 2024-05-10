@@ -17,8 +17,8 @@ bootstrap_full:
 bootstrap_table:
   css:
     theme:
-      vendor/bootstrap-table-master/dist/bootstrap-table.min.css: {}
+      vendor/bootstrap-table-master/dist/bootstrap-table.css: {}
   js:
-    vendor/bootstrap-table-master/dist/bootstrap-table.min.js: {}
+    vendor/bootstrap-table-master/dist/bootstrap-table.js: {}
   dependencies:
     - myadmin/bootstrap_full
