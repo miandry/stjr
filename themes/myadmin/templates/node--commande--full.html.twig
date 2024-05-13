@@ -50,7 +50,7 @@
             <p class="text-primary fw-bold">Info client</p>
             <h5>{{ client.title }}</h5>
             <p>{{ client.field_phone }}</p>
-           {% endif %} 
+           {% endif %}
           </div>
           <div class="text-md-end ">
             <p class="text-primary fw-bold">Info commande</p>
@@ -61,7 +61,7 @@
           </div>
         </div>
       </div>
-   
+
 
 
       <table class="table border my-4">
@@ -79,14 +79,14 @@
         {% for article in n.field_articles %}
           {% set a = node_parser(article.field_article.nid) %}
           {% set montant = a.field_prix_unitaire * article.field_quantite %}
-       
+
           <tr>
-            <td>{{ a.title }} {% if (a.field_tva == 1) %} ( Avec TVA 20% ){% endif %} </td>
+            <td>{{ a.title }} {% if (a.field_tva == 1) %} ( Avec TVA ){% endif %} </td>
             <td>{{ price(a.field_prix_unitaire) }} Ar</td>
             <td>{{ article.field_quantite }}</td>
             <td>{{ price(montant) }} Ar</td>
           </tr>
-          {% if (a.field_tva == 1) %} 
+          {% if (a.field_tva == 1) %}
            {% set total_tva = total_tva + montant*0.20 %}
           {% endif %}
             {% set total = total +  montant %}
@@ -100,15 +100,36 @@
         <tr>
           <td></td>
           <td></td>
-          <td class="fw-bold">TVA 20% </td>
+          <td class="fw-bold">TVA </td>
           <td class="fw-bold">{{price(total_tva)}} Ar </td>
         </tr>
+        {% if n.field_discount %}
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="fw-bold">Total</td>
+          <td class="fw-bold">{{ price(total_tva + total) }} Ar</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="fw-bold">Remise</td>
+          <td class="fw-bold">{{ n.field_remise }} %</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="text-primary fs-5 fw-bold">Total</td>
+          <td class="text-primary fs-5 fw-bold">{{ price((total_tva + total)*(1-(n.field_remise)/100)) }} Ar</td>
+        </tr>
+        {% else %}
         <tr>
           <td></td>
           <td></td>
           <td class="text-primary fs-5 fw-bold">Total</td>
           <td class="text-primary fs-5 fw-bold">{{ price(total_tva + total) }} Ar</td>
         </tr>
+        {% endif %}
         </tbody>
       </table>
 
@@ -117,19 +138,26 @@
           <div class="mt-5 mt-md-0">
             {% if n.field_status != "payed" %}
               <div class="d-flex">
-                <form action="" method="POST" onsubmit="return confirm('Voulez-vous vraiment confirmer la commande?');">
+                <form action="" method="POST" onsubmit="return confirm('Voulez-vous vraiment confirmer la commande?');" class="mx-2">
                   <input type="hidden" name="status" value="payed" />
                   <button type="submit" class="btn btn-primary">Confimer payement Recues</button>
                 </form>
-                <form action="" method="POST" onsubmit="return confirm('VOulez-vous vraiment annuler la commande?');">
-                  <input type="hidden" name="status" value="cancel" /> 
-                  <button type="submit" style="margin-left:20px" class="btn btn-secondary">Annuler le Commande </button>
+                {% if n.field_remise and not n.field_discount%}
+                <form action="" method="POST" onsubmit="return confirm('Appliquer une remise de {{ n.field_remise }}%?');" class="mx-2">
+                  <input type="hidden" name="discount" value="1" />
+                  <button type="submit" class="btn btn-primary">Remise</button>
+                </form>
+                {% endif %}
+                <form action="" method="POST" onsubmit="return confirm('Voulez-vous vraiment annuler la commande?');" class="mx-2">
+                  <input type="hidden" name="status" value="cancel" />
+                  <button type="submit" class="btn btn-secondary">Annuler le Commande </button>
                 </form>
               </div>
             {% endif %}
             {% if n.field_status == "payed" %}
                 <input type="hidden" name="telecharger" value="1" />
-                <a href="/invoice?id={{n.nid}}" class="btn btn-primary">Télécharger la facture</a>
+                <a href="#" class="btn btn-primary">Télécharger ticket de caisse</a>
+                <a href="/invoice?id={{n.nid}}" class="btn btn-primary">Télécharger la facture large</a>
             {% endif %}
           </div>
           <div class="text-md-end mt-5 mt-md-0">
