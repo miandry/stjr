@@ -392,6 +392,7 @@ class DrupalHelperTwigExtension extends AbstractExtension {
         return $twig_base;
     }
     public static function twig_price_format($price,$decimal_number=0 ,$decimal_point=',' , $thousands_sep=' ') {
+        if($price == null ){ $price = 0 ;}
         return number_format($price,$decimal_number, $decimal_point, $thousands_sep);
     }
     public static function twig_theme_logo(){
