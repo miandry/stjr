@@ -75,7 +75,11 @@ class StockManagement
 
         // update article
         $article->field_prix_d_achat->value =  $achat ;
-        $article->field_prix_unitaire->value = $pv ;
+        $prix_v_actuelle = $article->field_prix_unitaire->value ;
+        if( $prix_v_actuelle < $pv){
+         \Drupal::messenger()->addMessage('Prix de vente actuelle : ' .$prix_v_actuelle.' AR est plus petit que prix de votre stock '.$pv . ' AR', 'warning');
+        }
+       // $article->field_prix_unitaire->value = $pv ;
         $entity->field_prix_unitaire->value = $pv ;
         $article->save();
         return  $entity ;
