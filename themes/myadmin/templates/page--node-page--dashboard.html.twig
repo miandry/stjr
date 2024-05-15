@@ -1,11 +1,25 @@
 {{ attach_library('myadmin/bootstrap_full') }}
+<style>
+.top_vente {
+    font-size: 12px;
+    list-style: none;
+    text-align: left;
+}
+.top_vente li{
+  width: 100px; /* Adjust width as needed */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+</style>
+
 <div class="container my-5 px-5 shadow">
   <h1>Dashboard</h1>
   <div class="row text-center mt-5">
     <div class="col">
       <div class="row border border-2 rounded">
         <h4>TOTAL DES VENTES</h4>
-        <h5>1.500.000</h5>
+        <h5>{{price(total_vente_par_mois)}} AR</h5>
         <canvas id="pieChart"></canvas>
       </div>
       <div class="row border border-2 rounded mt-5">
@@ -21,15 +35,15 @@
         </div>
         <div class="col-md-3 border border-2 rounded">
           <h4>VALEUR DU STOCK</h4>
-          <h5>11.200.000</h5>
+          <h5>{{price(valeur_stock)}} AR</h5>
         </div>
         <div class="col-md-3 border border-2 rounded">
           <h4>STOCK BAS</h4>
-          <h5>20 ARTICLES</h5>
+          <h5>{{bas_stock}} ARTICLES</h5>
         </div>
         <div class="col-md-3 border border-2 rounded">
           <h4>RUPTURE DE STOCK</h4>
-          <h5>20 ARTICLES</h5>
+          <h5>{{rupture_stock}} ARTICLES</h5>
         </div>
       </div>
       <div class="row mt-4">
@@ -41,18 +55,12 @@
     </div>
     <div class="col">
       <div class="row border border-2 rounded">
-        <h4>TOP 10 DES PRODUITS</h4>
-        <ul>
-          <li>Paracetamol</li>
-          <li>Paracetamol</li>
-          <li>Paracetamol</li>
-          <li>Paracetamol</li>
-          <li>Paracetamol</li>
-          <li>Paracetamol</li>
-          <li>Paracetamol</li>
-          <li>Paracetamol</li>
-          <li>Paracetamol</li>
-          <li>Paracetamol</li>
+
+        <h4>TOP VENTE CE MOIS</h4>       
+        <ul class="top_vente">
+        	{% for key,item in top_vente %}
+            <li>{{item.num}} - {{item.name}} </li>
+          {% endfor %}
         </ul>
       </div>
     </div>

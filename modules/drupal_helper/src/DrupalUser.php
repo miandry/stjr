@@ -63,4 +63,31 @@ class DrupalUser {
       }
       return    $last_user_id ;
   }
+  private function generateRandomUsername($length = 8) {
+    // Characters to be used for generating the random username.
+    $characters = 'abcdefghijklmnopqrstuvwxyz';
+    // Generate a random string of the specified length.
+    $random_string = '';
+    for ($i = 0; $i < $length; $i++) {
+      $random_string .= $characters[rand(0, strlen($characters) - 1)];
+    }
+    // Add a prefix or suffix to ensure uniqueness.
+    $username = 'user_' . $random_string; // Prefix 'user_' can be replaced with anything you prefer.
+    return $username;
+  }
+  public function processRandomUser(){
+      // Generate a random username.
+      $username = $this->generateRandomUsername();
+  
+      // Check if the generated username already exists.
+      $user_exists = (bool) \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(['name' => $username]);
+  
+      // If the username already exists, regenerate until a unique username is found.
+      while ($user_exists) {
+        $username = $this->generateRandomUsername();
+        $user_exists = (bool) \Drupal::entityTypeManager()->getStorage('user')->loadByProperties(['name' => $username]);
+      }
+      return $username  ;
+  
+  }
 }
