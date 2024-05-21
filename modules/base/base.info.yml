@@ -1,5 +1,0 @@
-name: 'base'
-type: module
-description: 'Base function'
-core_version_requirement: ^8.8 || ^9
-package: 'Default'

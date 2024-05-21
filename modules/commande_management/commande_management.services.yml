@@ -1,3 +1,0 @@
-services:
-  commande_management.manager:
-    class: Drupal\commande_management\CommandeManagement

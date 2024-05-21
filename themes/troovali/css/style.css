@@ -1,0 +1,135 @@
+body{
+	background: #F6F6F6;
+	font-family: "Montserrat", sans-serif;
+	font-optical-sizing: auto;
+	overflow-x: hidden;
+	font-weight: 500;
+}
+
+a{
+	color: #FB4762;
+	text-decoration:none;
+}
+
+.text-red{
+	color: #FB4762;
+}
+
+.bg-red{
+	background: #FB4762;
+}
+
+.fw-500{
+	font-weight: 500;
+}
+
+/*Accueil*/
+
+li .nav-link{
+	color: #0F0F0F;
+	font-weight: 500;
+}
+
+.annonce-badge{
+	background: #FB4762;
+	color: #FFFFFF !important;
+	font-weight: 500;
+	border-radius: 10px;
+}
+.annonce-badge:hover{
+	color: #F0F0F0;
+}
+.bg-grey{
+	background: #DEDEDE;
+}
+.search-form button{
+	background: #FB4762;
+	color: #F7F7F7;
+	border: none;
+	border-radius: 7px;
+}
+.search-form input{
+	background: #DEDEDE;
+	border: none;
+	border-radius: 0 7px 7px 0;
+}
+.search-form .form-check-input:checked {
+	background-color: #FB4762;
+	border-color: #0d6efd;
+}
+.search-form .form-check-input {
+	border-radius: 50%;
+}
+
+.search-form input:focus-visible{
+	outline-color: rgba(0, 0, 0, 0.3);
+}
+
+.search-form ul{
+	list-style-type: none;
+	font-weight: 500;
+}
+
+.search-form ul .bxs-right-arrow{
+	font-size: 0.5rem;
+}
+
+.search-form ul i{
+	margin-right: 7px;
+}
+
+.badge-annonce{
+	background: #DEDEDE;
+	border-radius: 70px;
+	font-weight: 500;
+}
+
+.bg-img{
+	background: url('../img/pack.jpeg');
+	background-size: cover;
+	border-radius: 70px;
+}
+
+.bg-img .layer{
+	background: rgba(251, 71, 98, 0.6);
+	border-radius: 70px;
+}
+
+.details p{
+	font-size: 0.9rem;
+	font-weight: normal;
+}
+
+/*Login*/
+.connexion{
+	background: #FFFFFF;
+	border-radius: 60px;
+	font-weight: 600;
+}
+button.log-btn{
+	background: #FB4762;
+	color: #F7F7F7;
+	border: none;
+	font-size: 1.3rem;
+	border-radius: 50px;
+	height: 70px;
+}
+
+/*Footer*/
+
+footer{
+	background: #2A2A2A;
+	color: #FFFFFF;
+}
+footer h5{
+	font-weight: bold;
+}
+footer a{
+	font-size: 1.2rem;
+	color: #FFFFFF;
+}
+
+.copyright{
+	background: #000;
+	min-height: 70px;
+}

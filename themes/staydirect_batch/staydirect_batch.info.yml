@@ -1,6 +1,0 @@
-name: 'staydirect_batch'
-type: theme
-base theme: claro
-description: 'staydirect_batch delete'
-core_version_requirement: ^8.8 || ^9
-package: 'Default'

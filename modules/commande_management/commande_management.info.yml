@@ -1,5 +1,0 @@
-name: 'commande management'
-type: module
-description: 'commande management system'
-core_version_requirement: ^8.8 || ^9
-package: 'Default'

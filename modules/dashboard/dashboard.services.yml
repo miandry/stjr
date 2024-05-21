@@ -1,3 +1,0 @@
-services:
-  dashboard.manager:
-    class: Drupal\dashboard\ServiceRapport

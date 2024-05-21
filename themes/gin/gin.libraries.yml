@@ -2,6 +2,7 @@ gin:
   css:
     theme:
       dist/css/base/gin.css: { minified: false }
+      styles/admin.css: {}
   dependencies:
     - gin/gin_base
     - gin/legacy_css

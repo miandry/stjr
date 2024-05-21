@@ -1,3 +1,0 @@
-services:
-  stock_management.manager:
-    class: Drupal\stock_management\StockManagement
