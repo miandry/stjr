@@ -3,7 +3,6 @@ body{
 	font-family: "Montserrat", sans-serif;
 	font-optical-sizing: auto;
 	overflow-x: hidden;
-	font-weight: 500;
 }
 
 a{
@@ -21,6 +20,10 @@ a{
 
 .fw-500{
 	font-weight: 500;
+}
+
+.fs-15{
+	font-size: 15px;
 }
 
 /*Accueil*/
@@ -67,6 +70,7 @@ li .nav-link{
 
 .search-form ul{
 	list-style-type: none;
+	line-height: 2;
 	font-weight: 500;
 }
 
@@ -81,13 +85,18 @@ li .nav-link{
 .badge-annonce{
 	background: #DEDEDE;
 	border-radius: 70px;
-	font-weight: 500;
+	font-weight: 700;
+	font-size: 13px;
+	height: 45px;
 }
 
 .bg-img{
 	background: url('../img/pack.jpeg');
 	background-size: cover;
 	border-radius: 70px;
+}
+.path:hover {
+  fill: #DEDEDE;
 }
 
 .bg-img .layer{
@@ -98,6 +107,22 @@ li .nav-link{
 .details p{
 	font-size: 0.9rem;
 	font-weight: normal;
+}
+
+.btn-grey{
+	background: #DEDEDE;
+	border-radius: 7px;
+	border: none;
+	height: 35px;
+}
+
+.item .img{
+	width: 214px;
+	height: 214px;
+}
+
+.item small{
+	font-size: 12px;
 }
 
 /*Login*/
@@ -113,6 +138,11 @@ button.log-btn{
 	font-size: 1.3rem;
 	border-radius: 50px;
 	height: 70px;
+}
+
+.thumbnail-content{
+	width: 318px;
+	height: 123px;
 }
 
 /*Footer*/
