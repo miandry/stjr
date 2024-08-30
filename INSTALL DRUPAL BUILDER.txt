@@ -1,0 +1,14 @@
+
+write to commande line linux : 
+
+1- go to folder 
+
+2- got to folder modules
+
+3- clone contrib modules
+git clone https://miandry@bitbucket.org/miandry/contrib_9.git contrib_9 
+
+4- go back to root folder and  clone sites
+git clone git@bitbucket.org:eroso/mz_sites.git sites
+
+5- set up database in database folder
