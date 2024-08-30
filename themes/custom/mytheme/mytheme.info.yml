@@ -1,0 +1,19 @@
+name: My Theme
+type: theme
+description: 'My Theme'
+package: Theme List
+core_version_requirement: ^8.9 || ^9 || ^10
+libraries:
+  - platform_theme/global-styling
+base theme: platform_theme
+regions:
+  hidden: Hidden
+  header: Header
+  footer: Footer
+  content: Content
+
+
+
+
+
+
