@@ -4,8 +4,8 @@ description: 'My Theme'
 package: Theme List
 core_version_requirement: ^8.9 || ^9 || ^10
 libraries:
-  - platform_theme/global-styling
-base theme: platform_theme
+  - gin/global-styling
+base theme: gin
 regions:
   hidden: Hidden
   header: Header
