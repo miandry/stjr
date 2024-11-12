@@ -1,0 +1,75 @@
+<?php
+
+use Drupal\views\ViewExecutable;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\views\Views;
+/**
+ * Implements hook_token_info().
+ */
+function view_display_token_token_info() {
+  $info = [];
+
+  // Define a new token group called 'views'.
+  $info['types']['views'] = [
+    'name' => t('Views'),
+    'description' => t('Tokens related to views display.'),
+  ];
+
+  // Add a new token for the view display ID.
+  $info['tokens']['views']['view_display_id'] = [
+    'name' => t('View Display ID'),
+    'description' => t('The display ID of the current view.'),
+  ];
+
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function view_display_token_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata) {
+  $replacements = [];
+
+  // Handle the 'views' token type.
+  if ($type === 'views') {
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'view_display_id':
+          // Get the View display ID from the current route.
+          $view = _view_display_token_get_current_view();
+          if ($view instanceof \Drupal\views\ViewExecutable && $view->current_display) {
+            $replacements[$original] = $view->current_display;
+          }
+          else {
+            $replacements[$original] = t('N/A');
+          }
+          break;
+      }
+    }
+  }
+
+  return $replacements;
+}
+
+/**
+ * Helper function to get the current View from the route.
+ */
+function _view_display_token_get_current_view() {
+  $route_match = \Drupal::service('current_route_match');
+  $view_name = $route_match->getParameter('view_id');
+  $view_display_id = $route_match->getParameter('display_id');
+
+  if ($view_name && $view_display_id) {
+    // Use Views::getView() to load the view programmatically.
+    $view = Views::getView($view_name);
+    if ($view) {
+      // Set the display to the current display ID.
+      $view->setDisplay($view_display_id);
+      return $view;
+    }
+  }
+
+  return NULL;
+}
+

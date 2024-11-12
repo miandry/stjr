@@ -1,0 +1,8 @@
+
+name: 'View Display Token'
+type: module
+description: 'Provides a token to get the View display ID.'
+core_version_requirement: ^8 || ^9
+package: Custom
+dependencies:
+  - drupal:token
