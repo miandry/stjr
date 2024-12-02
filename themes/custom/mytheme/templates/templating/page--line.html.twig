@@ -1,0 +1,322 @@
+<div class="position-relative" style="background:#F4F9FD;">
+
+    <div class="row g-0 m-3">
+        <div class="col-12 col-xl-12 p-3">
+            <div class="row d-flex justify-content-between my-5 flex-column flex-lg-row">
+                <div class="col-12 col-md-4 mb-2">
+                    <h1>Ligne</h1>
+                </div>
+                <div class="col-12 col-md-8 d-flex flex-wrap justify-content-start justify-content-lg-end">
+                    <button class="btn bg-white my-2 order-2 order-sm-0 m-1">
+                        <i class="bi bi-funnel"></i>
+                    </button>
+                    <button class="btn my-2 btn-outline-primary d-flex justify-content-center align-items-center m-1 rounded-4 btn-personal order-1 order-sm-2">
+                        <i class="bi me-2 bi-plus-lg"></i>
+                        <p class="m-0 p-0">Ajouter un personnel</p>
+                    </button>
+                    <button class="btn my-2 btn-primary d-flex px-5 rounded-4 justify-content-center align-items-center order-3 order-sm-3 m-1">
+                        <i class="bi bi-download"></i>
+                        <p class="mx-2">Exporter</p>
+                    </button>
+                </div>
+            </div>
+            <!-- tabs -->
+            <div class="container mt-5">
+                <div class="row d-flex gap-5">
+                    <!-- Nav tabs -->
+                    <div class="col-12 col-lg-3 p-3 bg-white rounded-5">
+                        <div class="dropdown d-flex justify-content-center align-items-center border-bottom border-bottom-secondary mb-3">
+                            <button class="btn bg-white dropdown-toggle w-100" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                Aujourd’hui
+                            </button>
+                            <ul class="dropdown-menu w-100 " style="background: #E6EDF5;" aria-labelledby="dropdownMenuButton">
+                                <li><a class="dropdown-item fw-bold" href="#">Demain</a></li>
+                                <li><a class="dropdown-item fw-bold" href="#">Hier</a></li>
+                                <li><a class="dropdown-item fw-bold" href="#">Autre</a></li>
+                            </ul>
+                        </div>
+                        <ul class="nav nav-tabs flex-column m-0" id="line-tabs" role="tablist">
+                            <li class="nav-item mt-2 p-3 text-dark">
+                                <button class="nav-link active active-link w-100 text-start text-dark" id="tab1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" role="tab" aria-controls="tab1" aria-selected="true">
+                                    <p class="opacity-50 m-0">PN0001245</p>
+                                    <h4 class="my-2">Axe Central 1</h4>
+                                    <a href="#" class="text-underline view-detail text-white">Voir le detail >></a>
+                                </button>
+                            </li>
+                            <li class="nav-item mt-2 p-3">
+                                <button class="nav-link w-100 text-start text-dark" id="tab2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" role="tab" aria-controls="tab2" aria-selected="false">
+                                    <p class="opacity-50 m-0">PN0001246</p>
+                                    <h4 class="my-2">Axe Central 2</h4>
+                                </button>
+                            </li>
+                            <li class="nav-item mt-2 p-3">
+                                <button class="nav-link w-100 text-start text-dark" id="tab3-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" role="tab" aria-controls="tab3" aria-selected="false">
+                                    <p class="opacity-50 m-0">PN0001247</p>
+                                    <h4 class="my-2">Axe Central 3</h4>
+                                </button>
+                            </li>
+                            <li class="nav-item mt-2 p-3">
+                                <button class="nav-link w-100 text-start text-dark" id="tab4-tab" data-bs-toggle="tab" data-bs-target="#tab4" type="button" role="tab" aria-controls="tab4" aria-selected="false">
+                                    <p class="opacity-50 m-0">PN0001248</p>
+                                    <h4 class="my-2">Axe Central 4</h4>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+        
+                    <!-- Tab content -->
+                    <div class="col-12 col-lg-8 tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="tab1-tab">
+                            <div class="row my-3">
+                                <div class="col-12 p-2 rounded-4" style="background: #E6EDF5;">
+                                    <h5 class="text-center">Axe Central 1</h5>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row rounded-3 p-3 mt-3 bg-white rounded-4">
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Voiture</h5>
+                                            <p>MAZDA</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Départ</h5>
+                                            <p>Analakely</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Arrivée</h5>
+                                            <p>Tanjombato</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Objectif</h5>
+                                            <p class="color-green" ><i class="bi bi-arrow-down fs-4 m-2"></i>Ramasser</p>
+                                        </div>
+                                    </div>
+                                    <div class="row rounded-3 p-3 mt-3 bg-white rounded-4">
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Voiture</h5>
+                                            <p>MAZDA</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Départ</h5>
+                                            <p>Analakely</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Arrivée</h5>
+                                            <p>Tanjombato</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Objectif</h5>
+                                            <p class="color-green" ><i class="bi bi-arrow-down fs-4 m-2"></i>Ramasser</p>>
+                                        </div>
+                                    </div>
+                                    <div class="row rounded-3 p-3 mt-3 bg-white rounded-4">
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Voiture</h5>
+                                            <p>MAZDA</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Départ</h5>
+                                            <p>Analakely</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Arrivée</h5>
+                                            <p>Tanjombato</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Objectif</h5>
+                                            <p class="color-yellow" ><i class="bi bi-arrow-up fs-4 m-2"></i>Déposer</p>
+                                        </div>
+                                    </div>
+                                    <div class="row rounded-3 p-3 mt-3 bg-white rounded-4">
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Voiture</h5>
+                                            <p>MAZDA</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Départ</h5>
+                                            <p>Analakely</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Arrivée</h5>
+                                            <p>Tanjombato</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Objectif</h5>
+                                            <p class="color-yellow" ><i class="bi bi-arrow-up fs-4 m-2"></i>Déposer</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row rounded-3 p-3 mt-3 bg-white rounded-4">
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Voiture</h5>
+                                            <p>MAZDA</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Départ</h5>
+                                            <p>Analakely</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Arrivée</h5>
+                                            <p>Tanjombato</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Objectif</h5>
+                                            <p class="color-yellow" ><i class="bi bi-arrow-up fs-4 m-2"></i>Déposer</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row rounded-3 p-3 mt-3 bg-white rounded-4">
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Voiture</h5>
+                                            <p>MAZDA</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Départ</h5>
+                                            <p>Analakely</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Arrivée</h5>
+                                            <p>Tanjombato</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Objectif</h5>
+                                            <p class="color-yellow" ><i class="bi bi-arrow-up fs-4 m-2"></i>Déposer</p>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
+                            <!-- Contenu de l'onglet 2 -->
+                            <div class="row my-3">
+                                <div class="col-12 p-2 rounded-4" style="background: #E6EDF5;">
+                                    <h5 class="text-center">Axe Central 2</h5>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row rounded-3 p-3 mt-3 bg-white rounded-4">
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Voiture</h5>
+                                            <p>MAZDA</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Départ</h5>
+                                            <p>Analakely</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Arrivée</h5>
+                                            <p>Tanjombato</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Objectif</h5>
+                                            <p class="color-green" ><i class="bi bi-arrow-down fs-4 m-2"></i>Ramasser</p>
+                                        </div>
+                                    </div>
+                                    <div class="row rounded-3 p-3 mt-3 bg-white rounded-4">
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Voiture</h5>
+                                            <p>MAZDA</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Départ</h5>
+                                            <p>Analakely</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Arrivée</h5>
+                                            <p>Tanjombato</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Objectif</h5>
+                                            <p class="color-green" ><i class="bi bi-arrow-down fs-4 m-2"></i>Ramasser</p>>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="tab3-tab">
+                            <!-- Contenu de l'onglet 3 -->
+                            <div class="row my-3">
+                                <div class="col-12 p-2 rounded-4" style="background: #E6EDF5;">
+                                    <h5 class="text-center">Axe Central 3</h5>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row rounded-3 p-3 mt-3 bg-white rounded-4">
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Voiture</h5>
+                                            <p>MAZDA</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Départ</h5>
+                                            <p>Analakely</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Arrivée</h5>
+                                            <p>Tanjombato</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Objectif</h5>
+                                            <p class="color-green" ><i class="bi bi-arrow-down fs-4 m-2"></i>Ramasser</p>>
+                                        </div>
+                                    </div>
+                                    <div class="row rounded-3 p-3 mt-3 bg-white rounded-4">
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Voiture</h5>
+                                            <p>MAZDA</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Départ</h5>
+                                            <p>Analakely</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Arrivée</h5>
+                                            <p>Tanjombato</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Objectif</h5>
+                                            <p class="color-yellow" ><i class="bi bi-arrow-up fs-4 m-2"></i>Déposer</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
+                            <!-- Contenu de l'onglet 4 -->
+                            <div class="row my-3">
+                                <div class="col-12 p-2 rounded-4" style="background: #E6EDF5;">
+                                    <h5 class="text-center">Axe Central 4</h5>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row rounded-3 p-3 mt-3 bg-white rounded-4">
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Voiture</h5>
+                                            <p>MAZDA</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Départ</h5>
+                                            <p>Analakely</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Arrivée</h5>
+                                            <p>Tanjombato</p>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <h5 class="opacity-50">Objectif</h5>
+                                            <p class="color-yellow" ><i class="bi bi-arrow-up fs-4 m-2"></i>Déposer</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+    </div>
+
+
+</div>

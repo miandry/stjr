@@ -37,8 +37,8 @@
 %}
 <!DOCTYPE html>
 <html{{ html_attributes }}>
-  <head>
-
+  
+    
     <title>{{ head_title|safe_join(' | ') }}</title>
     <head-placeholder token="{{ placeholder_token }}">
     <css-placeholder token="{{ placeholder_token }}">
@@ -46,7 +46,7 @@
 
     </head>
 
-     <body{{ attributes.addClass(body_classes) }} data-aos-easing="ease-out-cubic" data-aos-duration="500" data-aos-delay="0">
+     <body{{ attributes.addClass(body_classes) }} data-aos-easing="ease-out-cubic" data-aos-duration="500" data-aos-delay="0" style="background:#F4F9FD;">
 
     {#
       Keyboard navigation/accessibility link to main content section in
@@ -60,8 +60,8 @@
     {{ page_bottom }}
 
     <js-bottom-placeholder token="{{ placeholder_token }}">
-
- 
+    
   </body>
 </html>
+
 

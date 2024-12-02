@@ -1,1 +1,236 @@
-HELLO 
+
+    
+
+<script>
+    //upload
+    var personal = [
+      { id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106" },
+      { id: 2, heure: "8h - 14h", name: "Haja", hotel: "Ibis", adresse: "56 rue Razanamihaja", contact: "0346789012", point: "11" },
+      { id: 3, heure: "9h - 13h", name: "Fara", hotel: "Hilton", adresse: "10 avenue de l’Université", contact: "0347890123", point: "12" },
+      { id: 4, heure: "11h - 12h", name: "Voara", hotel: "Le Louvre", adresse: "78 rue d’Ambohitsirohitra", contact: "0348901234", point: "16" },
+      { id: 5, heure: "7h - 15h", name: "Ravo", hotel: "Novotel", adresse: "14 avenue de l’Indépendance", contact: "0345612345", point: "20" },
+      { id: 6, heure: "8h - 14h", name: "Miora", hotel: "Le Palais", adresse: "12 rue de Madagascar", contact: "0345723456", point: "8" },
+      { id: 7, heure: "9h - 13h", name: "Sari", hotel: "Radisson", adresse: "34 rue des Lilas", contact: "0346345678", point: "15" },
+      { id: 8, heure: "10h - 18h", name: "Tahiry", hotel: "Royal Palace", adresse: "56 rue du 26 juin", contact: "0346987456", point: "18" },
+      { id: 9, heure: "7h - 15h", name: "Tiana", hotel: "Park Inn", adresse: "99 rue de la Liberté", contact: "0346798234", point: "13" },
+      { id: 10, heure: "8h - 14h", name: "Filo", hotel: "Mercure", adresse: "11 avenue du Commerce", contact: "0347812345", point: "9" },
+      { id: 11, heure: "7h - 15h", name: "Mamy", hotel: "Grand Hotel", adresse: "43 rue de l’Hotel de Ville", contact: "0347023456", point: "10" },
+      { id: 12, heure: "8h - 14h", name: "Dera", hotel: "La Résidence", adresse: "22 rue des Amandiers", contact: "0347123456", point: "14" },
+      { id: 13, heure: "9h - 13h", name: "Tovo", hotel: "Holiday Inn", adresse: "18 rue des Lilas", contact: "0347234567", point: "11" },
+      { id: 14, heure: "10h - 18h", name: "Bebao", hotel: "Auberge de la Mer", adresse: "64 rue d’Antananarivo", contact: "0347345678", point: "7" },
+      { id: 15, heure: "7h - 15h", name: "Hery", hotel: "Le Jardin", adresse: "99 avenue du 7 Mai", contact: "0347456789", point: "16" },
+      { id: 16, heure: "8h - 14h", name: "Farao", hotel: "Luxe Hotel", adresse: "15 rue des Charmes", contact: "0347567890", point: "18" },
+      { id: 17, heure: "9h - 13h", name: "Tsiory", hotel: "Château Blanc", adresse: "23 rue de la Paix", contact: "0347678901", point: "12" },
+      { id: 18, heure: "10h - 18h", name: "Mialy", hotel: "Hotel Vibe", adresse: "33 rue des Roses", contact: "0347789012", point: "19" },
+      { id: 19, heure: "7h - 15h", name: "Lalao", hotel: "Sofitel", adresse: "27 rue du Commerce", contact: "0347890123", point: "13" },
+      { id: 20, heure: "8h - 14h", name: "Hina", hotel: "Le Continental", adresse: "19 rue de la République", contact: "0347901234", point: "10" }
+    ];
+
+  var DataCar =  [
+    {id: 1, name: "Voiture 1", start : "Ankatso", end: "67ha" },
+    {id: 2, name: "Voiture 2", start : "Analakely", end: "Itaosy" },
+    {id: 3, name: "Voiture 3", start : "Analama", end: "Mahazo" },
+    {id: 4, name: "Voiture 4", start : "Mahazo", end: "Andavaka" },
+    {id: 5, name: "Voiture 5", start : "Andohalo", end: "Ankazo" },
+    {id: 6, name: "Voiture 6", start : "Andohalo", end: "Ankazo" },
+  ]
+  var personalCar = [
+    {car: {id: 1, name: "Voiture 1", start : "Ankatso", end: "67ha" }, place: "p2", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
+    {car: {id: 2, name: "Voiture 2", start : "Ankatso", end: "67ha" }, place: "p1", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
+    {car: {id: 3, name: "Voiture 3", start : "Ankatso", end: "67ha" }, place: "p2", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
+    {car: {id: 3, name: "Voiture 3", start : "Ankatso", end: "67ha" }, place: "p6", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
+    {car: {id: 2, name: "Voiture 2", start : "Ankatso", end: "67ha" }, place: "p5", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
+  ];
+
+</script>
+
+<div class="position-relative" style="height: 100vh; background:#F4F9FD;">
+    <div class="row g-0 m-3">
+        <div class="col-12 col-xl-12 p-3">
+            <div class="row d-flex justify-content-between my-5 flex-column flex-lg-row">
+                <div class="col-12 col-md-4 mb-2">
+                    <h1>Gestion</h1>
+                </div>
+                <div class="col-12 col-md-8 d-flex flex-wrap justify-content-start justify-content-lg-end">
+                    <button class="btn bg-white my-2 order-2 order-sm-0 m-1">
+                        <i class="bi bi-funnel"></i>
+                    </button>
+                    <button
+                        class="btn my-2 btn-primary d-flex px-5 rounded-4 justify-content-center align-items-center order-3 order-sm-3 m-1">
+                        <i class="bi bi-download"></i>
+                        <p class="mx-2">Exporter</p>
+                    </button>
+                </div>
+            </div>
+
+            <div class="row d-flex gap-5 justify-content-center" id="card-clients">
+                <div class="col-12 col-lg-3 p-3 bg-white rounded-4 ">
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-center align-items-md-center flex-column my-3">
+                            <h3 class="fw-light"><span class="checked-lenght">0</span> Séléctionnés</h3>
+                            <button
+                                class="btn btn-primary fs-6 d-flex justify-content-center align-items-center mb-3 gap-2 shadow btn-auto-distribution"
+                                data-toggle="modal" data-target="#auto-distribution">
+                                Répartition auto
+                                <i class="bi bi-arrow-right-circle-fill fs-4"></i>
+                            </button>
+                            <button
+                                class="btn btn-success fs-6 d-flex justify-content-center align-items-center gap-2 shadow" data-url="/test/test" id="save-data-car">
+                                Sauvegarder
+                                <i class="bi bi-save fs-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="personel-list" class="row p-2 border-bottom overflow-auto" style="max-height: 800px;">
+                        <table id="table-personnel" data-toggle="table" data-click-to-select="true" class="table borderless" data-search="true">
+                            <thead >
+                                <tr>
+                                    <th data-field="card"></th>
+                                    <th data-field="checkbox" data-checkbox="true"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Les lignes seront ajoutées dynamiquement ici -->
+                            </tbody>
+                        </table>
+                       
+                    </div>
+                </div>
+                <div class="col-12 col-lg-8 rounded-4">
+                    <div class="row mb-3 d-flex">
+
+                        <div class="col-12">
+                            <div class="nav nav-pills d-flex flex-wrap" role="tablist" id="cars">
+                                <!-- voitures -->
+                            </div>
+                        </div>
+
+                        <!-- Contenu des onglets -->
+                        <div class="col-12">
+                            <div class="tab-content " id="cars-contents">
+                                <!-- Contenu Voiture  -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modals-->
+    <div class="modal fade" id="add-personel" tabindex="-1" aria-labelledby="add-personel" aria-hidden="true">
+        <div class="modal-dialog modal-lg ">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-center w-100" id="add-personel-label">Séléctionnez le personnels à
+                        insérer</h5>
+                    <button type="button" class="btn-close rounded-circle fs-3" data-bs-dismiss="modal"
+                        aria-label="Close" style="background: #D9D9D9; color: #7D8592 !important;"><i
+                            class="bi bi-x fw-bold "></i>
+                    </button>
+                </div>
+                <div class="modal-body border-0">
+                    <table id="table-list-personnel" class="table table-bordered  text-center table-list-personnel" data-toggle="table"
+                        data-pagination="true" data-click-to-select="true" data-single-select="true" data-search="true">
+                        <thead>
+                            <tr>
+                                <th data-field="radio" data-checkbox="true">Sélection</th>
+                                <th data-field="heure">Heure Dépot/ <br> Ramassage</th>
+                                <th data-field="nom">Nom</th>
+                                <th data-field="hotel">Hotel</th>
+                                <th data-field="adresse">Adresse</th>
+                                <th data-field="contact">Contact</th>
+                            </tr>
+                        </thead>
+                        <tbody class="opacity-75">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer border-0">
+                    <div class="my-3 d-flex justify-content-between align-items-center w-100">
+                        <div class="d-flex justify-content-center align-items-center gap-2">
+                            <div class="pagiation">
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <div class="bg-white d-flex justify-content-center align-items-center rounded-5 p-1 "
+                                        style="border: 1px solid rgb(235, 235, 235);">
+                                        <p class="m-0 px-1 fs-6">1-8 sur 28</p>
+                                        <button class=" btn disable border-0 bg-white opacity-50 p-1">
+                                            <i class="bi bi-arrow-left"></i>
+                                        </button>
+                                        <button class="btn border-0 bg-white text-primary ">
+                                            <i class="bi bi-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline-primary rounded-5">
+                                <i class="bi bi-arrow-repeat"></i>
+                                Auto-Répartition
+                            </button>
+                        </div>
+                        <button type="button" class="btn btn-primary rounded-5 add-maual-personnel">
+                            <i class="bi bi-plus"></i>
+                            Ajouter le personnel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="auto-distribution" tabindex="-1" aria-labelledby="auto-distribution" aria-hidden="true">
+        <div class="modal-dialog modal-lg ">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-center w-100" id="auto-distribution-label">Séléctionnez le personnels à
+                        insérer</h5>
+                    <button type="button" class="btn-close rounded-circle fs-3" data-bs-dismiss="modal"
+                        aria-label="Close" style="background: #D9D9D9; color: #7D8592 !important;"><i
+                            class="bi bi-x fw-bold "></i>
+                    </button>
+                </div>
+                <div class="modal-body border-0">
+                    <table id="table" class="table table-bordered  text-center table-list-personnel" data-toggle="table"
+                        data-pagination="true" data-click-to-select="true" data-search="true">
+                        <thead>
+                            <tr>
+                                <th data-field="radio" data-checkbox="true">Sélection</th>
+                                <th data-field="heure">Heure Dépot/ <br> Ramassage</th>
+                                <th data-field="nom">Nom</th>
+                                <th data-field="hotel">Hotel</th>
+                                <th data-field="adresse">Adresse</th>
+                                <th data-field="contact">Contact</th>
+                            </tr>
+                        </thead>
+                        <tbody class="opacity-50">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer border-0">
+                    <div class="my-3 d-flex justify-content-between align-items-center w-100">
+                        <div class="d-flex justify-content-center align-items-center gap-2">
+                            <div class="pagiation">
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <div class="bg-white d-flex justify-content-center align-items-center rounded-5 p-1 "
+                                        style="border: 1px solid rgb(235, 235, 235);">
+                                        <p class="m-0 px-1 fs-6">1-8 sur 28</p>
+                                        <button class=" btn disable border-0 bg-white opacity-50 p-1">
+                                            <i class="bi bi-arrow-left"></i>
+                                        </button>
+                                        <button class="btn border-0 bg-white text-primary ">
+                                            <i class="bi bi-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary rounded-5">
+                            <i class="bi bi-arrow-repeat"></i>
+                            Répartir les séléctionnés
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

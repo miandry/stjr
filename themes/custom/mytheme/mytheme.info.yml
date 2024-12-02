@@ -1,19 +1,13 @@
 name: My Theme
 type: theme
-description: 'My Theme'
+description: "My Theme"
 package: Theme List
 core_version_requirement: ^8.9 || ^9 || ^10
 libraries:
-  - gin/global-styling
+  - mytheme/global-styling
 base theme: gin
 regions:
   hidden: Hidden
   header: Header
   footer: Footer
   content: Content
-
-
-
-
-
-

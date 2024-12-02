@@ -1,0 +1,171 @@
+global-styling:
+   version: 1.0
+   css:
+    theme:
+        https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css: { type : external }
+        https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css: { type : external }
+        https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.2/dist/bootstrap-table.min.css: { type : external }
+        https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css: { type : external }
+        https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.css: { type : external }
+        https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css: { type : external }
+        https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css: { type : external }
+        https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css: { type : external }
+        css/style.css : {}
+
+   js:
+        https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js: { type: external}
+        https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.js: { type: external}
+        https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js: { type: external}
+        https://cdn.jsdelivr.net/npm/bootstrap-table@1.23.2/dist/bootstrap-table.min.js: { type: external}
+        https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.js: { type: external}
+        https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js: { type: external}
+        js/main.js : {}
+   dependencies:
+        - core/jquery
+vivus :
+   version: 1.0
+   js:
+     vendor/vivus/vivus.min.js: {}
+simple-line-icons :
+   version: 1.0
+   css:
+    theme:
+       vendor/simple-line-icons/css/simple-line-icons.min.css: {}
+
+jquery.appear :
+   version: 1.0
+   js:
+     vendor/jquery.appear/jquery.appear.min.js: {}
+
+
+jquery.easing :
+   version: 1.0
+   js:
+     vendor/jquery.easing/jquery.easing.min.js: {}
+
+jquery.cookie :
+   version: 1.0
+   js:
+     vendor/jquery.cookie/jquery.cookie.min.js: {}
+
+jquery.validation :
+   version: 1.0
+   js:
+     vendor/jquery.validation/jquery.validate.min.js: {}
+
+jquery.easy-pie-chart :
+   version: 1.0
+   js:
+     vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js: {}
+
+nivo-slider :
+   version: 1.0
+   js:
+     vendor/nivo-slider/jquery.nivo.slider.min.js: {}
+
+fontawesome-free :
+   version: 1.0
+   css:
+    theme:
+       vendor/fontawesome-free/css/all.min.css: {}
+fontawesome-4 :
+  version: 4.7.0
+  css:
+    theme:
+      vendor/font-awesome-4/font-awesome.min.css: {}
+
+circle-flip-slideshow :
+   version: 1.0
+   css:
+    theme:
+       vendor/circle-flip-slideshow/css/component.css: {}
+   js:
+    vendor/circle-flip-slideshow/js/jquery.flipshow.min.js: {}
+
+jquery.isotope :
+   version: 1.0
+   js:
+     vendor/isotope/jquery.isotope.min.js: {}
+
+jquery.vide :
+   version: 1.0
+   js:
+     vendor/vide/jquery.vide.min.js: {}
+
+jquery.gmap :
+   version: 1.0
+   js:
+     vendor/jquery.gmap/jquery.gmap.min.js: {}
+
+jquery.themepunch :
+   version: 1.0
+   js:
+     vendor/rs-plugin/js/jquery.themepunch.tools.min.js: {}
+     vendor/rs-plugin/js/jquery.themepunch.revolution.min.js: {}
+
+animate :
+   version: 1.0
+   css:
+    theme:
+       vendor/animate/animate.min.css: {}
+       vendor/animate/animate.compat.css: {}
+
+owl.carousel :
+   version: 1.0
+   css:
+    theme:
+       vendor/owl.carousel/assets/owl.carousel.min.css: {}
+       vendor/owl.carousel/assets/owl.theme.default.min.css: {}
+   js:
+    vendor/owl.carousel/owl.carousel.min.js: {}
+
+rating :
+   version: 1.0
+   css:
+    theme:
+       vendor/bootstrap-star-rating/css/star-rating.min.css: {}
+       vendor/bootstrap-star-rating/themes/krajee-fas/theme.min.css: {}
+   js:
+    vendor/bootstrap-star-rating/js/star-rating.min.js : {}
+    vendor/bootstrap-star-rating/themes/krajee-fas/theme.min.js : {}
+   dependencies:
+     - core/jquery
+     - platform_theme/bootstrap
+
+bootstrap :
+   version: 1.0
+   css:
+    theme:
+       vendor/bootstrap/css/bootstrap.min.css: {}
+   js:
+    vendor/bootstrap/js/bootstrap.bundle.min.js: {}
+jquery-3 :
+  version: 3.3.1
+  js:
+    vendor/gijgo/jquery-3.3.1.min.js: {}
+bootstrap-datepicker :
+  version: 1.0
+  css:
+    theme:
+      vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css: {}
+  js:
+    vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js: {}
+popper :
+   version: 1.0
+   js:
+     vendor/popper/umd/popper.min.js: {}
+
+magnific-popup :
+   version: 1.0
+   css:
+    theme:
+       vendor/magnific-popup/magnific-popup.min.css: {}
+   js:
+    vendor/magnific-popup/jquery.magnific-popup.min.js: {}
+
+easepick :
+  version: 1.2.0
+  header: true
+  js:
+    vendor/easepick/easepick.min.js: {}
+
