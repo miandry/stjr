@@ -1,0 +1,142 @@
+<?php
+
+/**
+ * @file
+ * Contains stjr.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\node\Entity\Node;
+/**
+ * Implements hook_help().
+ */
+function stjr_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the stjr module.
+    case 'help.page.stjr':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('My Awesome Module') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implémentation de hook_form_alter().
+ */
+function stjr_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+
+  if ($form_id === 'node_collection_form' ||$form_id ===  'node_collection_edit_form') {
+        // Generate a random title.
+        $random_title = 'Colllect-' . substr(md5(mt_rand()), 0, 8);
+        // Set the default value of the title field to the random title.
+
+        $form['title']['widget'][0]['value']['#default_value'] = $random_title;
+        
+        // Ajouter un gestionnaire de soumission personnalisé.
+        $form['actions']['submit']['#submit'][] = '__stjr_custom_submit_handler';
+        $form['#validate'][] = '__stjr_check_if_personne_not_exist';
+  }
+  if ($form_id === 'node_personnel_form') {
+    $form['#validate'][] = '__stjr_check_duplicate_title';
+  }
+}
+/**
+ * Gestionnaire de soumission personnalisé pour rediriger le formulaire.
+ */
+function  __stjr_custom_submit_handler(array &$form, FormStateInterface $form_state) {
+
+    // Définir l'URL de redirection après la soumission du formulaire.
+    $collection = $form_state->getFormObject()->getEntity();
+
+
+}
+function __stjr_check_if_personne_not_exist(array &$form, FormStateInterface $form_state) {
+  $content = $form_state->getValue('field_content');
+  $matricule_str = $content[0]['value'];
+  $matricule_array = explode("\n", trim($matricule_str));  
+  $empty = [];
+  foreach( $matricule_array  as $mat){
+    $query = \Drupal::entityQuery('node')
+    ->condition('type', 'personnel')
+    ->condition('title',  intval($mat)); 
+    $existing_nids = $query->execute();
+    if (empty($existing_nids)) {
+      $empty[] = $mat ;
+    }
+
+  }
+  if(!empty($empty)){
+    $mats = implode(' , ',$empty);
+    $form_state->setErrorByName('field_content', t('Les Matricules: "%title" sont introuvable.', ['%title' => $mats]));
+  }
+  
+
+}
+/**
+ * Validation callback to check for duplicate node titles.
+ */
+function __stjr_check_duplicate_title(array &$form, FormStateInterface $form_state) {
+  $title = $form_state->getValue('title');
+  $title = $title[0]['value'];
+
+  // // Check for existing nodes with the same title.
+  $query = \Drupal::entityQuery('node')
+      ->condition('type', 'personnel')
+      ->condition('title', $title); // Only published nodes.
+  $existing_nids = $query->execute();
+
+  if (!empty($existing_nids)) {
+      // Set an error on the title field.
+      $form_state->setErrorByName('title', t('A node with the title "%title" already exists.', ['%title' => $title]));
+  }
+
+  if (!is_numeric($title)) {
+    $form_state->setErrorByName('title', t('Matricule doit etre numerique seulement ', ['%title' => $title]));
+      echo "The value is not numeric.";
+  }
+
+
+}
+
+
+/**
+ * Implements hook_node_presave().
+ *
+ * Prevents saving a node with a duplicate title.
+ */
+function stjr_node_presave(EntityInterface $entity) {
+    // Check if the entity is a node and of a specific content type (e.g., 'article').
+    if ($entity instanceof Node && $entity->bundle() === 'collection') {
+        $service = \Drupal::service('stjr.default');
+        $entity = $service->buildCollection($entity);
+    }
+}
+
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function stjr_preprocess_page(&$variables) {
+  // Get the current path.
+  $current_path = \Drupal::service('path.current')->getPath();
+  // Normalize the internal path to a standard format.
+  $internal_path = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+  // Check if the current path is '/planning'.
+  if ($internal_path == '/planning') {
+    // Do something specific for the '/planning' page.
+    $service = \Drupal::service('stjr.default');
+    $variables['collections'] = $service->getCollectionByFilter();
+
+   
+  } 
+  if ($internal_path == '/gestion') {
+    $service = \Drupal::service('stjr.default');
+    $variables['collections'] = $service->getCollectionByFilter();
+
+  }
+}

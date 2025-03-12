@@ -1,0 +1,6 @@
+stjrlib:
+  version: 1.x
+  js:
+    js/main.js : {}
+  dependencies:
+   - mylib/bootstrap_select

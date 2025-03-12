@@ -1,0 +1,7 @@
+stjr.upload_form:
+  path: '/admin/stjr/upload'
+  defaults:
+    _form: '\Drupal\stjr\Form\UploadForm'
+    _title: 'UploadForm'
+  requirements:
+    _access: 'TRUE'

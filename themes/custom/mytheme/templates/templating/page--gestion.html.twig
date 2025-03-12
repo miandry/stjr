@@ -1,30 +1,17 @@
 
-    
 
 <script>
+
     //upload
     var personal = [
-      { id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106" },
-      { id: 2, heure: "8h - 14h", name: "Haja", hotel: "Ibis", adresse: "56 rue Razanamihaja", contact: "0346789012", point: "11" },
-      { id: 3, heure: "9h - 13h", name: "Fara", hotel: "Hilton", adresse: "10 avenue de l’Université", contact: "0347890123", point: "12" },
-      { id: 4, heure: "11h - 12h", name: "Voara", hotel: "Le Louvre", adresse: "78 rue d’Ambohitsirohitra", contact: "0348901234", point: "16" },
-      { id: 5, heure: "7h - 15h", name: "Ravo", hotel: "Novotel", adresse: "14 avenue de l’Indépendance", contact: "0345612345", point: "20" },
-      { id: 6, heure: "8h - 14h", name: "Miora", hotel: "Le Palais", adresse: "12 rue de Madagascar", contact: "0345723456", point: "8" },
-      { id: 7, heure: "9h - 13h", name: "Sari", hotel: "Radisson", adresse: "34 rue des Lilas", contact: "0346345678", point: "15" },
-      { id: 8, heure: "10h - 18h", name: "Tahiry", hotel: "Royal Palace", adresse: "56 rue du 26 juin", contact: "0346987456", point: "18" },
-      { id: 9, heure: "7h - 15h", name: "Tiana", hotel: "Park Inn", adresse: "99 rue de la Liberté", contact: "0346798234", point: "13" },
-      { id: 10, heure: "8h - 14h", name: "Filo", hotel: "Mercure", adresse: "11 avenue du Commerce", contact: "0347812345", point: "9" },
-      { id: 11, heure: "7h - 15h", name: "Mamy", hotel: "Grand Hotel", adresse: "43 rue de l’Hotel de Ville", contact: "0347023456", point: "10" },
-      { id: 12, heure: "8h - 14h", name: "Dera", hotel: "La Résidence", adresse: "22 rue des Amandiers", contact: "0347123456", point: "14" },
-      { id: 13, heure: "9h - 13h", name: "Tovo", hotel: "Holiday Inn", adresse: "18 rue des Lilas", contact: "0347234567", point: "11" },
-      { id: 14, heure: "10h - 18h", name: "Bebao", hotel: "Auberge de la Mer", adresse: "64 rue d’Antananarivo", contact: "0347345678", point: "7" },
-      { id: 15, heure: "7h - 15h", name: "Hery", hotel: "Le Jardin", adresse: "99 avenue du 7 Mai", contact: "0347456789", point: "16" },
-      { id: 16, heure: "8h - 14h", name: "Farao", hotel: "Luxe Hotel", adresse: "15 rue des Charmes", contact: "0347567890", point: "18" },
-      { id: 17, heure: "9h - 13h", name: "Tsiory", hotel: "Château Blanc", adresse: "23 rue de la Paix", contact: "0347678901", point: "12" },
-      { id: 18, heure: "10h - 18h", name: "Mialy", hotel: "Hotel Vibe", adresse: "33 rue des Roses", contact: "0347789012", point: "19" },
-      { id: 19, heure: "7h - 15h", name: "Lalao", hotel: "Sofitel", adresse: "27 rue du Commerce", contact: "0347890123", point: "13" },
-      { id: 20, heure: "8h - 14h", name: "Hina", hotel: "Le Continental", adresse: "19 rue de la République", contact: "0347901234", point: "10" }
-    ];
+
+        {% for person in collections.items %}
+
+        { id: {{ person.matricule }}, heure: "{{ person.heure }}", name: "{{ person.nom }}", hotel: "{{ person.client }}", adresse: "{{ person.adresse }}", contact: "{{ person.contact }}", point: "{{ person.point }}" },
+
+        {% endfor %}
+
+  ];
 
   var DataCar =  [
     {id: 1, name: "Voiture 1", start : "Ankatso", end: "67ha" },

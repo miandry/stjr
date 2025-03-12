@@ -1,149 +1,113 @@
+   <script src="https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.umd.min.js"></script>
+ <style>
+ .date_container{
+    z-index: 99!important;
+ }
+ </style>
 
-<div class="position-relative" style="background:#F4F9FD;">      
-    
-    <div class="col-12 col-xl-12 p-3">
-    
-        <div class="row d-flex justify-content-between my-4 flex-column flex-lg-row">
-            <div class="col-12 col-md-4 mb-2">
-                <h1>Contenus EXCEL</h1>
+<div class="position-relative" style="background:#F4F9FD;">
+
+	<div class="col-12 col-xl-12 p-3">
+
+		<div class="row d-flex justify-content-between my-4 flex-column flex-lg-row">
+			<div class="col-12 col-md-4 mb-2">
+				<h1>Contenus EXCEL</h1>
+			</div>
+			<form>
+				<div class="col-12 col-md-12 d-flex flex-wrap justify-content-center justify-content-md-start justify-content-lg-start gap-2">
+			                          <div class="ui left icon d-flex input col-6 date_container">
+                <select class="form-select" placeholder="Heure"  name="heure">
+                    {% for item in collections.heures %}
+                    <option value="{{item.tid}}" {% if collections.filter.heure == item.tid %} selected {% endif %} >{{item.name}} H</option>
+                    {% endfor %}
+                </select>
             </div>
-            <div class="col-12 col-md-8 d-flex flex-wrap justify-content-center justify-content-md-start justify-content-lg-end gap-2">
-                <div class="d-flex justify-content-centera align-items-center gap-2 order-2  order-sm-0">
-                    <label for="resultCount" class="opacity-50">Afficher</label>
-                    <select id="resultCount" class="form-control">
-                        <option value="5">5</option>
-                        <option value="10" selected>10</option>
-                        <option value="12">12</option>
-                        <option value="25">25</option>
-                    </select>
-                </div>
-                <button class="btn bg-white my-2 order-3 order-sm-1 m-1">
-                    <i class="bi bi-funnel"></i>
-                </button>
-                <button
-                    class="btn my-2 btn-primary col-12 col-sm-auto d-flex px-5 rounded-4 justify-content-center align-items-center order-0 order-sm-3 m-1">
-                   <i class="bi bi-plus"></i>
-                    <p class="mx-2">Ajouter champ</p>
-                </button>
-            </div>
-        </div>
+						<div class="ui left icon d-flex input col-6 date_container">
+							<input id="datepicker" value={{collections.filter.date}} name="date" class="border-0 p-3 rounded-4" placeholder="DD-MM-YYYY" >
+						</div>
     
-        <div class="">
-    
-            <table id="table" class="table table-bordered rounded text-center" 
-                data-toggle="table"
-                data-pagination="true" 
-                data-page-size="10" 
-                data-click-to-select="true" 
-                data-show-pagination="true">
-                <thead class="thead-dark border bdr">
-                    <tr>
-                        <th data-field="state" data-checkbox="true"></th>
-                        <th data-field="heure" data-sortable="true">Heure Dépôt/ Ramassage</th>
-                        <th data-field="hotel" data-sortable="true">Hôtel</th>
-                        <th data-field="nom" data-sortable="true">Nom</th>
-                        <th data-field="adresse" data-sortable="true">Adresse</th>
-                        <th data-field="contact" data-sortable="true">Contact</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="opacity-75">
-                        <td></td>
-                        <td>7h - 17h</td>
-                        <td>Mariott</td>
-                        <td>Sophie</td>
-                        <td>12 rue des Fleurs</td>
-                        <td>0678901234</td>
-                    </tr>
-                    <tr class="opacity-75">
-                        <td></td>
-                        <td>7h - 17h</td>
-                        <td>Mariott</td>
-                        <td>Sophie</td>
-                        <td>12 rue des Fleurs</td>
-                        <td>0678901234</td>
-                    </tr>
-                    <tr class="opacity-75">
-                        <td></td>
-                        <td>7h - 17h</td>
-                        <td>Mariott</td>
-                        <td>Sophie</td>
-                        <td>12 rue des Fleurs</td>
-                        <td>0678901234</td>
-                    </tr>
-                    <tr class="opacity-75">
-                        <td></td>
-                        <td>7h - 17h</td>
-                        <td>Mariott</td>
-                        <td>Sophie</td>
-                        <td>12 rue des Fleurs</td>
-                        <td>0678901234</td>
-                    </tr>
-                    <tr class="opacity-75">
-                        <td></td>
-                        <td>7h - 17h</td>
-                        <td>Mariott</td>
-                        <td>Sophie</td>
-                        <td>12 rue des Fleurs</td>
-                        <td>0678901234</td>
-                    </tr>
-                    <tr class="opacity-75">
-                        <td></td>
-                        <td>7h - 17h</td>
-                        <td>Mariott</td>
-                        <td>Sophie</td>
-                        <td>12 rue des Fleurs</td>
-                        <td>0678901234</td>
-                    </tr>
-                    <tr class="opacity-75">
-                        <td></td>
-                        <td>7h - 17h</td>
-                        <td>Mariott</td>
-                        <td>Sophie</td>
-                        <td>12 rue des Fleurs</td>
-                        <td>0678901234</td>
-                    </tr>
-                    <tr class="opacity-75">
-                        <td></td>
-                        <td>7h - 17h</td>
-                        <td>Mariott</td>
-                        <td>Sophie</td>
-                        <td>12 rue des Fleurs</td>
-                        <td>0678901234</td>
-                    </tr>
-                    <tr class="opacity-75">
-                        <td></td>
-                        <td>7h - 17h</td>
-                        <td>Mariott</td>
-                        <td>Sophie</td>
-                        <td>12 rue des Fleurs</td>
-                        <td>0678901234</td>
-                    </tr>
-                    <tr class="opacity-75">
-                        <td></td>
-                        <td>7h - 17h</td>
-                        <td>Mariott</td>
-                        <td>Sophie</td>
-                        <td>12 rue des Fleurs</td>
-                        <td>0678901234</td>
-                    </tr>
-                    
-                </tbody>
-            </table>
-        </div>
-    
-        <div class="pagiation">
-            <div class="d-flex justify-content-between align-items-center rounded-3">
-                <button
-                    class="btn my-2 btn-primary d-flex justify-content-center align-items-center rounded-4 btn-personal">
-                    <p class="m-0 p-0">Commencer la répartition</p>
-                </button>
-                <button
-                    class="btn my-2 btn-primary d-flex rounded-4 justify-content-center align-items-center gap-2">
-                    <i class="bi bi-plus-lg"></i>
-                    <p class="">Réinsérer</p>
-                </button>
-            </div>
-        </div>
-    </div>
+						<div class="ui right d-flex icon input col-6">
+							<input type="text" name="search" value="{{collections.filter.search}}" class="border-0 p-3 rounded-4" placeholder="Nom" >
+							<i class="search icon"></i>
+						</div>
+
+					
+				</div>
+                	<button class="btn my-2 btn-success col-12 col-sm-auto d-flex px-5 rounded-4 justify-content-center align-items-center order-0 order-sm-3 m-1">
+							<i class="search seach-plus"></i>
+							<p class="mx-2">Recherche</p>
+				</button>
+			</form>
+		</div>
+
+		<div class="">
+
+			<table id="table" class="table table-bordered rounded text-center" data-toggle="table" data-pagination="true" data-page-size="10" data-click-to-select="true" data-show-pagination="true">
+				<thead class="thead-dark border bdr">
+					<tr>
+						<th data-field="nbre" data-sortable="true">
+							Type
+						</th>
+						<th data-field="date" data-sortable="true">Date</th>
+						<th data-field="matricule" data-sortable="true">Matricule</th>
+						<th data-field="nom" data-sortable="true">Nom</th>
+						<th data-field="adresse" data-sortable="true">Adresse</th>
+						<th data-field="contact" data-sortable="true">Contact</th>
+						<th data-field="client" data-sortable="true">Client</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for key,item in collections.items %}
+						<tr class="opacity-75">
+							<td>{{item.type}}</td>
+							<td>{{item.date}}
+								a
+								{{item.heure}}
+								H</td>
+							<td>
+								{{item.matricule}}
+							</td>
+							<td>
+								{{item.prenom}}
+								{{item.nom}}
+							</td>
+							<td>
+								{{item.adresse}}
+							</td>
+							<td>
+								{{item.contact}}
+							</td>
+							<td>
+								{{item.client}}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+
+		<div class="pagiation">
+			<div class="d-flex  align-items-center rounded-3">
+            <form action="/gestion">
+                <input type="hidden" name="heure" value="{{collections.filter.heure}}" />
+                <input type="hidden" name="date" value="{{collections.filter.date}}" />
+                <input type="hidden" name="search" value="{{collections.filter.search}}" />
+						
+				<button class="btn my-2 btn-primary d-flex rounded-4 justify-content-center align-items-center gap-2">
+					<i class="bi bi-plus-lg"></i>
+					<p class="">Commencer la repartition
+					</p>
+				</button>
+             </form>   
+			</div>
+		</div>
+	</div>
 </div>
+    <script>
+      const picker = new easepick.create({
+        element: document.getElementById('datepicker'),
+        css: [
+          'https://cdn.jsdelivr.net/npm/@easepick/bundle@1.2.1/dist/index.css',
+        ],
+      });
+    </script>

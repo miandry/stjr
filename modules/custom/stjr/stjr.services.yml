@@ -1,0 +1,7 @@
+services:
+  logger.channel.stjr:
+    parent: logger.channel_base
+    arguments: ['stjr']
+  stjr.default:
+    class: Drupal\stjr\DefaultService
+    arguments: []
