@@ -81,4 +81,16 @@ class DrupalNodeHelper extends DrupalCommonHelper
         }
         return NULL;
     }
+    public function isNodeTitleExist($title) {
+        // Créez une requête pour les entités de type 'node'.
+        $query = \Drupal::entityQuery('node')
+          ->condition('title', $title)
+          ->range(0, 1); // Limitez la recherche à un résultat.
+      
+        // Exécutez la requête.
+        $nids = $query->execute();
+      
+        // Si aucun nœud n'est trouvé, la requête renvoie un tableau vide.
+        return !empty($nids);
+      }
 }

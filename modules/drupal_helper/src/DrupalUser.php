@@ -90,4 +90,10 @@ class DrupalUser {
       return $username  ;
   
   }
+  public function generate_pass( $length = 8 ) {
+
+    $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    return substr(str_shuffle($chars),0,$length);
+
+  }
 }

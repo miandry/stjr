@@ -9,6 +9,8 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\node\Entity\Node;
+use Drupal\Core\Url;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 /**
  * Implements hook_help().
  */
@@ -40,6 +42,7 @@ function stjr_form_alter(array &$form, FormStateInterface $form_state, $form_id)
         // Ajouter un gestionnaire de soumission personnalisé.
         $form['actions']['submit']['#submit'][] = '__stjr_custom_submit_handler';
         $form['#validate'][] = '__stjr_check_if_personne_not_exist';
+
   }
   if ($form_id === 'node_personnel_form') {
     $form['#validate'][] = '__stjr_check_duplicate_title';
@@ -52,7 +55,21 @@ function  __stjr_custom_submit_handler(array &$form, FormStateInterface $form_st
 
     // Définir l'URL de redirection après la soumission du formulaire.
     $collection = $form_state->getFormObject()->getEntity();
-
+    $service = \Drupal::service('entity_parser.manager');
+    $c_array = $service->node_parser($collection);
+    $external_url = "/planning?";
+    if(isset($c_array["field_date"])){
+      $date = $c_array["field_date"] ;
+      $external_url=   $external_url."date=".$date."&" ;
+    }
+    if(isset($c_array["field_heure_de_depot_"])){
+      $heure = $c_array["field_heure_de_depot_"]["tid"] ;
+      $external_url=   $external_url."heure=".$heure ;
+    }
+    
+    $response = new RedirectResponse($external_url, 302);
+    $response->send();
+    return;
 
 }
 function __stjr_check_if_personne_not_exist(array &$form, FormStateInterface $form_state) {
@@ -65,16 +82,14 @@ function __stjr_check_if_personne_not_exist(array &$form, FormStateInterface $fo
     ->condition('type', 'personnel')
     ->condition('title',  intval($mat)); 
     $existing_nids = $query->execute();
-    if (empty($existing_nids)) {
+    if (empty($existing_nids)){
       $empty[] = $mat ;
     }
-
   }
   if(!empty($empty)){
     $mats = implode(' , ',$empty);
     $form_state->setErrorByName('field_content', t('Les Matricules: "%title" sont introuvable.', ['%title' => $mats]));
   }
-  
 
 }
 /**
@@ -99,10 +114,7 @@ function __stjr_check_duplicate_title(array &$form, FormStateInterface $form_sta
     $form_state->setErrorByName('title', t('Matricule doit etre numerique seulement ', ['%title' => $title]));
       echo "The value is not numeric.";
   }
-
-
 }
-
 
 /**
  * Implements hook_node_presave().
@@ -136,7 +148,10 @@ function stjr_preprocess_page(&$variables) {
   } 
   if ($internal_path == '/gestion') {
     $service = \Drupal::service('stjr.default');
-    $variables['collections'] = $service->getCollectionByFilter();
-
+    $collections =  $service->getCollectionByFilter();
+    $itinaires =  $service->getItinaires();
+    $variables['collections'] = $collections ;
+    $variables['itinaires'] = $itinaires ;
   }
 }
+

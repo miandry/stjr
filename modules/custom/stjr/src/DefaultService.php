@@ -76,7 +76,7 @@ class DefaultService {
    }
 
    function formatItemPersonne($person , $collection){
-    if($collection["field_client"]["title"] !=  $person["field_employeur"]["title"]){
+    if(isset( $person["field_employeur"]["title"]) && $collection["field_client"]["title"] !=  $person["field_employeur"]["title"]){
       \Drupal::messenger()->addMessage(t('Personne travaille en @person , Mais sur la collection du client @coll ', ['@coll' => $collection["field_client"]["title"], '@person' => $person["field_employeur"]["title"]]), 'warning');
     }
     return [
@@ -104,13 +104,14 @@ class DefaultService {
         if(empty($params)){
           $params["date"] = $selected_date ;
         }
- 
 
-        $query = \Drupal::entityQuery('node')
-        ->condition('type', 'personnel')
-        ->condition('title',  $matricule); // Only published nodes.
-        $existing_nids = $query->execute();
-        if (!empty($existing_nids)) {}
+        // $query = \Drupal::entityQuery('node')
+        // ->condition('type', 'personnel')
+        // ->condition('title',  $matricule); // Only published nodes.
+        // $existing_nids = $query->execute();
+        // if (!empty($existing_nids)) {
+
+        // }
         $query =  \Drupal::database()->select('node__field_personnes','fqs');
         $query->join('node__field_date', 'u', 'fqs.entity_id = u.entity_id');
         $query->join('node__field_heure_de_depot_', 'heure', 'heure.entity_id = u.entity_id');
@@ -150,7 +151,22 @@ class DefaultService {
 
 
 
+   function getItinaires(){
+        $query = \Drupal::entityQuery('node')
+        ->condition('type', 'itinaire')
+        ->condition('status', 1); 
+        $rows = $query->execute();
+        $items = [];
+        if(!empty($rows)){
+          $service = \Drupal::service('entity_parser.manager');
+          foreach($rows as $nid){
+            $items[] = $service->node_parser($nid);
+          }
+        }
 
+        return $items;
+
+   }
 
 
 }

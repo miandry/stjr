@@ -6,6 +6,11 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\views\ViewExecutable;
+use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\views\Views;
 
 /**
  * Implements hook_help().
@@ -22,6 +27,131 @@ function drupal_helper_help($route_name, RouteMatchInterface $route_match) {
       return $output;
 
         default:
+    }
+}
+/**
+ * @file
+ * Contains mz_chat.module.
+ */
+
+function drupal_helper_form_alter(&$form, &$form_state, $form_id)  {
+
+    if ($form_id == 'user_pass') {
+      $form['actions']['submit']['#submit'][] = '_user_pass_custom_submit';
+    }
+}
+/**
+ * Implements hook_token_info().
+ */
+function drupal_helper_token_info() {
+  $info = [];
+
+  // Define a new token group called 'views'.
+  $info['types']['views'] = [
+    'name' => t('Views'),
+    'description' => t('Tokens related to views display.'),
+  ];
+
+  // Add a new token for the view display ID.
+  $info['tokens']['views']['view_display_id'] = [
+    'name' => t('View Display ID'),
+    'description' => t('The display ID of the current view.'),
+  ];
+
+  return $info;
+}
+/**
+ * Implements hook_tokens().
+ */
+function drupal_helper_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata) {
+  $replacements = [];
+
+  // Handle the 'views' token type.
+  if ($type === 'views') {
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'view_display_id':
+          // Get the View display ID from the current route.
+          $view = _view_display_token_get_current_view();
+          if ($view instanceof \Drupal\views\ViewExecutable && $view->current_display) {
+            $replacements[$original] = $view->current_display;
+          }
+          else {
+            $replacements[$original] = t('N/A');
+          }
+          break;
+      }
+    }
+  }
+
+  return $replacements;
+}
+
+/**
+ * Helper function to get the current View from the route.
+ */
+function _view_display_token_get_current_view() {
+  $route_match = \Drupal::service('current_route_match');
+  $view_name = $route_match->getParameter('view_id');
+  $view_display_id = $route_match->getParameter('display_id');
+
+  if ($view_name && $view_display_id) {
+    // Use Views::getView() to load the view programmatically.
+    $view = Views::getView($view_name);
+    if ($view) {
+      // Set the display to the current display ID.
+      $view->setDisplay($view_display_id);
+      return $view;
+    }
+  }
+
+  return NULL;
+}
+/**
+ * Custom submit handler for user profile edit form.
+ */
+function _user_pass_custom_submit(&$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+    $email = $form_state->getValue('name');
+    $user = user_load_by_mail($email);
+    if ($user) {
+      $timestamp = \Drupal::time()->getRequestTime();
+      $hash = user_pass_rehash($user, $timestamp);
+
+      $one_time_login_url = Url::fromRoute('user.reset', [
+        'uid' => $user->id(),
+        'timestamp' => $timestamp,
+        'hash' => $hash,
+      ], ['absolute' => TRUE])->toString();
+   
+      $to = $user->getEmail();
+   
+      $config = \Drupal::config('user.mail');
+
+      // Retrieve the password reset email subject and body.
+      $pass_reset = $config->get('password_reset');
+      $subject = $pass_reset['subject'];
+      $body = $pass_reset['body'];
+      $context = [
+        'user' => $user,
+      ];
+      // Replace tokens in the subject and body.
+      $subject_rendered = \Drupal::token()->replace($subject, $context);
+      $body_rendered = \Drupal::token()->replace($body, $context);
+      $body_rendered = str_replace('[user:one-time-login-url]', $one_time_login_url, $body_rendered);
+
+      $is_exist = \Drupal::moduleHandler()->moduleExists("mz_email");
+      if($is_exist){
+        $status = \Drupal::service('mz_email.default')->sendMail( $to,      $subject_rendered  , $body_rendered );
+        if(!$status){
+            \Drupal::messenger()->addMessage(t('There was a problem sending your password reset email.'), 'error');
+        }else{
+            \Drupal::messenger()->addMessage(t('Password reset email sent.'));
+        }
+       }
+
+    }
+    else {
+      \Drupal::messenger()->addMessage(t('No user found with that email address.'), 'error');
     }
 }
 /**
@@ -98,16 +228,16 @@ function drupal_helper_theme_suggestions_block_alter(array &$suggestions, array 
  * Adds body classes if certain regions have content.
  */
 function drupal_helper_preprocess_html(&$variables) {
- //   $query = Drupal::request()->query->all();
-  //  echo($query['lang']);
-   // if(isset($query['lang']) && $query['lang']){
-        // kint($query['lang']);
-        //  $languageManager = \Drupal::languageManager();
-        //  $customLanguageNegotiator  = \Drupal::service('drupal_helper.language_negotiator');
-        //  $languageManager->setNegotiator($customLanguageNegotiator);   
-        //  $languageManager->reset(); 
-        //  $languageManager->getNegotiator()->setLanguageCode($query['lang']);  
-  //  }
+ // Add inline CSS directly in the header.
+ $inline_css = '<style> #link_element_git {border:1px solid;padding:10px;background-color:silver;margin-bottom: 10px;}</style>';
+
+$variables['#attached']['html_head'][] = [
+ [
+   '#tag' => 'style',
+   '#value' => $inline_css,
+ ],
+ 'custom_inline_css',
+];
 }
   /**
  * Implements hook_theme_suggestions_HOOK_alter() for page templates.
@@ -135,4 +265,36 @@ function drupal_helper_theme_suggestions_html_alter(array &$suggestions, array $
     $path = \Drupal::service('path.current')->getPath();
     $current_path = \Drupal::service('path_alias.manager')->getAliasByPath($path);
     $suggestions[] = 'html__' . str_replace('/', '__', $current_path);
+}
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function drupal_helper_page_attachments_alter(array &$attachments) {
+  // Add inline CSS to the header.
+  $inline_css = '
+    <style>
+      body {
+        background-color: #f0f0f0;
+      }
+      .custom-header-style {
+        color: #333;
+        font-weight: bold;
+        font-size: 20px;
+      }
+    </style>
+  ';
+
+  $attachments['#attached']['html_head'][] = [
+    [
+      '#tag' => 'style',
+      '#value' => $inline_css,
+    ],
+    'gitrepos_inline_css',
+  ];
+}
+/**
+ * Implements hook_cron().
+ */
+function drupal_helper_cron() {
+  \Drupal::service('drupal.helper')->cronjobGitRepo();
 }

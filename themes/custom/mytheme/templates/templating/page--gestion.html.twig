@@ -1,6 +1,41 @@
+<style>
+	.itinaire {
+		font-size: 12px;
+	}
+	.card-car {
+		height: 120px;
+		overflow: hidden;
+	}
+	.scrollable-ul {
+		overflow-x: auto;
+		white-space: nowrap;
+	}
+
+	.scrollable-ul ul {
+		display: inline-flex;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.scrollable-ul li {
+		display: inline-block;
+		padding: 0.5rem 1rem;
+		border: 1px solid #ccc;
+		margin-right: 0.5rem;
+		background: #f9f9f9;
+		white-space: nowrap;
+		width: 340px !important;
+
+	}
+    button.active div{
+    background: #3F8CFF !important;
+    color: white !important;
+    }
+</style>
 
 
-<script>
+ <script>
 
     //upload
     var personal = [
@@ -11,213 +46,251 @@
 
         {% endfor %}
 
-  ];
+    ];
+    // car 
+    var DataCar = [
 
-  var DataCar =  [
+        {% for it in itinaires %}
+           { id: {{ it.nid }}, name: "{{ it.title }}", start: "{{ it.field_adresse|first.title }}", end: "{{ it.field_adresse|last.title }}"},
+        {% endfor %}
+    ];
+
+  {# var DataCar =  [
     {id: 1, name: "Voiture 1", start : "Ankatso", end: "67ha" },
     {id: 2, name: "Voiture 2", start : "Analakely", end: "Itaosy" },
     {id: 3, name: "Voiture 3", start : "Analama", end: "Mahazo" },
     {id: 4, name: "Voiture 4", start : "Mahazo", end: "Andavaka" },
     {id: 5, name: "Voiture 5", start : "Andohalo", end: "Ankazo" },
     {id: 6, name: "Voiture 6", start : "Andohalo", end: "Ankazo" },
-  ]
-  var personalCar = [
-    {car: {id: 1, name: "Voiture 1", start : "Ankatso", end: "67ha" }, place: "p2", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
-    {car: {id: 2, name: "Voiture 2", start : "Ankatso", end: "67ha" }, place: "p1", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
-    {car: {id: 3, name: "Voiture 3", start : "Ankatso", end: "67ha" }, place: "p2", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
-    {car: {id: 3, name: "Voiture 3", start : "Ankatso", end: "67ha" }, place: "p6", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
-    {car: {id: 2, name: "Voiture 2", start : "Ankatso", end: "67ha" }, place: "p5", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
+  ] #}
+var personalCar = [
+    {car: {id: 7, name: "Voiture 1", start : "Ankatso", end: "67ha" }, place: "p2", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
+    {car: {id: 7, name: "Voiture 2", start : "Ankatso", end: "67ha" }, place: "p1", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
+    {car: {id: 7, name: "Voiture 3", start : "Ankatso", end: "67ha" }, place: "p2", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
+    {car: {id: 7, name: "Voiture 3", start : "Ankatso", end: "67ha" }, place: "p6", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
+    {car: {id: 7, name: "Voiture 2", start : "Ankatso", end: "67ha" }, place: "p5", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
   ];
+  </script>
+  
+  
+  {% set params = get_parameter() %}
 
-</script>
+  {% set places = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22] %}
+  
+  <div class="position-relative" style="height: 100vh; background:#F4F9FD;">
+<div class="row g-0 m-3">
+	<div class="col-12 col-xl-12 p-3">
+		<div class="row d-flex justify-content-between my-5 flex-column flex-lg-row">
+			<div class="col-12 col-md-4 mb-2">
+				<h1>Gestion</h1>
+			</div>
+			<div class="col-12 col-md-8 d-flex flex-wrap justify-content-start justify-content-lg-end">
+				<a href="/planning?heure={{params.heure}}&date={{params.date}}" class="btn my-2 btn-primary d-flex px-5 rounded-4 justify-content-center align-items-center order-3 order-sm-3 m-1">
+					<i class="bi bi-back"></i>
+					<p class="mx-2">Retour aux collections
+					</p>
+				</a>
+			</div>
+		</div>
+		<div class="row d-flex gap-5 justify-content-center" id="card-clients">
+			<div class="col-12 col-lg-3 p-3 bg-white rounded-4 ">
+				<div class="row">
+					<div class="col-12 d-flex justify-content-center align-items-md-center flex-column my-3">
+						<h3 class="fw-light">
+							<span class="checked-lenght">0</span>
+							Séléctionnés</h3>
+						<a onclick="return confirm('Are you sure you want to submit?')" href="/gestion?heure={{params.heure}}&date={{params.date}}&repartition=1" class="btn btn-primary fs-6 d-flex justify-content-center align-items-center mb-3 gap-2 shadow">
+							Répartition auto
+							<i class="bi bi-arrow-right-circle-fill fs-4"></i>
+						</a>
+						<button class="btn btn-success fs-6 d-flex justify-content-center align-items-center gap-2 shadow" data-url="/test/test" id="save-data-car">
+							Sauvegarder
+							<i class="bi bi-save fs-4"></i>
+						</button>
+					</div>
+				</div>
+				<div id="personel-list" class="row p-2 border-bottom overflow-auto" style="max-height: 800px;">
+					<table id="table-personnel" data-toggle="table" data-click-to-select="true" class="table borderless" data-search="true">
+						<thead>
+							<tr>
+								<th data-field="card"></th>
+								<th data-field="checkbox" data-checkbox="true"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- Les lignes seront ajoutées dynamiquement ici -->
+						</tbody>
+					</table>
 
-<div class="position-relative" style="height: 100vh; background:#F4F9FD;">
-    <div class="row g-0 m-3">
-        <div class="col-12 col-xl-12 p-3">
-            <div class="row d-flex justify-content-between my-5 flex-column flex-lg-row">
-                <div class="col-12 col-md-4 mb-2">
-                    <h1>Gestion</h1>
-                </div>
-                <div class="col-12 col-md-8 d-flex flex-wrap justify-content-start justify-content-lg-end">
-                    <button class="btn bg-white my-2 order-2 order-sm-0 m-1">
-                        <i class="bi bi-funnel"></i>
-                    </button>
-                    <button
-                        class="btn my-2 btn-primary d-flex px-5 rounded-4 justify-content-center align-items-center order-3 order-sm-3 m-1">
-                        <i class="bi bi-download"></i>
-                        <p class="mx-2">Exporter</p>
-                    </button>
-                </div>
-            </div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-8 rounded-4">
+				<div class="row mb-3 d-flex">
+					<div class="row g-0 m-3 scrollable-ul">
+						<ul class="nav nav-tabs" id="myTab" role="tablist">
+							{% for it in itinaires %}
 
-            <div class="row d-flex gap-5 justify-content-center" id="card-clients">
-                <div class="col-12 col-lg-3 p-3 bg-white rounded-4 ">
-                    <div class="row">
-                        <div class="col-12 d-flex justify-content-center align-items-md-center flex-column my-3">
-                            <h3 class="fw-light"><span class="checked-lenght">0</span> Séléctionnés</h3>
-                            <button
-                                class="btn btn-primary fs-6 d-flex justify-content-center align-items-center mb-3 gap-2 shadow btn-auto-distribution"
-                                data-toggle="modal" data-target="#auto-distribution">
-                                Répartition auto
-                                <i class="bi bi-arrow-right-circle-fill fs-4"></i>
-                            </button>
-                            <button
-                                class="btn btn-success fs-6 d-flex justify-content-center align-items-center gap-2 shadow" data-url="/test/test" id="save-data-car">
-                                Sauvegarder
-                                <i class="bi bi-save fs-4"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div id="personel-list" class="row p-2 border-bottom overflow-auto" style="max-height: 800px;">
-                        <table id="table-personnel" data-toggle="table" data-click-to-select="true" class="table borderless" data-search="true">
-                            <thead >
-                                <tr>
-                                    <th data-field="card"></th>
-                                    <th data-field="checkbox" data-checkbox="true"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Les lignes seront ajoutées dynamiquement ici -->
-                            </tbody>
-                        </table>
-                       
-                    </div>
-                </div>
-                <div class="col-12 col-lg-8 rounded-4">
-                    <div class="row mb-3 d-flex">
+								<li class="nav-item" role="presentation">
+									<button class="nav-link nav-link bg-white rounded-5 p-1 w-100 {% if loop.index == 1 %} active  {% endif %} " id="home-tab" data-bs-toggle="tab" data-bs-target="#tab-{{ it.nid }}" type="button" role="tab" aria-controls="home" aria-selected="true">
+										<div class="p-2 px-3 rounded-5 card-car text-dark"   style="background:#F4F9FD;">
+											<h4 class="m-0">{{ it.title }}</h4>
+											<p class="itinaire">{{it.field_adresse|first.title}}
+												-
+												<br/>
+												{{it.field_adresse|last.title}}</p>
+										</div>
+									</button>
 
-                        <div class="col-12">
-                            <div class="nav nav-pills d-flex flex-wrap" role="tablist" id="cars">
-                                <!-- voitures -->
-                            </div>
-                        </div>
+								</li>
 
-                        <!-- Contenu des onglets -->
-                        <div class="col-12">
-                            <div class="tab-content " id="cars-contents">
-                                <!-- Contenu Voiture  -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+							{% endfor %}
+						</ul>
 
-    <!--Modals-->
-    <div class="modal fade" id="add-personel" tabindex="-1" aria-labelledby="add-personel" aria-hidden="true">
-        <div class="modal-dialog modal-lg ">
-            <div class="modal-content">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title text-center w-100" id="add-personel-label">Séléctionnez le personnels à
-                        insérer</h5>
-                    <button type="button" class="btn-close rounded-circle fs-3" data-bs-dismiss="modal"
-                        aria-label="Close" style="background: #D9D9D9; color: #7D8592 !important;"><i
-                            class="bi bi-x fw-bold "></i>
-                    </button>
-                </div>
-                <div class="modal-body border-0">
-                    <table id="table-list-personnel" class="table table-bordered  text-center table-list-personnel" data-toggle="table"
-                        data-pagination="true" data-click-to-select="true" data-single-select="true" data-search="true">
-                        <thead>
-                            <tr>
-                                <th data-field="radio" data-checkbox="true">Sélection</th>
-                                <th data-field="heure">Heure Dépot/ <br> Ramassage</th>
-                                <th data-field="nom">Nom</th>
-                                <th data-field="hotel">Hotel</th>
-                                <th data-field="adresse">Adresse</th>
-                                <th data-field="contact">Contact</th>
-                            </tr>
-                        </thead>
-                        <tbody class="opacity-75">
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer border-0">
-                    <div class="my-3 d-flex justify-content-between align-items-center w-100">
-                        <div class="d-flex justify-content-center align-items-center gap-2">
-                            <div class="pagiation">
-                                <div class="d-flex justify-content-end align-items-center">
-                                    <div class="bg-white d-flex justify-content-center align-items-center rounded-5 p-1 "
-                                        style="border: 1px solid rgb(235, 235, 235);">
-                                        <p class="m-0 px-1 fs-6">1-8 sur 28</p>
-                                        <button class=" btn disable border-0 bg-white opacity-50 p-1">
-                                            <i class="bi bi-arrow-left"></i>
-                                        </button>
-                                        <button class="btn border-0 bg-white text-primary ">
-                                            <i class="bi bi-arrow-right"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-outline-primary rounded-5">
-                                <i class="bi bi-arrow-repeat"></i>
-                                Auto-Répartition
-                            </button>
-                        </div>
-                        <button type="button" class="btn btn-primary rounded-5 add-maual-personnel">
-                            <i class="bi bi-plus"></i>
-                            Ajouter le personnel
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+						<div class="tab-content mt-3" id="myTabContent">
+							{% for it in itinaires %}
+								<div class="tab-pane fade show {% if loop.index == 1 %} active {% endif %}" id="tab-{{ it.nid }}" role="tabpanel" aria-labelledby="home-tab">
+									<div class="row" id="Ligne-2-7" data-car-id="7">
+										<div class="col-12 col-md-6 mb-1 card-add-personel is-driver" data-toggle="modal" data-target="#add-personel" data-id-block="c" data-car-id="7">
+											<div class=" card rounded-4 p-3 w-100 d-flex justify-content-center align-items-center border-2 bg-transparent" style="min-height: 140px;  border-style:dashed;">
+												<i class="bi me-2 bi-plus-lg fs-3 opacity-50"></i>
+												<h4 class="m-0 mb-2 p-0 opacity-50">Ajout mauel</h4>
+											</div>
 
-    <div class="modal fade" id="auto-distribution" tabindex="-1" aria-labelledby="auto-distribution" aria-hidden="true">
-        <div class="modal-dialog modal-lg ">
-            <div class="modal-content">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title text-center w-100" id="auto-distribution-label">Séléctionnez le personnels à
-                        insérer</h5>
-                    <button type="button" class="btn-close rounded-circle fs-3" data-bs-dismiss="modal"
-                        aria-label="Close" style="background: #D9D9D9; color: #7D8592 !important;"><i
-                            class="bi bi-x fw-bold "></i>
-                    </button>
-                </div>
-                <div class="modal-body border-0">
-                    <table id="table" class="table table-bordered  text-center table-list-personnel" data-toggle="table"
-                        data-pagination="true" data-click-to-select="true" data-search="true">
-                        <thead>
-                            <tr>
-                                <th data-field="radio" data-checkbox="true">Sélection</th>
-                                <th data-field="heure">Heure Dépot/ <br> Ramassage</th>
-                                <th data-field="nom">Nom</th>
-                                <th data-field="hotel">Hotel</th>
-                                <th data-field="adresse">Adresse</th>
-                                <th data-field="contact">Contact</th>
-                            </tr>
-                        </thead>
-                        <tbody class="opacity-50">
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer border-0">
-                    <div class="my-3 d-flex justify-content-between align-items-center w-100">
-                        <div class="d-flex justify-content-center align-items-center gap-2">
-                            <div class="pagiation">
-                                <div class="d-flex justify-content-end align-items-center">
-                                    <div class="bg-white d-flex justify-content-center align-items-center rounded-5 p-1 "
-                                        style="border: 1px solid rgb(235, 235, 235);">
-                                        <p class="m-0 px-1 fs-6">1-8 sur 28</p>
-                                        <button class=" btn disable border-0 bg-white opacity-50 p-1">
-                                            <i class="bi bi-arrow-left"></i>
-                                        </button>
-                                        <button class="btn border-0 bg-white text-primary ">
-                                            <i class="bi bi-arrow-right"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-primary rounded-5">
-                            <i class="bi bi-arrow-repeat"></i>
-                            Répartir les séléctionnés
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+										</div>
+                                      {% for p in places %}
+                                 
+                                            <div id="Ligne-{{it.nid}}-{{p}}" class="col-12 col-md-3 mb-3 card-add-personel card-{{it.nid}} " data-id-block="p{{p}}" data-car-id="{{it.nid}}">
+                                                <div class=" card rounded-4 p-3 w-100 d-flex justify-content-center align-items-center border-2 bg-transparent" style="min-height: 140px;  border-style:dashed;">
+                                                    <i class="bi me-2 bi-person fs-3 opacity-50"></i>
+                                                    <h4 class="m-0 mb-2 p-0 opacity-50"></h4>
+                                                    <span> {{it.title}} - Place {{p}}
+                                                    </span>
+                                                </div>
+                                            </div>
+                
+                                      {% endfor %}  																																																																
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+
+<!--Modals-->
+<div class="modal fade" id="add-personel" tabindex="-1" aria-labelledby="add-personel" aria-hidden="true">
+	<div class="modal-dialog modal-lg ">
+		<div class="modal-content">
+			<div class="modal-header border-0">
+				<h5 class="modal-title text-center w-100" id="add-personel-label">Séléctionnez le personnels à
+										                        insérer</h5>
+				<button type="button" class="btn-close rounded-circle fs-3" data-bs-dismiss="modal" aria-label="Close" style="background: #D9D9D9; color: #7D8592 !important;">
+					<i class="bi bi-x fw-bold "></i>
+				</button>
+			</div>
+			<div class="modal-body border-0">
+				<table id="table-list-personnel" class="table table-bordered  text-center table-list-personnel" data-toggle="table" data-pagination="true" data-click-to-select="true" data-single-select="true" data-search="true">
+					<thead>
+						<tr>
+							<th data-field="radio" data-checkbox="true">Sélection</th>
+							<th data-field="heure">Heure Dépot/
+								<br>
+								Ramassage</th>
+							<th data-field="nom">Nom</th>
+							<th data-field="hotel">Hotel</th>
+							<th data-field="adresse">Adresse</th>
+							<th data-field="contact">Contact</th>
+						</tr>
+					</thead>
+					<tbody class="opacity-75"></tbody>
+				</table>
+			</div>
+			<div class="modal-footer border-0">
+				<div class="my-3 d-flex justify-content-between align-items-center w-100">
+					<div class="d-flex justify-content-center align-items-center gap-2">
+						<div class="pagiation">
+							<div class="d-flex justify-content-end align-items-center">
+								<div class="bg-white d-flex justify-content-center align-items-center rounded-5 p-1 " style="border: 1px solid rgb(235, 235, 235);">
+									<p class="m-0 px-1 fs-6">1-8 sur 28</p>
+									<button class=" btn disable border-0 bg-white opacity-50 p-1">
+										<i class="bi bi-arrow-left"></i>
+									</button>
+									<button class="btn border-0 bg-white text-primary ">
+										<i class="bi bi-arrow-right"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+						<button type="button" class="btn btn-outline-primary rounded-5">
+							<i class="bi bi-arrow-repeat"></i>
+							Auto-Répartition
+						</button>
+					</div>
+					<button type="button" class="btn btn-primary rounded-5 add-maual-personnel">
+						<i class="bi bi-plus"></i>
+						Ajouter le personnel
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="auto-distribution" tabindex="-1" aria-labelledby="auto-distribution" aria-hidden="true">
+	<div class="modal-dialog modal-lg ">
+		<div class="modal-content">
+			<div class="modal-header border-0">
+				<h5 class="modal-title text-center w-100" id="auto-distribution-label">Séléctionnez le personnels à
+										                        insérer</h5>
+				<button type="button" class="btn-close rounded-circle fs-3" data-bs-dismiss="modal" aria-label="Close" style="background: #D9D9D9; color: #7D8592 !important;">
+					<i class="bi bi-x fw-bold "></i>
+				</button>
+			</div>
+			<div class="modal-body border-0">
+				<table id="table" class="table table-bordered  text-center table-list-personnel" data-toggle="table" data-pagination="true" data-click-to-select="true" data-search="true">
+					<thead>
+						<tr>
+							<th data-field="radio" data-checkbox="true">Sélection</th>
+							<th data-field="heure">Heure Dépot/
+								<br>
+								Ramassage</th>
+							<th data-field="nom">Nom</th>
+							<th data-field="hotel">Hotel</th>
+							<th data-field="adresse">Adresse</th>
+							<th data-field="contact">Contact</th>
+						</tr>
+					</thead>
+					<tbody class="opacity-50"></tbody>
+				</table>
+			</div>
+			<div class="modal-footer border-0">
+				<div class="my-3 d-flex justify-content-between align-items-center w-100">
+					<div class="d-flex justify-content-center align-items-center gap-2">
+						<div class="pagiation">
+							<div class="d-flex justify-content-end align-items-center">
+								<div class="bg-white d-flex justify-content-center align-items-center rounded-5 p-1 " style="border: 1px solid rgb(235, 235, 235);">
+									<p class="m-0 px-1 fs-6">1-8 sur 28</p>
+									<button class=" btn disable border-0 bg-white opacity-50 p-1">
+										<i class="bi bi-arrow-left"></i>
+									</button>
+									<button class="btn border-0 bg-white text-primary ">
+										<i class="bi bi-arrow-right"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<button type="button" class="btn btn-primary rounded-5">
+						<i class="bi bi-arrow-repeat"></i>
+						Répartir les séléctionnés
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div></div>
