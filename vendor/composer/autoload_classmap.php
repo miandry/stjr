@@ -7,9 +7,9 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
+    'CURLStringFile' => $vendorDir . '/symfony/polyfill-php81/Resources/stubs/CURLStringFile.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Drupal' => $baseDir . '/core/lib/Drupal.php',
-    'DrupalFinder\\DrupalFinder' => $vendorDir . '/webflo/drupal-finder/src/DrupalFinder.php',
     'Drupal\\Component\\DependencyInjection\\Container' => $baseDir . '/core/lib/Drupal/Component/DependencyInjection/Container.php',
     'Drupal\\Component\\DependencyInjection\\PhpArrayContainer' => $baseDir . '/core/lib/Drupal/Component/DependencyInjection/PhpArrayContainer.php',
     'Drupal\\Component\\FileCache\\FileCacheFactory' => $baseDir . '/core/lib/Drupal/Component/FileCache/FileCacheFactory.php',
@@ -34,9 +34,15 @@ return array(
     'Drupal\\Core\\Site\\Settings' => $baseDir . '/core/lib/Drupal/Core/Site/Settings.php',
     'JsonException' => $vendorDir . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
     'Normalizer' => $vendorDir . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
+    'OS_Guess' => $vendorDir . '/pear/pear-core-minimal/src/OS/Guess.php',
+    'PEAR' => $vendorDir . '/pear/pear-core-minimal/src/PEAR.php',
+    'PEAR_Error' => $vendorDir . '/pear/pear-core-minimal/src/PEAR.php',
+    'PEAR_ErrorStack' => $vendorDir . '/pear/pear-core-minimal/src/PEAR/ErrorStack.php',
     'PEAR_Exception' => $vendorDir . '/pear/pear_exception/PEAR/Exception.php',
     'PhpToken' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
+    'ReturnTypeWillChange' => $vendorDir . '/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
     'Stringable' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
+    'System' => $vendorDir . '/pear/pear-core-minimal/src/System.php',
     'UnhandledMatchError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
     'ValueError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
 );

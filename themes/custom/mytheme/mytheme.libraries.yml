@@ -22,6 +22,8 @@ global-styling:
         js/main.js : {}
    dependencies:
         - core/jquery
+        - core/drupal
+        - core/drupalSettings
 vivus :
    version: 1.0
    js:

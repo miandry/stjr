@@ -1,0 +1,9 @@
+
+   {% set n = (node_parser(node)) %}
+  <div class="person-card">
+    <div class="avatar">V</div>
+    <div class="text-content">
+      <div class="name">{{ n.field_nom }} ( {{ n.field_employeur.title }} )</div>
+      <div class="location">{{ n.field_adresse|first.title}}</div>
+    </div>
+  </div>
