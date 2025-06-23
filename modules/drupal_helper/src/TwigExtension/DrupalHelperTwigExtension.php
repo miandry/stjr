@@ -1,11 +1,16 @@
 <?php
 
 namespace Drupal\drupal_helper\TwigExtension;
+
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\views\Views;
 use Twig\TwigFunction;
+use Twig\TwigFilter;
 use Twig\Extension\AbstractExtension;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+
+use Drupal\file\Entity\File;
+use Drupal\image\Entity\ImageStyle;
 
 /**
  * Class DrupalHelperTwigExtension.
@@ -30,7 +35,20 @@ class DrupalHelperTwigExtension extends AbstractExtension {
    * {@inheritdoc}
    */
   public function getFilters(){
-    return [];
+    return [
+        new TwigFilter('image_style', [$this, 'applyImageStyle']),
+        new TwigFilter('remove_comments', [$this, 'removeHtmlComments']),
+      ];
+  }
+  public function applyImageStyle($uri, $style_name) {
+    if(is_string($style_name) && $uri){
+        return ImageStyle::load($style_name)->buildUrl($uri);
+    }
+    return "";
+  }
+  public function removeHtmlComments($string) {
+    // Use a regular expression to remove HTML comments.
+    return preg_replace('/<!--(.|\s)*?-->/', '', $string);
   }
     /**
      * {@inheritdoc}
@@ -108,9 +126,37 @@ class DrupalHelperTwigExtension extends AbstractExtension {
             new TwigFunction('set_config',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'set_config']),
             new TwigFunction('get_config',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'get_config']),
             new TwigFunction('delete_config',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'delete_config']),
-            new TwigFunction('loader_twig_file',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'loader_twig_file'])    
-         
+            new TwigFunction('loader_twig_file',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'loader_twig_file']) ,         
+            new TwigFunction('number_to_words',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'convert_number_to_words']) ,
+            new TwigFunction('str_replace',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'str_replace_twig']) ,
+            new TwigFunction('str_contains',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'str_contains_twig']) ,
+            new TwigFunction('get_object_by_url',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'get_object_by_url_twig']) ,
+            new TwigFunction('get_id_by_url',['Drupal\drupal_helper\TwigExtension\DrupalHelperTwigExtension', 'get_id_by_url_twig']) 
+   
         ];
+    }
+    public static function get_object_by_url_twig($entity = 'node'){
+        return \Drupal::routeMatch()->getParameter($entity); 
+    }
+    public static function get_id_by_url_twig($entity = 'node'){
+        $object =  \Drupal::routeMatch()->getParameter($entity); 
+        if(is_object($object)){
+            return  $object->id();
+        }
+        return false ;
+    }
+    public static function str_contains_twig(string $haystack, string $needle){
+       return str_contains($haystack,$needle);
+    }
+
+    public static function str_replace_twig(string $search, string $replace,
+    string $subject,$count = null){
+       return str_replace($search,$replace,$subject,$count);
+    }
+
+    public static function convert_number_to_words($price){
+        $twig_base = new  \Drupal\drupal_helper\DrupalHelper();
+        return  $twig_base->helper->convert_number_to_words($price);
     }
     // templates/file.twig.html
     public static function loader_twig_file($uri,$values){

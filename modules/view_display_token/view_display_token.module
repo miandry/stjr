@@ -55,21 +55,21 @@ function view_display_token_tokens($type, $tokens, array $data, array $options, 
 /**
  * Helper function to get the current View from the route.
  */
-function _view_display_token_get_current_view() {
-  $route_match = \Drupal::service('current_route_match');
-  $view_name = $route_match->getParameter('view_id');
-  $view_display_id = $route_match->getParameter('display_id');
+// function _view_display_token_get_current_view() {
+//   $route_match = \Drupal::service('current_route_match');
+//   $view_name = $route_match->getParameter('view_id');
+//   $view_display_id = $route_match->getParameter('display_id');
 
-  if ($view_name && $view_display_id) {
-    // Use Views::getView() to load the view programmatically.
-    $view = Views::getView($view_name);
-    if ($view) {
-      // Set the display to the current display ID.
-      $view->setDisplay($view_display_id);
-      return $view;
-    }
-  }
+//   if ($view_name && $view_display_id) {
+//     // Use Views::getView() to load the view programmatically.
+//     $view = Views::getView($view_name);
+//     if ($view) {
+//       // Set the display to the current display ID.
+//       $view->setDisplay($view_display_id);
+//       return $view;
+//     }
+//   }
 
-  return NULL;
-}
+//   return NULL;
+// }
 

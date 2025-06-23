@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<title>Système de Répartition des Employés</title>
+		{% include 'themes/custom/mytheme/templates/templating/assets/header-gestion.html.twig' %}
+	</head>
+	<body>
+		<header class="bg-white border-b border-gray-200">
+			<div class="container mx-auto px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0">
+				<div class="flex items-center space-x-4">
+					<h1 class="text-2xl font-['Pacifico'] text-primary">logo</h1>
+					<h2 class="text-lg font-medium text-gray-800">
+						Système de Répartition
+					</h2>
+				</div>
+				<div class="flex items-center space-x-4">
+					<span class="text-sm text-gray-600">10 juin 2025</span>
+					<div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+						<i class="ri-user-line text-gray-600"></i>
+					</div>
+				</div>
+			</div>
+		</header>
+		{% set colors = [
+  {'bg': 'bg-blue-100', 'text': 'text-blue-800'},
+  {'bg': 'bg-green-100', 'text': 'text-green-800'},
+  {'bg': 'bg-yellow-100', 'text': 'text-yellow-800'},
+  {'bg': 'bg-red-100', 'text': 'text-red-800'},
+  {'bg': 'bg-purple-100', 'text': 'text-purple-800'},
+  {'bg': 'bg-pink-100', 'text': 'text-pink-800'},
+  {'bg': 'bg-indigo-100', 'text': 'text-indigo-800'},
+] %}
+
+
+		{% set places = [1,2,3,4,5,6,7,8,9,10,11,12,13,14] %}
+		 {% set selected = autoResults.selected %}
+		{% set not_selected = autoResults.not_selected %}
+		 <form>
+		<main
+			class="flex flex-col lg:flex-row">
+			<!-- Sidebar -->
+			<aside class="sidebar w-full lg:w-80 bg-white border-b lg:border-b-0 lg:border-r border-gray-200 flex flex-col">
+				<div class="p-4 border-b border-gray-200">
+					<div class="flex items-center justify-between mb-4">
+						<span class="text-sm font-medium text-gray-700">
+							<span id="selected-count">0</span>
+							Sélectionnés
+						</span>
+						<button id="clear-selection" class="text-xs text-gray-500 hover:text-gray-700">
+							Effacer
+						</button>
+					</div>
+					<div class="space-y-2">
+						<button id="save-distribution" class="w-full py-2 px-4 bg-secondary text-white rounded-button flex items-center justify-center whitespace-nowrap">
+							<i class="ri-save-line mr-2"></i>
+							Sauvegarder
+						</button>
+		
+				</div>
+				<div class="p-4 border-b border-gray-200">
+					<div class="relative">
+						<input type="search" id="employee-search" placeholder="Rechercher un employé..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-button text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"/>
+						<div class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 flex items-center justify-center text-gray-400">
+							<i class="ri-search-line"></i>
+						</div>
+					</div>
+				</div>
+				<div class="employee-list overflow-y-auto p-4 flex-grow">
+					<h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+						Employés non assignés
+					</h3>
+
+					<div id="employee-container" class="space-y-2"><!-- Employees will be dynamically populated here -->
+					{% for employ in not_selected %} 
+					{% set index = loop.index0|default(0) %} {# Par exemple dans un for loop #}
+                      {% set style = colors[index % colors|length] %}
+
+
+						<div class="p-3 bg-white rounded border border-gray-200 shadow-sm flex items-center draggable" draggable="true" data-employee-id="{{employ.person_id}}">
+							<div class="w-10 h-10 rounded-full {{ style.bg }} {{ style.text }} flex items-center justify-center mr-3 flex-shrink-0">
+									{{ employ.name|slice(0, 1) }} 
+							</div>
+							<div class="flex-1 min-w-0">
+							<h4 class="text-sm font-medium text-gray-800 truncate">{{employ.name}}</h4>
+							<p class="text-xs text-gray-500 truncate">{{employ.address}}</p>
+							</div>
+						</div>
+					{% endfor %}
+					</div>
+				</div>
+			</aside>
+			<!-- Main Content -->
+			<div
+				class="flex-1 flex flex-col">
+				<!-- Tabs -->
+				<div class="bg-white border-b border-gray-200 overflow-x-auto">
+					<div class="tab-buttons flex p-2 min-w-max lg:px-6">
+						{% for it in itinaires %} 
+						<button data-tab="{{it.id}}" class="tab-button {% if loop.first %} active {% endif %} py-2 px-4 text-sm font-medium rounded-button whitespace-nowrap flex items-center mr-2">
+							{{it.node.title}}
+							<span class="ml-2 px-2 py-0.5 bg-white bg-opacity-20 rounded-full text-xs">
+								{{ selected[it.id]|length }} /14
+							</span>
+						</button>
+						{% endfor %}
+					</div>
+				</div>
+				<!-- Main Grid -->
+				{% set placed = [] %}
+				{% for it in itinaires %}
+				
+					<div class="tab-content {% if loop.first %} active {% endif %} flex-1 p-4 lg:p-6 overflow-auto" data-content="{{it.id}}">
+						<div class="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0">
+							<h2 class="text-xl font-semibold text-gray-800">
+								{{it.title}}
+							</h2>
+							<div class="flex items-center space-x-2 w-full sm:w-auto">
+								<button class="py-2 px-4 bg-gray-100 text-gray-700 rounded-button flex items-center hover:bg-gray-200 whitespace-nowrap">
+									<i class="ri-map-pin-line mr-2"></i>
+									Voir l'itinéraire
+								</button>
+								<button class="py-2 px-4 bg-gray-100 text-gray-700 rounded-button flex items-center hover:bg-gray-200 whitespace-nowrap">
+									<i class="ri-file-list-line mr-2"></i>
+									Exporter
+								</button>
+							</div>
+						</div>
+						<div
+							class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">
+							<!-- Driver -->
+							<div class="bg-white rounded shadow-sm border border-gray-200 p-4 place-item">
+								<div class="flex items-center justify-between mb-2">
+									<span class="text-sm font-medium text-gray-700">Chauffeur</span>
+									<span class="text-xs text-gray-500">Place spéciale</span>
+								</div>
+								<div id="driver-place" class="droppable h-16 border-2 border-dashed border-gray-300 rounded flex items-center justify-center">
+									<span class="text-sm text-gray-400">Déposer ici</span>
+								</div>
+							</div>
+							<!-- Seats 1-14 -->
+							
+
+							
+							{% if selected[it.id]  %}
+			
+								{% for item in selected[it.id]   %}
+								{% if  item.person %}
+								{% set index = loop.index0|default(0) %} {# Par exemple dans un for loop #}
+                                {% set style = colors[index % colors|length] %}
+
+								<div class="bg-white rounded shadow-sm border border-gray-200 p-4 place-item occupied">
+									<div class="flex items-center justify-between mb-2">
+										<span class="text-sm font-medium text-gray-700">Place {{loop.index}}</span>
+										<span class="text-xs px-2 py-0.5 bg-red-100 text-red-800 rounded-full">Occupé</span>
+									</div>
+									<div id="place-5" class="droppable h-16 border-2 border-dashed border-gray-300 rounded flex items-center justify-center">
+										<div class="employee-badge flex items-center p-2 bg-white rounded border border-gray-200 w-full" data-employee-id="{{item.person.personne_id}}#####{{it.id}}">
+										    <input type="hidden" name="passagers" value="{{item.person.personne_id}}#####{{it.id}}"/>
+											<div class="w-8 h-8 rounded-full {{ style.bg }} {{ style.text }}  flex items-center justify-center mr-2 flex-shrink-0">
+												{{ item.person.name|slice(0, 1) }} 
+											</div>
+											<div class="flex-1 min-w-0">
+												<h4 class="text-sm font-medium text-gray-800 truncate">{{item.person.name}}</h4>
+												<p class="text-xs text-gray-500 truncate">{{item.person.prenom}}</p>
+											</div>
+											<button class="remove-btn w-5 h-5 bg-red-100 rounded-full text-red-600 flex items-center justify-center">
+												<i class="ri-close-line text-xs"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+								{% else %}
+								<div class="bg-white rounded shadow-sm border border-gray-200 p-4 place-item">
+									<div class="flex items-center justify-between mb-2">
+										<span class="text-sm font-medium text-gray-700">Place {{loop.index}}</span>
+										<span class="text-xs px-2 py-0.5 bg-green-100 text-green-800 rounded-full">Libre</span>
+									</div>
+									<div id="place-2" class="droppable h-16 border-2 border-dashed border-gray-300 rounded flex items-center justify-center">
+										<span class="text-sm text-gray-400">Déposer ici</span>
+									</div>
+								</div> 
+								{% endif %}
+								{% endfor %}
+
+							{% else %}
+								{% for item in places   %}
+								  	<div class="bg-white rounded shadow-sm border border-gray-200 p-4 place-item">
+									<div class="flex items-center justify-between mb-2">
+										<span class="text-sm font-medium text-gray-700">Place {{loop.index}}</span>
+										<span class="text-xs px-2 py-0.5 bg-green-100 text-green-800 rounded-full">Libre</span>
+									</div>
+									<div id="place-2" class="droppable h-16 border-2 border-dashed border-gray-300 rounded flex items-center justify-center">
+										<span class="text-sm text-gray-400">Déposer ici</span>
+									</div>
+								</div> 
+								{% endfor %}
+							{% endif %}
+
+						
+
+							
+						</div>
+					</div>
+				{% endfor %}
+
+
+			</div>
+		</main>
+		</form>
+		<!-- Toast Notification -->
+		<div id="toast" class="fixed bottom-4 right-4 bg-white shadow-lg rounded-lg p-4 flex items-center space-x-3 transform translate-y-16 opacity-0 transition-all duration-300 z-50 hidden">
+			<div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+				<i class="ri-check-line text-green-600"></i>
+			</div>
+			<div>
+				<h4 class="font-medium text-gray-800">Succès</h4>
+				<p class="text-sm text-gray-600" id="toast-message">
+					Opération réussie
+				</p>
+			</div>
+			<button class="ml-auto text-gray-400 hover:text-gray-600" onclick="hideToast()">
+				<i class="ri-close-line"></i>
+			</button>
+		</div>
+		 <script id="employee-data-script">		
+										    const mydata = drupalSettings.data ;
+											console.log(mydata);
+											const employees = mydata.collections.items ;
+											const lineData = mydata.collections.itinaires ;
+														 const service = {
+												      // Fonction pour générer une couleur aléatoire pour les avatars
+															getRandomColor :() => {
+															        const colors = [
+															          "bg-blue-100",
+															          "bg-green-100",
+															          "bg-yellow-100",
+															          "bg-red-100",
+															          "bg-purple-100",
+															          "bg-pink-100",
+															          "bg-indigo-100",
+															        ];
+															        const textColors = [
+															          "text-blue-800",
+															          "text-green-800",
+															          "text-yellow-800",
+															          "text-red-800",
+															          "text-purple-800",
+															          "text-pink-800",
+															          "text-indigo-800",
+															        ];
+															        const index = Math.floor(Math.random() * colors.length);
+															        return { bg: colors[index], text: textColors[index] };
+															      },
+																  		      // Fonction pour obtenir les initiales d'un nom
+															getInitials : (name) => {
+															        return name
+															          .split(" ")
+															          .map((n) => n[0])
+															          .join("")
+															          .toUpperCase();
+															      }
+														 }
+								
+																		
+															    </script>
+	 <script id="drag-drop-script">
+													      document.addEventListener("DOMContentLoaded", function () {
+													        const employeeContainer = document.getElementById("employee-container");
+													        const selectedCountElement = document.getElementById("selected-count");
+													        const searchInput = document.getElementById("employee-search");
+													        const clearSelectionButton = document.getElementById("clear-selection");
+													        const autoDistributeButton = document.getElementById("auto-distribute");
+													        const saveDistributionButton = document.getElementById("save-distribution");
+													        const tabButtons = document.querySelectorAll(".tab-button");
+													        let selectedEmployees = [];
+													        let draggedEmployee = null;
+													        let currentLine = 1;
+													 
+													        // Remplir la liste des employés
+													        function renderEmployees(filterText = "") {
+													          employeeContainer.innerHTML = "";
+													          const filteredEmployees = employees.filter(
+													            (emp) =>
+													              !emp.assigned &&
+													              (emp.name.toLowerCase().includes(filterText.toLowerCase()) ||
+													                emp.address.toLowerCase().includes(filterText.toLowerCase())),
+													          );
+													          if (filteredEmployees.length === 0) {
+													            employeeContainer.innerHTML =
+													              '<p class="text-sm text-gray-500 text-center py-4">Aucun employé trouvé</p>';
+													            return;
+													          }
+													          filteredEmployees.forEach((employee) => {
+													            const colorScheme = service.getRandomColor();
+													            const employeeElement = document.createElement("div");
+													            employeeElement.className =
+													              "p-3 bg-white rounded border border-gray-200 shadow-sm flex items-center draggable";
+													            employeeElement.setAttribute("draggable", "true");
+													            employeeElement.setAttribute("data-employee-id", employee.id);
+													            employeeElement.innerHTML = `
+													      <div class="w-10 h-10 rounded-full ${colorScheme.bg} ${colorScheme.text} flex items-center justify-center mr-3 flex-shrink-0">
+													      ${service.getInitials(employee.name)}
+													      </div>
+													      <div class="flex-1 min-w-0">
+													      <h4 class="text-sm font-medium text-gray-800 truncate">${employee.name}</h4>
+													      <p class="text-xs text-gray-500 truncate">${employee.address}</p>
+													      </div>
+													      <div class="ml-2 w-6 h-6 rounded-full border border-gray-300 flex-shrink-0 cursor-pointer employee-checkbox ${selectedEmployees.includes(employee.id) ? "bg-primary border-primary" : ""}">
+													      ${selectedEmployees.includes(employee.id) ? '<i class="ri-check-line text-white"></i>' : ""}
+													      </div>
+													      `;
+													  
+													            // Événements de glisser-déposer
+													            employeeElement.addEventListener("dragstart", (e) => {
+													              draggedEmployee = employee;
+													              e.dataTransfer.setData("text/plain", employee.id);
+													              employeeElement.classList.add("opacity-50");
+													            });
+													            employeeElement.addEventListener("dragend", () => {
+													              employeeElement.classList.remove("opacity-50");
+													            });
+													            employeeContainer.appendChild(employeeElement);
+													          });
+													        }
+													        // Gérer la sélection des employés
+													        function toggleEmployeeSelection(employeeId) {
+													          const index = selectedEmployees.indexOf(employeeId);
+													          if (index === -1) {
+													            selectedEmployees.push(employeeId);
+													          } else {
+													            selectedEmployees.splice(index, 1);
+													          }
+													          updateSelectedCount();
+													          renderEmployees(searchInput.value);
+													        }
+													        // Mettre à jour le compteur de sélection
+													        function updateSelectedCount() {
+													          selectedCountElement.textContent = selectedEmployees.length;
+													        }
+													        // Configurer les zones de dépôt
+													        const dropZones = document.querySelectorAll(".droppable");
+													        dropZones.forEach((zone) => {
+													          zone.addEventListener("dragover", (e) => {
+													            e.preventDefault();
+													            zone.classList.add("highlight");
+													          });
+													          zone.addEventListener("dragleave", () => {
+													            zone.classList.remove("highlight");
+													          });
+													          zone.addEventListener("drop", (e) => {
+													            e.preventDefault();
+													            zone.classList.remove("highlight");
+													            if (!draggedEmployee) return;
+													            // Vérifier si la zone est déjà occupée
+													            if (zone.querySelector(".employee-badge")) {
+													              showToast("Cette place est déjà occupée", "error");
+													              return;
+													            }
+													            // Créer le badge de l'employé
+													            const colorScheme = service.getRandomColor();
+													            const employeeBadge = document.createElement("div");
+													            employeeBadge.className =
+													              "employee-badge flex items-center p-2 bg-white rounded border border-gray-200 w-full";
+													            employeeBadge.setAttribute("data-employee-id", draggedEmployee.id);
+													            employeeBadge.innerHTML = `
+													      <div class="w-8 h-8 rounded-full ${colorScheme.bg} ${colorScheme.text} flex items-center justify-center mr-2 flex-shrink-0">
+													      ${service.getInitials(draggedEmployee.name)}
+													      </div>
+													      <div class="flex-1 min-w-0">
+													      <h4 class="text-sm font-medium text-gray-800 truncate">${draggedEmployee.name}</h4>
+													      <p class="text-xs text-gray-500 truncate">${draggedEmployee.address}</p>
+													      </div>
+													      <button class="remove-btn w-5 h-5 bg-red-100 rounded-full text-red-600 flex items-center justify-center">
+													      <i class="ri-close-line text-xs"></i>
+													      </button>
+													      `;
+													            // Ajouter le bouton de suppression
+													            const removeButton = employeeBadge.querySelector(".remove-btn");
+													            removeButton.addEventListener("click", () => {
+													              removeEmployeeFromPlace(draggedEmployee.id, zone);
+													            });
+													            // Vider la zone et ajouter le badge
+													            zone.innerHTML = "";
+													            zone.appendChild(employeeBadge);
+													            zone.parentElement.classList.add("occupied");
+													            // Mettre à jour le statut de l'employé et rafraîchir la liste
+													            const employee = employees.find((emp) => emp.id === draggedEmployee.id);
+													            if (employee) {
+													              employee.assigned = true;
+													              renderEmployees(searchInput.value);
+													              updateOccupiedCount();
+													              showToast("Employé assigné avec succès");
+													            }
+													            draggedEmployee = null;
+													          });
+													        });
+													        // Supprimer un employé d'une place
+													        function removeEmployeeFromPlace(employeeId, placeElement) {
+													          const employee = employees.find((emp) => emp.id === employeeId);
+													          if (employee) {
+													            employee.assigned = false;
+													            placeElement.innerHTML =
+													              '<span class="text-sm text-gray-400">Déposer ici</span>';
+													            placeElement.parentElement.classList.remove("occupied");
+													            placeElement.parentElement.querySelector("span:last-child").className =
+													              "text-xs px-2 py-0.5 bg-green-100 text-green-800 rounded-full";
+													            placeElement.parentElement.querySelector("span:last-child").textContent =
+													              "Libre";
+													            renderEmployees(searchInput.value);
+													            updateOccupiedCount();
+													            showToast("Employé retiré avec succès");
+													          }
+													        }
+													        // Mettre à jour le compteur de places occupées
+													        function updateOccupiedCount() {
+													          const activeTab = document.querySelector(".tab-button.active");
+													          if (!activeTab) return;
+													          const countSpan = activeTab.querySelector("span");
+													          const occupiedCount = document.querySelectorAll(
+													            ".place-item.occupied",
+													          ).length;
+													          countSpan.textContent = `${occupiedCount}/14`;
+													          // Mettre à jour tous les compteurs
+													          tabButtons.forEach((button, index) => {
+													            const lineNumber = index + 1;
+													            const countSpan = button.querySelector("span");
+													            const occupiedCount = Object.keys(lineData[lineNumber].places).length;
+													            countSpan.textContent = `${occupiedCount}/14`;
+													          });
+													        }
+													        // Gérer la recherche
+													        searchInput.addEventListener("input", () => {
+													          renderEmployees(searchInput.value);
+													        });
+													        // Gérer l'effacement de la sélection
+													        clearSelectionButton.addEventListener("click", () => {
+													          selectedEmployees = [];
+													          updateSelectedCount();
+													          renderEmployees(searchInput.value);
+													        });
+													        // Gérer la répartition automatique
+													        document.getElementById("auto-distribute").addEventListener("click", () => {
+													          // Récupérer les employés non assignés
+													          const unassignedEmployees = employees.filter((emp) => !emp.assigned);
+													          if (unassignedEmployees.length === 0) {
+													            showToast("Aucun employé disponible pour la répartition", "error");
+													            return;
+													          }
+													          // Récupérer toutes les places libres de la ligne actuelle
+													          const places = document.querySelectorAll(".place-item");
+													          const freePlaces = Array.from(places).filter(
+													            (place) => !place.classList.contains("occupied"),
+													          );
+													          if (freePlaces.length === 0) {
+													            showToast("Aucune place disponible sur cette ligne", "error");
+													            return;
+													          }
+													          // Définir les zones desservies par chaque ligne
+													          const lineZones = {
+													            1: [
+													              "Analakely",
+													              "Andravoahangy",
+													              "Ankadifotsy",
+													              "Antsahavola",
+													              "Mahamasina",
+													            ],
+													            2: ["Ambohimanarina", "Ankorondrano", "Ivandry", "Ambohipo"],
+													            3: ["Itaosy", "Ambohimanambola", "Tanjombato"],
+													            4: [
+													              "Ambanidia",
+													              "Ambohitrimanjaka",
+													              "Ambohitrarahaba",
+													              "Sabotsy Namehana",
+													            ],
+													            5: ["Anosy", "Ampefiloha", "Andohalo", "Ambohidratrimo"],
+													          };
+													          // Trier les employés par proximité avec la ligne actuelle
+													          const sortedEmployees = unassignedEmployees.sort((a, b) => {
+													            const aZone = Object.entries(lineZones).find(([_, zones]) =>
+													              zones.some((zone) => a.address.includes(zone)),
+													            );
+													            const bZone = Object.entries(lineZones).find(([_, zones]) =>
+													              zones.some((zone) => b.address.includes(zone)),
+													            );
+													            const aMatch = aZone && aZone[0] == currentLine;
+													            const bMatch = bZone && bZone[0] == currentLine;
+													            if (aMatch && !bMatch) return -1;
+													            if (!aMatch && bMatch) return 1;
+													            return 0;
+													          });
+													          // Assigner les employés aux places disponibles
+													          let assignedCount = 0;
+													          freePlaces.forEach((place, index) => {
+													            if (index < sortedEmployees.length) {
+													              const employee = sortedEmployees[index];
+													              const dropZone = place.querySelector(".droppable");
+													              const colorScheme = service.getRandomColor();
+													              // Créer le badge de l'employé
+													              const employeeBadge = document.createElement("div");
+													              employeeBadge.className =
+													                "employee-badge flex items-center p-2 bg-white rounded border border-gray-200 w-full";
+													              employeeBadge.setAttribute("data-employee-id", employee.id);
+													              employeeBadge.innerHTML = `
+													      <div class="w-8 h-8 rounded-full ${colorScheme.bg} ${colorScheme.text} flex items-center justify-center mr-2 flex-shrink-0">
+													      ${service.getInitials(employee.name)}
+													      </div>
+													      <div class="flex-1 min-w-0">
+													      <h4 class="text-sm font-medium text-gray-800 truncate">${employee.name}</h4>
+													      <p class="text-xs text-gray-500 truncate">${employee.address}</p>
+													      </div>
+													      <button class="remove-btn w-5 h-5 bg-red-100 rounded-full text-red-600 flex items-center justify-center">
+													      <i class="ri-close-line text-xs"></i>
+													      </button>
+													      `;
+													              // Ajouter le bouton de suppression
+													              const removeButton = employeeBadge.querySelector(".remove-btn");
+													              removeButton.addEventListener("click", () => {
+													                removeEmployeeFromPlace(employee.id, dropZone);
+													              });
+													              // Mettre à jour la place
+													              dropZone.innerHTML = "";
+													              dropZone.appendChild(employeeBadge);
+													              place.classList.add("occupied");
+													              // Mettre à jour le statut de l'employé
+													              employee.assigned = true;
+													              assignedCount++;
+													              // Mettre à jour le statut visuel de la place
+													              const statusBadge = place.querySelector("span:last-child");
+													              if (statusBadge) {
+													                statusBadge.className =
+													                  "text-xs px-2 py-0.5 bg-red-100 text-red-800 rounded-full";
+													                statusBadge.textContent = "Occupé";
+													              }
+													            }
+													          });
+													          // Mettre à jour l'interface
+													          renderEmployees();
+													          updateOccupiedCount();
+													          // Afficher le résultat
+													          if (assignedCount > 0) {
+													            showToast(
+													              `${assignedCount} employé${assignedCount > 1 ? "s" : ""} assigné${assignedCount > 1 ? "s" : ""} avec succès`,
+													            );
+													          } else {
+													            showToast("Aucun employé n'a pu être assigné", "error");
+													          }
+													        });
+													        // Gérer la sauvegarde
+													        saveDistributionButton.addEventListener("click", () => {
+													          // Save current line state before collecting all data
+													          saveLineState(currentLine);
+													          // Collect all distribution data
+													          const distributionData = {
+													            timestamp: new Date().toISOString(),
+													            lines: {},
+													          };
+													          // Collect data from all lines
+													          for (let lineNumber = 1; lineNumber <= 5; lineNumber++) {
+													            const line = lineData[lineNumber];
+													            distributionData.lines[lineNumber] = {
+													              title: line.title,
+													              places: {},
+													            };
+													            // Convert places data to a simpler format
+													            Object.entries(line.places).forEach(([placeId, placeData]) => {
+													              const employee = employees.find(
+													                (emp) => emp.id === placeData.employeeId,
+													              );
+													              if (employee) {
+													                distributionData.lines[lineNumber].places[placeId] = {
+													                  employeeId: employee.id,
+													                  employeeName: employee.name,
+													                  employeeAddress: employee.address,
+													                };
+													              }
+													            });
+													          }
+													          // Create form and submit data
+													          const form = document.createElement("form");
+													          form.method = "POST";
+													          form.style.display = "none";
+													          const dataInput = document.createElement("input");
+													          dataInput.type = "hidden";
+													          dataInput.name = "distribution_data";
+													          dataInput.value = JSON.stringify(distributionData);
+													          form.appendChild(dataInput);
+													          document.body.appendChild(form);
+													          form.submit();
+													          showToast("Configuration sauvegardée avec succès");
+													        });
+													        // Sauvegarder l'état des places pour une ligne
+													        function saveLineState(lineNumber) {
+													          const places = document.querySelectorAll(".place-item");
+													          lineData[lineNumber].places = {};
+													          places.forEach((place) => {
+													            const placeId = place.querySelector(".droppable").id;
+													            const employeeBadge = place.querySelector(".employee-badge");
+													            if (employeeBadge) {
+													              lineData[lineNumber].places[placeId] = {
+													                employeeId: parseInt(employeeBadge.getAttribute("data-employee-id")),
+													                html: employeeBadge.outerHTML,
+													                occupied: true,
+													              };
+													            }
+													          });
+													        }
+													        // Restaurer l'état des places pour une ligne
+													        function restoreLineState(lineNumber) {
+													          const places = document.querySelectorAll(".place-item");
+													          const savedPlaces = lineData[lineNumber].places;
+													          places.forEach((place) => {
+													            const dropZone = place.querySelector(".droppable");
+													            const placeId = dropZone.id;
+													            if (savedPlaces[placeId]) {
+													              dropZone.innerHTML = savedPlaces[placeId].html;
+													              place.classList.add("occupied");
+													              const statusBadge = place.querySelector("span:last-child");
+													              if (statusBadge) {
+													                statusBadge.className =
+													                  "text-xs px-2 py-0.5 bg-red-100 text-red-800 rounded-full";
+													                statusBadge.textContent = "Occupé";
+													              }
+													            } else {
+													              dropZone.innerHTML =
+													                '<span class="text-sm text-gray-400">Déposer ici</span>';
+													              place.classList.remove("occupied");
+													              const statusBadge = place.querySelector("span:last-child");
+													              if (statusBadge) {
+													                statusBadge.className =
+													                  "text-xs px-2 py-0.5 bg-green-100 text-green-800 rounded-full";
+													                statusBadge.textContent = "Libre";
+													              }
+													            }
+													          });
+													        }
+
+													        // Initialiser la page
+													        renderEmployees();
+													      });
+											
+													    </script>
+
+
+		 <script>
+			document.addEventListener('DOMContentLoaded', function () {
+				  const buttons = document.querySelectorAll('.tab-buttons button');
+				  const contents = document.querySelectorAll('.tab-content');
+				
+				  buttons.forEach(button => {
+				    button.addEventListener('click', () => {
+				      const tab = button.getAttribute('data-tab');
+				
+				      // Gérer les boutons
+				      buttons.forEach(btn => btn.classList.remove('active'));
+				      button.classList.add('active');
+				
+				      // Gérer les contenus
+				      contents.forEach(content => {
+				        content.classList.toggle('active', content.getAttribute('data-content') === tab);
+				      });
+				    });
+				  });
+				});
+				
+																</script>
+	</body>
+</html>

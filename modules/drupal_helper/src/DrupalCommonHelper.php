@@ -19,9 +19,13 @@ use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Config\FileStorage;
 use Drupal\media\Entity\Media;
 use GuzzleHttp\Exception\RequestException;
-
+use NumberFormatter;
 class DrupalCommonHelper
-{   
+{   public function convert_number_to_words($number) {
+    $formatter = new NumberFormatter('fr', NumberFormatter::SPELLOUT);
+    return $formatter->format($number);
+    }
+
     public function generate_machine_name($inputString) {
         // Convert the input string to lowercase.
         $machineName = strtolower($inputString);

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Liste lignes</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#3b82f6", secondary: "#f43f5e" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <style>
+      :where([class^="ri-"])::before { content: "\f3c2"; }
+      body {
+      background-color: #f8fafc;
+      }
+      .filter-dropdown {
+      display: none;
+      position: absolute;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      z-index: 10;
+      width: 200px;
+      top: 100%;
+      left: 0;
+      }
+      .filter-button:focus + .filter-dropdown,
+      .filter-dropdown:hover {
+      display: block;
+      }
+      input[type="checkbox"] {
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      position: relative;
+      }
+      input[type="checkbox"]:checked {
+      background-color: #3b82f6;
+      border-color: #3b82f6;
+      }
+      input[type="checkbox"]:checked::after {
+      content: "";
+      position: absolute;
+      width: 6px;
+      height: 10px;
+      border-right: 2px solid white;
+      border-bottom: 2px solid white;
+      top: 1px;
+      left: 5px;
+      transform: rotate(45deg);
+      }
+    </style>
+  </head>
+  <body>
+ {% set top =  transports|first %}
+    <header class="w-full bg-white shadow-sm">
+      <div
+        class="max-w-7xl mx-auto px-4 py-4 flex items-center"
+      >
+        <h1 class="text-2xl font-bold text-gray-800">« {{top.node.field_client.title}} — le {{top.date}} à {{top.node.field_heure_de_depot_.title}}  »</h1>
+        <button class="ml-4  items-center justify-center px-3 py-2 bg-primary text-white rounded-button text-sm hover:bg-primary/90 whitespace-nowrap">
+            <i class="ri-edit-line mr-1"></i>
+            Modifier
+            </button>
+            <button class="ml-4  items-center justify-center px-3 py-2 bg-green-600 text-white rounded-button text-sm hover:bg-green-700 whitespace-nowrap">
+<i class="ri-file-excel-line mr-1"></i>
+Exporter CSV
+</button>
+
+      </div>
+    </header>
+    <main class="max-w-7xl mx-auto px-4 py-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      	{% for tr in transports %}
+        <!-- Ligne 1 -->
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+          <div class="p-4 border-b border-gray-100">
+            <div class="flex justify-between items-center mb-2">
+              <h2 class="text-lg font-semibold text-gray-800"> {{tr.node.field_itinaire.title}}</h2>
+            </div>
+            <div class="flex items-center space-x-4 text-sm text-gray-500">
+              <div class="flex items-center">
+                <i class="ri-calendar-line mr-1"></i>
+                <span>{{tr.date}}</span>
+              </div>
+              <div class="flex items-center">
+                <i class="ri-time-line mr-1"></i>
+                <span>{{tr.node.field_heure_de_depot_.title}} h</span>
+              </div>
+              <div class="flex items-center">
+                {% if tr.node.field_type == "DEPOT"%}
+                <i class="ri-arrow-down-circle-line mr-1 text-red-500"></i>
+                {% else %}
+                 <i class="ri-arrow-up-circle-line mr-1 text-green-500"></i>
+                {% endif %}
+                <span>{{tr.node.field_type}}</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center text-sm bg-blue-50/50 p-3 rounded-lg">
+            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3 text-primary">
+            <i class="ri-hotel-line"></i>
+            </div>
+            <div>
+            <p class="font-medium text-gray-800 font-black	">{{tr.node.field_client.title}}</p>
+            </div>
+            </div>
+          <div class="p-4 border-b border-gray-100 flex items-center">
+            <div
+              class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mr-3"
+            >
+              <i class="ri-user-line text-gray-500"></i>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500">{{tr.chauffeur.nom}}</p>
+              <p class="text-sm font-medium">{{tr.chauffeur.contact}}</p>
+            </div>
+          </div>
+          <div class="p-4 border-b border-gray-100 flex items-center">
+            <div
+              class="w-8 h-8 bg-blue-50 rounded-full flex items-center justify-center mr-3 text-blue-500"
+            >
+              <i class="ri-car-line"></i>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500">Véhicule</p>
+              <p class="text-sm font-medium">{{tr.voiture.title}}</p>
+              <p class="text-xs text-gray-500">{{tr.voiture.details}}</p>
+            </div>
+          </div>
+          <div class="divide-y divide-gray-100">
+           {% for pers in tr.node.field_personnels %}
+            <div class="flex items-center p-4">
+              <div class="w-1 h-12 bg-purple-300 mr-3"></div>
+              <div class="flex-1">
+                <p class="text-sm font-medium">{{pers.field_personnel.node.field_nom|first.value}} ({{pers.field_place}})</p>
+                <p class="text-xs text-gray-500">{{pers.field_personnel.node.field_contact|first.value}}</p>
+              </div>
+              <button
+                class="w-6 h-6 flex items-center justify-center text-yellow-400"
+              >
+                <i class="ri-arrow-right-s-line"></i>
+              </button>
+            </div>
+              {% endfor %}
+          </div>
+
+        </div>
+        {% endfor %}
+
+    </main>
+  
+   <script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const url = new URL(window.location);
+    // Keep only the origin and pathname (no search/query params)
+    const cleanUrl = url.origin + url.pathname;
+
+    window.history.replaceState({}, '', cleanUrl);
+  });
+</script>  
+
+<script>
+  window.addEventListener('beforeunload', function (e) {
+    // Standard message (ignored by most modern browsers)
+    alert("are you sure to close");
+    e.preventDefault();
+    e.returnValue = ''; // Required for Chrome and others
+  });
+</script>
+
+
+  </body>
+</html>

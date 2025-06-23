@@ -1,223 +1,661 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<title>Système de Répartition des Employés</title>
+		{% include 'themes/custom/mytheme/templates/templating/assets/header-gestion.html.twig' %}
+	</head>
+	<style>:where([class^="ri-"])::before
+	{
+		content: "\f3c2";
+	}
+	body {
+		font-family: 'Inter', sans-serif;
+	}
+	.route-container {
+		overflow-x: auto;
+		white-space: nowrap;
+		scrollbar-width: thin;
+		scrollbar-color: #cbd5e1 #f1f5f9;
+	}
+	.route-container::-webkit-scrollbar {
+		height: 6px;
+	}
+	.route-container::-webkit-scrollbar-track {
+		background: #f1f5f9;
+		border-radius: 20px;
+	}
+	.route-container::-webkit-scrollbar-thumb {
+		background-color: #cbd5e1;
+		border-radius: 20px;
+	}
+	.station {
+		display: inline-flex;
+		align-items: center;
+		padding: 8px 16px;
+		border: 1px solid #e2e8f0;
+		border-radius: 999px;
+		font-size: 14px;
+		font-weight: 500;
+		transition: all 0.2s ease;
+	}
+</style>
+<body>
+	<header class="bg-white border-b border-gray-200">
+		<div class="container mx-auto px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0">
+			<div class="flex items-center space-x-4">
+				<h1 class="text-2xl font-['Pacifico'] text-primary">logo</h1>
+				<h2 class="text-lg font-medium text-gray-800">
+					Système de Répartition
+				</h2>
+			</div>
+			<div class="flex items-center space-x-4">
+				<span class="text-sm text-gray-600">10 juin 2025</span>
+				<div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+					<i class="ri-user-line text-gray-600"></i>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	{% set colors = [
+  {'bg': 'bg-blue-100', 'text': 'text-blue-800'},
+  {'bg': 'bg-green-100', 'text': 'text-green-800'},
+  {'bg': 'bg-yellow-100', 'text': 'text-yellow-800'},
+  {'bg': 'bg-red-100', 'text': 'text-red-800'},
+  {'bg': 'bg-purple-100', 'text': 'text-purple-800'},
+  {'bg': 'bg-pink-100', 'text': 'text-pink-800'},
+  {'bg': 'bg-indigo-100', 'text': 'text-indigo-800'},
+] %}
+
+	{% set places = [1,2,3,4,5,6,7,8,9,10,11,12,13,14] %}
+	{% set selected = autoResults.selected %}
+	{% set not_selected = autoResults.not_selected %}
 
 
-<script>
+	<main class="flex flex-col lg:flex-row">
+		 <script>
+														  function toggleAccordion(id) {
+														    const content = document.getElementById('content-' + id);
+														    const icon = document.getElementById('icon-' + id);
+														    const isHidden = content.classList.contains('hidden');
+														    
+														    document.querySelectorAll('[id^="content-"]').forEach(el => el.classList.add('hidden'));
+														    document.querySelectorAll('[id^="icon-"]').forEach(el => el.classList.remove('rotate-180'));
+														
+														    if (isHidden) {
+														      content.classList.remove('hidden');
+														      icon.classList.add('rotate-180');
+														    }
+														  }
+														</script>
+		<!-- Sidebar -->
+			<aside class="sidebar w-full lg:w-80 bg-white border-b lg:border-b-0 lg:border-r border-gray-200 flex flex-col"> <div class="p-4 border-b border-gray-200">
+				<div class="flex items-center justify-between mb-4">
+					<span class="text-sm font-medium text-gray-700">
+						<span id="selected-count">0</span>
+						Sélectionnés
+					</span>
+					<button id="clear-selection" class="text-xs text-gray-500 hover:text-gray-700" type="button">
+						Effacer
+					</button>
+				</div>
+				<div class="space-y-2">
+					<button id="save-distribution" type="button" class="w-full py-2 px-4 bg-secondary text-white rounded-button flex items-center justify-center whitespace-nowrap">
+						<i class="ri-save-line mr-2"></i>
+						Sauvegarder
+					</button>
+				</div>
+			</div>
+			<div class="p-4 border-b border-gray-200">
+				<div class="relative">
+					<input type="search" id="employee-search" placeholder="Rechercher un employé..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-button text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"/>
+					<div class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 flex items-center justify-center text-gray-400">
+						<i class="ri-search-line"></i>
+					</div>
+				</div>
+			</div>
+			<div class="employee-list overflow-y-auto p-4 flex-grow" id="employee-container">
+				<h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+					Employés non assignés
+				</h3>
+				<div class="space-y-2" id="employee-list-inner">
+					{% for employ in not_selected %}
 
-    //upload
-    var personal = [
+						{% set index = loop.index0|default(0) %}
+						{% set style = colors[index % colors|length] %}
+						<div class="item-person w-full p-2 bg-white rounded border border-gray-200 shadow-sm flex items-center" draggable="true" data-collect-id="{{ employ.collect_id }}" data-employee-id="{{ employ.nid }}">
+							<div class="w-10 h-10 rounded-full {{ style.bg }} {{ style.text }} flex items-center justify-center mr-3 flex-shrink-0" aria-hidden="true">
+								{{ employ.field_nom|slice(0, 1) }}
+							</div>
+							<div class="flex-1 min-w-0">
+								<h4 class="text-sm font-medium text-gray-800 truncate">{{ employ.field_nom }}</h4>
+								<p class="text-xs text-gray-500 truncate">{{ employ.field_adresse|first.title }}</p>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</aside>
 
-        {% for person in collections.items %}
+		<div class="flex-1 flex flex-col">
+			<div class="bg-white border-b border-gray-200 overflow-x-auto">
+				<div class="tab-buttons flex p-2 min-w-max lg:px-6">
 
-        { id: {{ person.matricule }}, heure: "{{ person.heure }}", name: "{{ person.nom }}", hotel: "{{ person.client }}", adresse: "{{ person.adresse }}", contact: "{{ person.contact }}", point: "{{ person.point }}" },
+					{% for it in itinaires %}
+						<button data-tab="{{ it.id }}" class="tab-button {% if loop.first %} active {% endif %} py-2 px-4 text-sm font-medium rounded-button whitespace-nowrap flex items-center mr-2" type="button">
+							{{ it.node.title }}
+						</button>
+					{% endfor %}
+				</div>
+			</div>
 
-        {% endfor %}
+			{% for it in itinaires %}
+				{% set ch =(it.node.field_chauffeur) %}
+				<div class="tab-content {% if loop.first %} active {% endif %} flex-1 p-4 lg:p-6 overflow-auto" data-content="{{ it.id }}">
+					<div class="mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0">
+						<h2 class="text-xl font-semibold text-gray-800">{{ it.title }}</h2>
+						<div class="flex items-center space-x-2 w-full sm:w-auto">
+							<button onclick="toggleAccordion('section1{{ it.id }}')" type="button" class="py-2 px-4 bg-gray-100 text-gray-700 rounded-button flex items-center hover:bg-gray-200 whitespace-nowrap">
+								<i class="ri-map-pin-line mr-2"></i>
+								Voir l'itinéraire
+							</button>
+							<a href="/node/{{it.id }}/edit"  class="py-2 px-4 bg-gray-100 text-gray-700 rounded-button flex items-center hover:bg-gray-200 whitespace-nowrap">
+								<i class="ri-edit mr-2"></i>
+								Modifier Ligne
+							</a>
+						</div>
+					</div>
+					<div id="content-section1{{ it.id }}" class="container-md px-4 py-3 border-t hidden">
 
-  ];
+						<div class="mb-6">
+							<div class="flex space-x-2">
+								<button class="w-10 h-10 flex items-center justify-center bg-gray-100 !rounded-button">
+									<i class="ri-arrow-left-s-line ri-lg"></i>
+								</button>
+								<button class="w-10 h-10 flex items-center justify-center bg-gray-100 !rounded-button">
+									<i class="ri-arrow-right-s-line ri-lg"></i>
+								</button>
+							</div>
+						</div>
 
-  var DataCar =  [
-    {id: 1, name: "Voiture 1", start : "Ankatso", end: "67ha" },
-    {id: 2, name: "Voiture 2", start : "Analakely", end: "Itaosy" },
-    {id: 3, name: "Voiture 3", start : "Analama", end: "Mahazo" },
-    {id: 4, name: "Voiture 4", start : "Mahazo", end: "Andavaka" },
-    {id: 5, name: "Voiture 5", start : "Andohalo", end: "Ankazo" },
-    {id: 6, name: "Voiture 6", start : "Andohalo", end: "Ankazo" },
-  ]
-  var personalCar = [
-    {car: {id: 1, name: "Voiture 1", start : "Ankatso", end: "67ha" }, place: "p2", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
-    {car: {id: 2, name: "Voiture 2", start : "Ankatso", end: "67ha" }, place: "p1", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
-    {car: {id: 3, name: "Voiture 3", start : "Ankatso", end: "67ha" }, place: "p2", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
-    {car: {id: 3, name: "Voiture 3", start : "Ankatso", end: "67ha" }, place: "p6", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
-    {car: {id: 2, name: "Voiture 2", start : "Ankatso", end: "67ha" }, place: "p5", personal: {id: 1, heure: "7h - 15h", name: "Ando", hotel: "Carlton", adresse: "23 rue de l'Indépendance", contact: "0345678901", point: "106"}},
-  ];
+						<div class="route-container pb-4 mb-8">
+							<div class="inline-flex items-center space-x-2 max-w-xs">
+								{% for adress in it.node.field_adresse %}
+									{% set index = loop.index0|default(0) %}
+									{% set style = colors[index % colors|length] %}
+									<span class=" {{ style.bg }} {{ style.text }}  station active">
+										{{adress.title}}</span>
+									{% if not loop.last %}
+										<div class="w-6 h-6 flex items-center justify-center text-gray-400">
+											<i class="ri-arrow-right-s-line"></i>
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
 
-</script>
+					</div>
+					<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4">
+						<div class="bg-white rounded shadow-sm border border-gray-200 p-4 place-item">
+							<div class="flex items-center justify-between mb-2">
+								<span class="text-sm font-medium text-gray-700">Chauffeur</span>
+							</div>
+							<div id="driver-place-{{ it.id }}" class="flex items-center p-2 bg-white rounded border border-gray-200 w-full" data-drop-for="{{ it.id }}" aria-label="Zone déposer chauffeur">
+								<div class="flex-1 min-w-0">
+									<h4 class="text-sm font-medium text-gray-800 truncate">{{ch.title}}</h4>
+									<p class="text-xs text-gray-500 truncate">{{ ch.node.field_contact|first.value }}</p>
+								</div>
 
-<div class="position-relative" style="height: 100vh; background:#F4F9FD;">
-    <div class="row g-0 m-3">
-        <div class="col-12 col-xl-12 p-3">
-            <div class="row d-flex justify-content-between my-5 flex-column flex-lg-row">
-                <div class="col-12 col-md-4 mb-2">
-                    <h1>Gestion</h1>
-                </div>
-                <div class="col-12 col-md-8 d-flex flex-wrap justify-content-start justify-content-lg-end">
-                    <button class="btn bg-white my-2 order-2 order-sm-0 m-1">
-                        <i class="bi bi-funnel"></i>
-                    </button>
-                    <button
-                        class="btn my-2 btn-primary d-flex px-5 rounded-4 justify-content-center align-items-center order-3 order-sm-3 m-1">
-                        <i class="bi bi-download"></i>
-                        <p class="mx-2">Exporter</p>
-                    </button>
-                </div>
-            </div>
+							</div>
+						</div>
+                         {% set number = 0%}
+						{% if selected[it.id] %}
+                        
+							{% for item in selected[it.id] %}
+								{% if item.person %}
+                                  {% set number = number + 1 %}
+									{% set index = loop.index0|default(0) %}
+									{% set style = colors[index % colors|length] %}
+									<div class="bg-white rounded shadow-sm border border-gray-200 p-4 place-item occupied" aria-label="Place occupée numéro {{ loop.index }}">
+										<div class="flex items-center justify-between mb-2">
+											<span class="text-sm font-medium text-gray-700">Place
+												{{ loop.index }}</span>
+											<span class="text-xs px-2 py-0.5 bg-red-100 text-red-800 rounded-full">Occupée</span>
+										</div>
+										<div id="place-{{ loop.index }}-{{ it.id }}" class="item-person-selected droppable h-16 border-2 border-dashed border-gray-300 rounded flex items-center justify-center" data-drop-for="{{ it.id }}" aria-label="Zone déposer personne pour place {{ loop.index }}">
+											<div class="employee-badge flex items-center p-2 bg-white rounded border border-gray-200 w-full" data-employee-id="{{ item.person.nid }}" draggable="true">
+												<input type="hidden" name="passagers" value="{{ item.collect_id }}####{{ item.person.nid }}####{{ it.id }}####{{ loop.index }}"/>
+												<div class="w-8 h-8 rounded-full {{ style.bg }} {{ style.text }} flex items-center justify-center mr-2 flex-shrink-0" aria-hidden="true">
+													{{ item.person.field_nom|slice(0, 1) }}
+												</div>
+												<div class="flex-1 min-w-0">
+													<h4 class="text-sm font-medium text-gray-800 truncate">{{ item.person.field_nom }}</h4>
+													<p class="text-xs text-gray-500 truncate">{{ item.person.field_adresse|first.title }}</p>
+												</div>
+												<button type="button" class="remove-btn w-5 h-5 bg-red-100 rounded-full text-red-600 flex items-center justify-center" aria-label="Retirer cet employé">
+													<i class="ri-close-line text-xs"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+								{% else %}
+									<div class="bg-white rounded shadow-sm border border-gray-200 p-4 place-item" aria-label="Place libre numéro {{ loop.index }}">
+										<div class="flex items-center justify-between mb-2">
+											<span class="text-sm font-medium text-gray-700">Place
+												{{ loop.index }}</span>
+											<span class="text-xs px-2 py-0.5 bg-green-100 text-green-800 rounded-full">Libre</span>
+										</div>
+										<div id="place-{{ loop.index }}-{{ it.id }}" class="droppable h-16 border-2 border-dashed border-gray-300 rounded flex items-center justify-center" data-drop-for="{{ it.id }}" aria-label="Zone déposer personne pour place {{ loop.index }}">
+											<span class="text-sm text-gray-400">Déposer ici</span>
+										</div>
+									</div>
+								{% endif %}
+							{% endfor %}
+						{% else %}
+							{% for place in places %}
+								<div class="bg-white rounded shadow-sm border border-gray-200 p-4 place-item" aria-label="Place libre numéro {{ loop.index }}">
+									<div class="flex items-center justify-between mb-2">
+										<span class="text-sm font-medium text-gray-700">Place
+											{{ loop.index }}</span>
+										<span class="text-xs px-2 py-0.5 bg-green-100 text-green-800 rounded-full">Libre</span>
+									</div>
+									<div id="place-{{ loop.index }}-{{ it.id }}" class="droppable h-16 border-2 border-dashed border-gray-300 rounded flex items-center justify-center" data-drop-for="{{ it.id }}" aria-label="Zone déposer personne pour place {{ loop.index }}">
+										<span class="text-sm text-gray-400">Déposer ici</span>
+									</div>
+								</div>
+							{% endfor %}
+						{% endif %}
+                            
+					</div>
+                    <input type="hidden" id="number_place" value="{{number}}" />
+				</div>
+           
+			{% endfor %}
+        
+		</div>
+	</main>
 
-            <div class="row d-flex gap-5 justify-content-center" id="card-clients">
-                <div class="col-12 col-lg-3 p-3 bg-white rounded-4 ">
-                    <div class="row">
-                        <div class="col-12 d-flex justify-content-center align-items-md-center flex-column my-3">
-                            <h3 class="fw-light"><span class="checked-lenght">0</span> Séléctionnés</h3>
-                            <button
-                                class="btn btn-primary fs-6 d-flex justify-content-center align-items-center mb-3 gap-2 shadow btn-auto-distribution"
-                                data-toggle="modal" data-target="#auto-distribution">
-                                Répartition auto
-                                <i class="bi bi-arrow-right-circle-fill fs-4"></i>
-                            </button>
-                            <button
-                                class="btn btn-success fs-6 d-flex justify-content-center align-items-center gap-2 shadow" data-url="/test/test" id="save-data-car">
-                                Sauvegarder
-                                <i class="bi bi-save fs-4"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div id="personel-list" class="row p-2 border-bottom overflow-auto" style="max-height: 800px;">
-                        <table id="table-personnel" data-toggle="table" data-click-to-select="true" class="table borderless" data-search="true">
-                            <thead >
-                                <tr>
-                                    <th data-field="card"></th>
-                                    <th data-field="checkbox" data-checkbox="true"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Les lignes seront ajoutées dynamiquement ici -->
-                            </tbody>
-                        </table>
-                       
-                    </div>
-                </div>
-                <div class="col-12 col-lg-8 rounded-4">
-                    <div class="row mb-3 d-flex">
 
-                        <div class="col-12">
-                            <div class="nav nav-pills d-flex flex-wrap" role="tablist" id="cars">
-                                <!-- voitures -->
-                            </div>
-                        </div>
+	<div id="toast" class="fixed bottom-4 right-4 bg-white shadow-lg rounded-lg p-4 flex items-center space-x-3 transform translate-y-16 opacity-0 transition-all duration-300 z-50 hidden" role="alert" aria-live="assertive" aria-atomic="true">
+		<div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+			<i class="ri-check-line text-green-600"></i>
+		</div>
+		<div>
+			<h4 class="font-medium text-gray-800">Succès</h4>
+			<p class="text-sm text-gray-600" id="toast-message">Opération réussie</p>
+		</div>
+		<button class="ml-auto text-gray-400 hover:text-gray-600" onclick="hideToast()" aria-label="Close notification">
+			<i class="ri-close-line"></i>
+		</button>
+	</div>
 
-                        <!-- Contenu des onglets -->
-                        <div class="col-12">
-                            <div class="tab-content " id="cars-contents">
-                                <!-- Contenu Voiture  -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	 <script>
+										    function showToast(message, type = "success") {
+										        const toast = document.getElementById("toast");
+										        const toastMessage = document.getElementById("toast-message");
+										        const icon = toast.querySelector("i");
+										        const iconContainer = toast.querySelector("div:first-child");
+										        toastMessage.textContent = message;
+										        if (type === "success") {
+										            iconContainer.className = "w-8 h-8 rounded-full bg-green-100 flex items-center justify-center";
+										            icon.className = "ri-check-line text-green-600";
+										        } else if (type === "error") {
+										            iconContainer.className = "w-8 h-8 rounded-full bg-red-100 flex items-center justify-center";
+										            icon.className = "ri-close-line text-red-600";
+										        }
+										        toast.classList.remove("hidden");
+										        setTimeout(() => {
+										            toast.classList.remove("translate-y-16", "opacity-0");
+										        }, 10);
+										        setTimeout(hideToast, 3000);
+										    }
+										    function hideToast() {
+										        const toast = document.getElementById("toast");
+										        toast.classList.add("translate-y-16", "opacity-0");
+										        setTimeout(() => {
+										            toast.classList.add("hidden");
+										        }, 300);
+										    }
+										
+										    document.addEventListener("DOMContentLoaded", function () {
+										        const employeeContainer = document.getElementById("employee-list-inner");
+										        const selectedCountElement = document.getElementById("selected-count");
+										        const searchInput = document.getElementById("employee-search");
+										        const clearSelectionButton = document.getElementById("clear-selection");
+										        const saveDistributionButton = document.getElementById("save-distribution");
+										        const tabButtons = document.querySelectorAll(".tab-button");
+										
+										        function updateSelectedCount() {
+										            const count = document.querySelectorAll('.item-person-selected > .employee-badge').length;
+										            selectedCountElement.textContent = count;
+										        }
+										
+										        // Helper function: get all personIds from unassigned employees (sidebar)
+										        function getUnassignedPersonIds() {
+										            return Array.from(document.querySelectorAll('.item-person')).map(el => el.dataset.employeeId);
+										        }
+										
+										        // Log unassigned personIds on load for debugging
+										        console.log('Unassigned personIds:', getUnassignedPersonIds());
+										
+										        let draggedElement = null;
+										
+										        function setupDragHandlers(element) {
+										            element.addEventListener('dragstart', (e) => {
+										                draggedElement = e.currentTarget;
+										                e.dataTransfer.effectAllowed = 'move';
+										                e.dataTransfer.setData('text/plain', draggedElement.dataset.employeeId);
+										
+										                draggedElement.classList.add('opacity-50');
+										                if (draggedElement.closest('.droppable')) {
+										                    draggedElement.closest('.droppable').classList.add('drag-source');
+										                }
+										            });
+										            element.addEventListener('dragend', (e) => {
+										                if (draggedElement) {
+										                    draggedElement.classList.remove('opacity-50');
+										                    const dropzone = draggedElement.closest('.droppable');
+										                    if (dropzone) dropzone.classList.remove('drag-source');
+										                    draggedElement = null;
+										                }
+										            });
+										        }
+										
+										        function enableDraggingForCurrentEmployees() {
+										            employeeContainer.querySelectorAll('.item-person').forEach(item => setupDragHandlers(item));
+										            document.querySelectorAll('.employee-badge').forEach(badge => setupDragHandlers(badge));
+										        }
+										
+										        enableDraggingForCurrentEmployees();
+										
+										        const dropzones = document.querySelectorAll('.droppable');
+										        dropzones.forEach(zone => {
+										            zone.addEventListener('dragover', (e) => {
+										                e.preventDefault();
+										                zone.classList.add('hover');
+										            });
+										            zone.addEventListener('dragleave', (e) => {
+										                zone.classList.remove('hover');
+										            });
+										            zone.addEventListener('drop', (e) => {
+										                e.preventDefault();
+										                zone.classList.remove('hover');
+										
+										                if (!draggedElement) return;
+										
+										                const isOccupied = zone.querySelector('.employee-badge, .item-person');
+										                if (isOccupied && !zone.classList.contains('drag-source')) {
+										                    showToast("Cette place est déjà occupée", "error");
+										                    return;
+										                }
+										
+										                if (draggedElement.classList.contains('employee-badge')) {
+										                    const oldDropzone = draggedElement.closest('.droppable');
+										                    if (oldDropzone && oldDropzone !== zone) {
+										                        oldDropzone.innerHTML = '<span class="text-sm text-gray-400">Déposer ici</span>';
+										                        oldDropzone.classList.remove('occupied');
+										                        // Set label back to Libre on old parent container
+										                        const placeItemOld = oldDropzone.closest('.place-item');
+										                        if(placeItemOld){
+										                            const statusSpanOld = placeItemOld.querySelector('span.text-xs');
+										                            if(statusSpanOld){
+										                                statusSpanOld.textContent = 'Libre';
+										                                statusSpanOld.className = 'text-xs px-2 py-0.5 bg-green-100 text-green-800 rounded-full';
+										                            }
+										                        }
+										                    }
+										                    zone.innerHTML = '';
+										                    zone.appendChild(draggedElement);
+										                    zone.classList.add('occupied');
+										
+										                    // Update hidden input value with new place number
+										                    const hiddenInput = draggedElement.querySelector('input[name="passagers"]');
+										                    if(hiddenInput) {
+										                        const placeId = zone.id || ''; // e.g. place-3-5
+										                        // Extract place number from id with regex
+										                        const match = placeId.match(/place-(\d+)-(\d+)/);
+										                        if(match) {
+										                            const personId = draggedElement.dataset.employeeId;
+                                                                    const collectId = draggedElement.dataset.collectId;
+										                            const ligneId = match[2];
+										                            const placeNumber = match[1];
+										                            hiddenInput.value = collectId+ '####'+personId + '####' + ligneId + '####' + placeNumber;
+										                        }
+										                    }
+										                    // Update label to Occupée for new container
+										                    const placeItemNew = zone.closest('.place-item');
+										                    if(placeItemNew){
+										                        const statusSpanNew = placeItemNew.querySelector('span.text-xs');
+										                        if(statusSpanNew){
+										                            statusSpanNew.textContent = 'Occupée';
+										                            statusSpanNew.className = 'text-xs px-2 py-0.5 bg-red-100 text-red-800 rounded-full';
+										                        }
+										                    }
+										                }
+										                else if (draggedElement.classList.contains('item-person')) {
+										                    draggedElement.parentNode.removeChild(draggedElement);
+										
+										                    const employeeBadge = document.createElement('div');
+										                    employeeBadge.className = 'employee-badge flex items-center p-2 bg-white rounded border border-gray-200 w-full';
+										                    employeeBadge.setAttribute('draggable', 'true');
+										                    employeeBadge.dataset.employeeId = draggedElement.dataset.employeeId;
+										
+										                    const placeId = zone.id || '';
+										                    const match = placeId.match(/place-(\d+)-(\d+)/);
+										                    let ligneId = zone.dataset.dropFor || '';
+										                    let placeNumber = '';
+										                    if(match){
+										                        placeNumber = match[1];
+										                        ligneId = match[2];
+										                    }
+										
+										                    const hiddenInput = document.createElement('input');
+										                    hiddenInput.type = 'hidden';
+										                    hiddenInput.name = 'passagers';
+										                    hiddenInput.value = draggedElement.dataset.collectId + '####' +draggedElement.dataset.employeeId + '####' + ligneId + '####' + placeNumber;
+										                    employeeBadge.appendChild(hiddenInput);
+										
+										                    const nameFirstLetter = draggedElement.textContent.trim().slice(0,1);
+										
+										                    const colorDivOrig = draggedElement.querySelector('div[class*="bg-"],div.rounded-full');
+										                    const newColorDiv = document.createElement('div');
+										                    if(colorDivOrig){
+										                        Array.from(colorDivOrig.classList).forEach(c => newColorDiv.classList.add(c));
+										                    }
+										                    else{
+										                        newColorDiv.classList.add('bg-gray-100','text-gray-800');
+										                    }
+										                    newColorDiv.classList.add('w-8','h-8','rounded-full','flex','items-center','justify-center','mr-2','flex-shrink-0');
+										                    newColorDiv.setAttribute('aria-hidden', 'true');
+										                    newColorDiv.textContent = nameFirstLetter;
+										                    employeeBadge.appendChild(newColorDiv);
+										
+										                    const nameContainer = document.createElement('div');
+										                    nameContainer.className = 'flex-1 min-w-0';
+										                    const h4 = document.createElement('h4');
+										                    h4.className = 'text-sm font-medium text-gray-800 truncate';
+										                    h4.textContent = draggedElement.querySelector('h4')?.textContent || '';
+										                    const p = document.createElement('p');
+										                    p.className = 'text-xs text-gray-500 truncate';
+										                    p.textContent = draggedElement.querySelector('p')?.textContent || '';
+										                    nameContainer.appendChild(h4);
+										                    nameContainer.appendChild(p);
+										                    employeeBadge.appendChild(nameContainer);
+										
+										                    const removeBtn = document.createElement('button');
+										                    removeBtn.className = 'remove-btn w-5 h-5 bg-red-100 rounded-full text-red-600 flex items-center justify-center';
+										                    removeBtn.type = 'button';
+										                    removeBtn.setAttribute('aria-label', 'Retirer cet employé');
+										                    removeBtn.innerHTML = '<i class="ri-close-line text-xs"></i>';
+										                    employeeBadge.appendChild(removeBtn);
+										
+										                    zone.innerHTML = '';
+										                    zone.appendChild(employeeBadge);
+										                    zone.classList.add('occupied');
+										                    // Update label to Occupée for new container
+										                    const placeItemNew = zone.closest('.place-item');
+										                    if(placeItemNew){
+										                        const statusSpanNew = placeItemNew.querySelector('span.text-xs');
+										                        if(statusSpanNew){
+										                            statusSpanNew.textContent = 'Occupée';
+										                            statusSpanNew.className = 'text-xs px-2 py-0.5 bg-red-100 text-red-800 rounded-full';
+										                        }
+										                    }
+										                    setupDragHandlers(employeeBadge);
+										                }
+										                updateSelectedCount();
+										            });
+										        });
+										
+										        document.body.addEventListener('click', e => {
+										            if (e.target.closest('.remove-btn')) {
+										                const badge = e.target.closest('.employee-badge');
+										                if (!badge) return;
+										
+										                const employeeId = badge.dataset.employeeId;
+										                const name = badge.querySelector('h4')?.textContent || '';
+										                const prenom = badge.querySelector('p')?.textContent || '';
+										                const colorDiv = badge.querySelector('div.w-8,div.rounded-full');
+										
+										                const sidebarEmp = document.createElement('div');
+										                sidebarEmp.className = 'item-person w-full p-2 bg-white rounded border border-gray-200 shadow-sm flex items-center';
+										                sidebarEmp.setAttribute('draggable', 'true');
+										                sidebarEmp.dataset.employeeId = employeeId;
+										
+										                const colorBox = document.createElement('div');
+										                if(colorDiv){
+										                    Array.from(colorDiv.classList).forEach(c => colorBox.classList.add(c));
+										                }
+										                else{
+										                    colorBox.classList.add('bg-gray-100','text-gray-800');
+										                }
+										                colorBox.classList.add('w-10','h-10','rounded-full','flex','items-center','justify-center','mr-3','flex-shrink-0');
+										                colorBox.setAttribute('aria-hidden', 'true');
+										                colorBox.textContent = name.slice(0,1);
+										                sidebarEmp.appendChild(colorBox);
+										
+										                const nameContainer = document.createElement('div');
+										                nameContainer.className = 'flex-1 min-w-0';
+										                const h4 = document.createElement('h4');
+										                h4.className = 'text-sm font-medium text-gray-800 truncate';
+										                h4.textContent = name;
+										                const p = document.createElement('p');
+										                p.className = 'text-xs text-gray-500 truncate';
+										                p.textContent = prenom;
+										                nameContainer.appendChild(h4);
+										                nameContainer.appendChild(p);
+										                sidebarEmp.appendChild(nameContainer);
+										
+										                employeeContainer.appendChild(sidebarEmp);
+										
+										                const dropzone = badge.closest('.droppable');
+										                if (dropzone) {
+										                    dropzone.innerHTML = '<span class="text-sm text-gray-400">Déposer ici</span>';
+										                    dropzone.classList.remove('occupied');
+										                    // Set label back to Libre on parent container
+										                    const placeItem = dropzone.closest('.place-item');
+										                    if(placeItem){
+										                        const statusSpan = placeItem.querySelector('span.text-xs');
+										                        if(statusSpan){
+										                            statusSpan.textContent = 'Libre';
+										                            statusSpan.className = 'text-xs px-2 py-0.5 bg-green-100 text-green-800 rounded-full';
+										                        }
+										                    }
+										                }
+										                badge.remove();
+										
+										                setupDragHandlers(sidebarEmp);
+										                updateSelectedCount();
+										            }
+										        });
+										
+										        clearSelectionButton.addEventListener('click', () => {
+										            const assignedBadges = document.querySelectorAll('.employee-badge');
+										            assignedBadges.forEach(badge => {
+										                badge.querySelector('.remove-btn').click();
+										            });
+										        });
+										saveDistributionButton.addEventListener('click', () => {
+										    const form = document.createElement('form');
+										    form.method = 'GET';
+										    form.action = '/ready'; // Set your endpoint here
+										    // Collect all placed persons
+										    document.querySelectorAll('input[name="passagers"]').forEach(input => {
+										        const hiddenInput = document.createElement('input');
+										        hiddenInput.type = 'hidden';
+										        hiddenInput.name = 'passagers[]'; // Use array notation for multiple values
+										        hiddenInput.value = input.value;
+										        form.appendChild(hiddenInput);
+										    });
+										    // Collect unassigned person IDs
+										    const unassignedPersonIds = getUnassignedPersonIds();
+										    unassignedPersonIds.forEach(id => {
+										        const hiddenInput = document.createElement('input');
+										        hiddenInput.type = 'hidden';
+										        hiddenInput.name = 'unassigned[]'; // Use array notation for multiple values
+										        hiddenInput.value = id;
+										        form.appendChild(hiddenInput);
+										    });
+										    document.body.appendChild(form);
+										    form.submit(); // Submit the form
+										});
+										 
+										
+										        tabButtons.forEach(button => {
+										            button.addEventListener('click', () => {
+										                const tabId = button.getAttribute('data-tab');
+										                tabButtons.forEach(btn => btn.classList.remove('active'));
+										                button.classList.add('active');
+										                document.querySelectorAll('.tab-content').forEach(tab => {
+										                    if (tab.getAttribute('data-content') === tabId) tab.classList.add('active');
+										                    else tab.classList.remove('active');
+										                });
+										            });
+										        });
+										
+										        searchInput.addEventListener('input', () => {
+										            const searchValue = searchInput.value.trim().toLowerCase();
+										            employeeContainer.querySelectorAll('.item-person').forEach(emp => {
+										                const empName = emp.querySelector('h4')?.textContent.toLowerCase() || '';
+										                emp.style.display = empName.includes(searchValue) ? '' : 'none';
+										            });
+										        });
+										
+										        updateSelectedCount();
+										    });
+										</script>
 
-    <!--Modals-->
-    <div class="modal fade" id="add-personel" tabindex="-1" aria-labelledby="add-personel" aria-hidden="true">
-        <div class="modal-dialog modal-lg ">
-            <div class="modal-content">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title text-center w-100" id="add-personel-label">Séléctionnez le personnels à
-                        insérer</h5>
-                    <button type="button" class="btn-close rounded-circle fs-3" data-bs-dismiss="modal"
-                        aria-label="Close" style="background: #D9D9D9; color: #7D8592 !important;"><i
-                            class="bi bi-x fw-bold "></i>
-                    </button>
-                </div>
-                <div class="modal-body border-0">
-                    <table id="table-list-personnel" class="table table-bordered  text-center table-list-personnel" data-toggle="table"
-                        data-pagination="true" data-click-to-select="true" data-single-select="true" data-search="true">
-                        <thead>
-                            <tr>
-                                <th data-field="radio" data-checkbox="true">Sélection</th>
-                                <th data-field="heure">Heure Dépot/ <br> Ramassage</th>
-                                <th data-field="nom">Nom</th>
-                                <th data-field="hotel">Hotel</th>
-                                <th data-field="adresse">Adresse</th>
-                                <th data-field="contact">Contact</th>
-                            </tr>
-                        </thead>
-                        <tbody class="opacity-75">
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer border-0">
-                    <div class="my-3 d-flex justify-content-between align-items-center w-100">
-                        <div class="d-flex justify-content-center align-items-center gap-2">
-                            <div class="pagiation">
-                                <div class="d-flex justify-content-end align-items-center">
-                                    <div class="bg-white d-flex justify-content-center align-items-center rounded-5 p-1 "
-                                        style="border: 1px solid rgb(235, 235, 235);">
-                                        <p class="m-0 px-1 fs-6">1-8 sur 28</p>
-                                        <button class=" btn disable border-0 bg-white opacity-50 p-1">
-                                            <i class="bi bi-arrow-left"></i>
-                                        </button>
-                                        <button class="btn border-0 bg-white text-primary ">
-                                            <i class="bi bi-arrow-right"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-outline-primary rounded-5">
-                                <i class="bi bi-arrow-repeat"></i>
-                                Auto-Répartition
-                            </button>
-                        </div>
-                        <button type="button" class="btn btn-primary rounded-5 add-maual-personnel">
-                            <i class="bi bi-plus"></i>
-                            Ajouter le personnel
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="auto-distribution" tabindex="-1" aria-labelledby="auto-distribution" aria-hidden="true">
-        <div class="modal-dialog modal-lg ">
-            <div class="modal-content">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title text-center w-100" id="auto-distribution-label">Séléctionnez le personnels à
-                        insérer</h5>
-                    <button type="button" class="btn-close rounded-circle fs-3" data-bs-dismiss="modal"
-                        aria-label="Close" style="background: #D9D9D9; color: #7D8592 !important;"><i
-                            class="bi bi-x fw-bold "></i>
-                    </button>
-                </div>
-                <div class="modal-body border-0">
-                    <table id="table" class="table table-bordered  text-center table-list-personnel" data-toggle="table"
-                        data-pagination="true" data-click-to-select="true" data-search="true">
-                        <thead>
-                            <tr>
-                                <th data-field="radio" data-checkbox="true">Sélection</th>
-                                <th data-field="heure">Heure Dépot/ <br> Ramassage</th>
-                                <th data-field="nom">Nom</th>
-                                <th data-field="hotel">Hotel</th>
-                                <th data-field="adresse">Adresse</th>
-                                <th data-field="contact">Contact</th>
-                            </tr>
-                        </thead>
-                        <tbody class="opacity-50">
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer border-0">
-                    <div class="my-3 d-flex justify-content-between align-items-center w-100">
-                        <div class="d-flex justify-content-center align-items-center gap-2">
-                            <div class="pagiation">
-                                <div class="d-flex justify-content-end align-items-center">
-                                    <div class="bg-white d-flex justify-content-center align-items-center rounded-5 p-1 "
-                                        style="border: 1px solid rgb(235, 235, 235);">
-                                        <p class="m-0 px-1 fs-6">1-8 sur 28</p>
-                                        <button class=" btn disable border-0 bg-white opacity-50 p-1">
-                                            <i class="bi bi-arrow-left"></i>
-                                        </button>
-                                        <button class="btn border-0 bg-white text-primary ">
-                                            <i class="bi bi-arrow-right"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button type="button" class="btn btn-primary rounded-5">
-                            <i class="bi bi-arrow-repeat"></i>
-                            Répartir les séléctionnés
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+	 <script id="routeScrolling">
+	      document.addEventListener("DOMContentLoaded", function () {
+	        const scrollContainers = document.querySelectorAll(".route-container");
+	        const leftButton = document.querySelector(
+	          ".ri-arrow-left-s-line",
+	        ).parentElement;
+	        const rightButton = document.querySelector(
+	          ".ri-arrow-right-s-line",
+	        ).parentElement;
+	
+	        if (scrollContainers.length > 0 && leftButton && rightButton) {
+	          const firstContainer = scrollContainers[0];
+	
+	          leftButton.addEventListener("click", function () {
+	            firstContainer.scrollBy({ left: -300, behavior: "smooth" });
+	          });
+	
+	          rightButton.addEventListener("click", function () {
+	            firstContainer.scrollBy({ left: 300, behavior: "smooth" });
+	          });
+	        }
+	
+	        const stations = document.querySelectorAll(".station");
+	        stations.forEach((station) => {
+	          station.addEventListener("click", function () {
+	            stations.forEach((s) => s.classList.remove("active"));
+	            this.classList.add("active");
+	          });
+	        });
+	      });
+	    </script>
+</body></html></body></html>

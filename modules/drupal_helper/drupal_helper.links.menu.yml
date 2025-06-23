@@ -1,0 +1,7 @@
+drupal_helper.config_repos:
+  title: 'GIT REPO Settings'
+  route_name: drupal_helper.repo_git
+  description: ''
+  parent: 'system.admin_config_development'
+  weight: 99
+

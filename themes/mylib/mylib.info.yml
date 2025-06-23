@@ -1,0 +1,12 @@
+name: mylib
+type: theme
+description: 'Libraries list like bootstrap'
+package: Theme List
+core_version_requirement: ^8.9 || ^9 || ^10
+base theme: false
+
+
+
+
+
+

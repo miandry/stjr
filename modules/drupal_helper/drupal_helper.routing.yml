@@ -31,3 +31,23 @@ drupal_helper.manual_import:
      _permission: 'access administration pages'
    options:
      _admin_route: TRUE
+
+drupal_helper.repo_git:
+   path: '/admin/gitrepos'
+   defaults:
+     _form: '\Drupal\drupal_helper\Form\GitRepoForm'
+     _title: 'Repos git for project'
+   requirements:
+    _permission: 'access administration pages'   
+   options:
+    _admin_route: TRUE
+
+drupal_helper.manual_git:
+   path: '/admin/git/{name}'
+   defaults:
+    _controller: '\Drupal\drupal_helper\Controller\ApiController::git_pull'
+    _title: 'Update git'
+   requirements:
+    _permission: 'access administration pages'   
+   options:
+    _admin_route: TRUE

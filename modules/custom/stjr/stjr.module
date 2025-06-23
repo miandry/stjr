@@ -9,6 +9,11 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\node\Entity\Node;
+use Drupal\Core\Url;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Validator\ConstraintViolation;
+
+
 /**
  * Implements hook_help().
  */
@@ -38,8 +43,9 @@ function stjr_form_alter(array &$form, FormStateInterface $form_state, $form_id)
         $form['title']['widget'][0]['value']['#default_value'] = $random_title;
         
         // Ajouter un gestionnaire de soumission personnalisé.
-        $form['actions']['submit']['#submit'][] = '__stjr_custom_submit_handler';
+       // $form['actions']['submit']['#submit'][] = '__stjr_custom_submit_handler';
         $form['#validate'][] = '__stjr_check_if_personne_not_exist';
+
   }
   if ($form_id === 'node_personnel_form') {
     $form['#validate'][] = '__stjr_check_duplicate_title';
@@ -52,7 +58,21 @@ function  __stjr_custom_submit_handler(array &$form, FormStateInterface $form_st
 
     // Définir l'URL de redirection après la soumission du formulaire.
     $collection = $form_state->getFormObject()->getEntity();
-
+    $service = \Drupal::service('entity_parser.manager');
+    $c_array = $service->node_parser($collection);
+    $external_url = "/planning?";
+    if(isset($c_array["field_date"])){
+      $date = $c_array["field_date"] ;
+      $external_url=   $external_url."date=".$date."&" ;
+    }
+    if(isset($c_array["field_heure_de_depot_"])){
+      $heure = $c_array["field_heure_de_depot_"]["tid"] ;
+      $external_url=   $external_url."heure=".$heure ;
+    }
+    
+    $response = new RedirectResponse($external_url, 302);
+    $response->send();
+    return;
 
 }
 function __stjr_check_if_personne_not_exist(array &$form, FormStateInterface $form_state) {
@@ -65,16 +85,14 @@ function __stjr_check_if_personne_not_exist(array &$form, FormStateInterface $fo
     ->condition('type', 'personnel')
     ->condition('title',  intval($mat)); 
     $existing_nids = $query->execute();
-    if (empty($existing_nids)) {
+    if (empty($existing_nids)){
       $empty[] = $mat ;
     }
-
   }
   if(!empty($empty)){
     $mats = implode(' , ',$empty);
     $form_state->setErrorByName('field_content', t('Les Matricules: "%title" sont introuvable.', ['%title' => $mats]));
   }
-  
 
 }
 /**
@@ -99,10 +117,7 @@ function __stjr_check_duplicate_title(array &$form, FormStateInterface $form_sta
     $form_state->setErrorByName('title', t('Matricule doit etre numerique seulement ', ['%title' => $title]));
       echo "The value is not numeric.";
   }
-
-
 }
-
 
 /**
  * Implements hook_node_presave().
@@ -113,9 +128,42 @@ function stjr_node_presave(EntityInterface $entity) {
     // Check if the entity is a node and of a specific content type (e.g., 'article').
     if ($entity instanceof Node && $entity->bundle() === 'collection') {
         $service = \Drupal::service('stjr.default');
-        $entity = $service->buildCollection($entity);
+        $status = $entity = $service->buildCollection($entity);
     }
+
 }
+
+// function stjr_form_node_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+//   //$form['#validate'][] = 'stjr_custom_node_validate';
+// }
+// function stjr_custom_node_validate($form, \Drupal\Core\Form\FormStateInterface $form_state) {
+//   $entity = $form_state->getFormObject()->getEntity();
+//   if ($entity->getType() === 'collection') {
+//     kint($entity->field_client->getValue() );die();
+//     $matricule_str = $entity->field_content->value ;
+//     $matricule_array = explode("\n", trim($matricule_str));  
+//     $service = \Drupal::service('stjr.default');
+//     foreach(  $matricule_array  as $mat){
+//       $personne =  $service->isPersonnelExist(intval($mat));
+//       $client_field = $entity->get('field_client');
+//       $client_label = "";
+//       if (!$client_field->isEmpty()) {
+//         $client_entity = $client_field->entity;
+        
+//         if ($client_entity) {
+//           $client_label = $client_entity->label();
+//           // Use $client_label here
+//         }
+//       }
+
+//       if($personne && $personne->field_employeur->target_id == $entity->field_client->target_id){
+//       }else{
+//        // \Drupal::messenger()->addMessage(t('Personne  @person ne travaille pas chez @coll , Mais sur la collection du client @coll ', ['@coll' => $client , '@person' => $personne->label()]), 'error');
+//          $form_state->setErrorByName('field_content', t('Personne  @person ne travaille pas chez @coll , Mais sur la collection du client @coll ', ['@coll' => $client_label , '@person' => $personne->label()]));
+//       }       
+//     }     
+//   }
+// }
 
 
 /**
@@ -131,12 +179,64 @@ function stjr_preprocess_page(&$variables) {
     // Do something specific for the '/planning' page.
     $service = \Drupal::service('stjr.default');
     $variables['collections'] = $service->getCollectionByFilter();
-
    
   } 
   if ($internal_path == '/gestion') {
     $service = \Drupal::service('stjr.default');
-    $variables['collections'] = $service->getCollectionByFilter();
+    //$collections =  $service->getCollectionByFilter();
+    $itinaires =  $service->getItinaires();
+    $temp_store_factory = \Drupal::service('session_based_temp_store');
+    $uid = \Drupal::currentUser()->id();// User ID
+    $temp_store = $temp_store_factory->get($uid.'_custom_vbo_collect', 4800); 
+    $autoResults =  $temp_store->get('transports');
 
+    if( $autoResults == null) {
+      $service = \Drupal::service('drupal.helper');
+      $service->helper->redirectTo('/admin/collections');   
+    }
+    $variables['autoResults'] = $autoResults;
+
+   // $variables['collections'] = $collections ;
+    $variables['itinaires'] = $itinaires ;
+   }
+   if ($internal_path == '/ready') {
+    $service = \Drupal::service('drupal.helper');
+    $params = $service->helper->get_parameter();
+    if(isset($params['passagers'])){
+      $service = \Drupal::service('stjr.default');
+      $service->buildTransports(); 
+    }
+    $temp_store_factory = \Drupal::service('session_based_temp_store');
+    $uid = \Drupal::currentUser()->id();// User ID
+    $temp_store = $temp_store_factory->get($uid.'_custom_vbo_collect', 4800); 
+    $ready =  $temp_store->get('transports_ready');
+    if( $ready == null) {
+      $service->helper->redirectTo('/admin/collections');   
+    }
+   
+
+
+    $variables['transports'] = $ready;
+   }
+   $variables['#cache'] = [
+    'max-age' => 0,
+   ];
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function stjr_form_views_exposed_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  // Check the view ID and display ID.
+
+  if ($form['#id'] == 'views-exposed-form-collections-page-1') {
+
+    if (!isset($form["field_date_value_wrapper"]["field_date_value"])) {
+      $form["field_date_value_wrapper"]["field_date_value"]["date"]["#default_value"] = date("Y-m-d")  ;
+    }
+    if (isset($form["field_date_value_wrapper"]["field_date_value"]) && 
+    $form["field_date_value_wrapper"]["field_date_value"]["date"]["#default_value"] == "") {
+      $form["field_date_value_wrapper"]["field_date_value"]["date"]["#default_value"] = date("Y-m-d")  ;
+    }
   }
 }

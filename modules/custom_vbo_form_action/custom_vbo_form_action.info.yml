@@ -1,0 +1,7 @@
+name: 'Custom VBO Form Action'
+type: module
+description: 'Action VBO avec formulaire utilisateur'
+core_version_requirement: ^9 || ^10
+package: Custom
+dependencies:
+  - views_bulk_operations

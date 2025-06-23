@@ -16,12 +16,13 @@
     ],
     "require": {
         "composer/installers": "^1.9",
+        "drupal/console": "~1.0",
         "drupal/core-composer-scaffold": "^9.5",
         "drupal/core-project-message": "^9.5",
         "drupal/core-recommended": "^9.5",
         "drupal/core-vendor-hardening": "^9.5",
         "drush/drush": "^11.6",
-        "stripe/stripe-php": "^13.10"
+        "phpoffice/phpspreadsheet": "*"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -34,7 +35,8 @@
             "drupal/core-composer-scaffold": true,
             "drupal/core-project-message": true,
             "drupal/core-vendor-hardening": true,
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "drupal/console-extend-plugin": true
         },
         "sort-packages": true
     },
