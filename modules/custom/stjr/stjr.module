@@ -224,6 +224,7 @@ function stjr_preprocess_page(&$variables) {
     $autoResults =  $temp_store->get('transports');
     $client_id = (end($autoResults["selected"])[0]["ligne"]["node"]["field_client"]["nid"]);
     $itinaires =  $service->getItinaires($client_id);
+    
     if( $autoResults == null) {
       $service = \Drupal::service('drupal.helper');
       $service->helper->redirectTo('/admin/collections');   
