@@ -217,12 +217,13 @@ function stjr_preprocess_page(&$variables) {
 
 
     //$collections =  $service->getCollectionByFilter();
-    $itinaires =  $service->getItinaires();
+
     $temp_store_factory = \Drupal::service('session_based_temp_store');
     $uid = \Drupal::currentUser()->id();// User ID
     $temp_store = $temp_store_factory->get($uid.'_custom_vbo_collect', 4800); 
     $autoResults =  $temp_store->get('transports');
-
+    $client_id = (end($autoResults["selected"])[0]["ligne"]["node"]["field_client"]["nid"]);
+    $itinaires =  $service->getItinaires($client_id);
     if( $autoResults == null) {
       $service = \Drupal::service('drupal.helper');
       $service->helper->redirectTo('/admin/collections');   

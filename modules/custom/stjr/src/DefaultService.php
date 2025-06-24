@@ -186,7 +186,6 @@ class DefaultService {
           }
         }
         return $items;
-
    }
    function autoRepartitions($collections){
 
