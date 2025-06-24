@@ -88,14 +88,18 @@
         class="max-w-7xl mx-auto px-4 py-4 flex items-center"
       >
         <h1 class="text-2xl font-bold text-gray-800">« {{top.node.field_client.title}} — le {{top.date}} à {{top.node.field_heure_de_depot_.title}}  »</h1>
-        <button class="ml-4  items-center justify-center px-3 py-2 bg-primary text-white rounded-button text-sm hover:bg-primary/90 whitespace-nowrap">
+        <a  href="/gestion?rs=-1" class="ml-4  items-center justify-center px-3 py-2 bg-primary text-white rounded-button text-sm hover:bg-primary/90 whitespace-nowrap">
             <i class="ri-edit-line mr-1"></i>
             Modifier
-            </button>
-            <button class="ml-4  items-center justify-center px-3 py-2 bg-green-600 text-white rounded-button text-sm hover:bg-green-700 whitespace-nowrap">
+            </a>
+            <a href="/ready?exp=1" class="ml-4  items-center justify-center px-3 py-2 bg-green-600 text-white rounded-button text-sm hover:bg-green-700 whitespace-nowrap">
 <i class="ri-file-excel-line mr-1"></i>
 Exporter CSV
-</button>
+</a>
+            <a href="/print?exp=1" class="ml-4  items-center justify-center px-3 py-2 bg-red-600 text-white rounded-button text-sm hover:bg-green-700 whitespace-nowrap">
+<i class="ri-file-excel-line mr-1"></i>
+Imprimer
+</a>
 
       </div>
     </header>

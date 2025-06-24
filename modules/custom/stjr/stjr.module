@@ -112,7 +112,6 @@ function __stjr_check_duplicate_title(array &$form, FormStateInterface $form_sta
       // Set an error on the title field.
       $form_state->setErrorByName('title', t('A node with the title "%title" already exists.', ['%title' => $title]));
   }
-
   if (!is_numeric($title)) {
     $form_state->setErrorByName('title', t('Matricule doit etre numerique seulement ', ['%title' => $title]));
       echo "The value is not numeric.";
@@ -165,7 +164,32 @@ function stjr_node_presave(EntityInterface $entity) {
 //   }
 // }
 
-
+/**
+ * Implements hook_preprocess_page().
+ */
+function stjr_preprocess_html(&$variables) {
+  // Get the current path.
+  $current_path = \Drupal::service('path.current')->getPath();
+  // Normalize the internal path to a standard format.
+  $internal_path = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+  // Check if the current path is '/planning'.
+  if ($internal_path == '/print') { 
+    $temp_store_factory = \Drupal::service('session_based_temp_store');
+    $uid = \Drupal::currentUser()->id();// User ID
+    $temp_store = $temp_store_factory->get($uid.'_custom_vbo_collect', 4800); 
+    $ready =  $temp_store->get('transports_ready');
+    if($ready == null) {
+      $service_helper = \Drupal::service('drupal.helper');
+      $service_helper->helper->redirectTo('/admin/collections');   
+    } 
+    $service = \Drupal::service('stjr.default');
+    $ready_final = $service->printTransports($ready);
+    $variables['collections'] =   $ready_final;
+    $variables['#cache'] = [
+      'max-age' => 0,
+     ];
+  }
+}
 /**
  * Implements hook_preprocess_page().
  */
@@ -183,6 +207,15 @@ function stjr_preprocess_page(&$variables) {
   } 
   if ($internal_path == '/gestion') {
     $service = \Drupal::service('stjr.default');
+    $service_helper = \Drupal::service('drupal.helper');
+    $params = $service_helper->helper->get_parameter();
+    if(isset($params["rs"]) && $params["rs"] == -1){
+      $service->resetTransport();
+    }
+
+
+
+
     //$collections =  $service->getCollectionByFilter();
     $itinaires =  $service->getItinaires();
     $temp_store_factory = \Drupal::service('session_based_temp_store');
@@ -200,10 +233,13 @@ function stjr_preprocess_page(&$variables) {
     $variables['itinaires'] = $itinaires ;
    }
    if ($internal_path == '/ready') {
-    $service = \Drupal::service('drupal.helper');
-    $params = $service->helper->get_parameter();
-    if(isset($params['passagers'])){
-      $service = \Drupal::service('stjr.default');
+    $service_helper = \Drupal::service('drupal.helper');
+    $params = $service_helper->helper->get_parameter();
+    $service = \Drupal::service('stjr.default');
+    if(isset($params["exp"]) && $params["exp"]==1){
+      $service->exportTransports();
+    }
+    if(isset($params['passagers'])){ 
       $service->buildTransports(); 
     }
     $temp_store_factory = \Drupal::service('session_based_temp_store');
@@ -212,10 +248,7 @@ function stjr_preprocess_page(&$variables) {
     $ready =  $temp_store->get('transports_ready');
     if( $ready == null) {
       $service->helper->redirectTo('/admin/collections');   
-    }
-   
-
-
+    } 
     $variables['transports'] = $ready;
    }
    $variables['#cache'] = [

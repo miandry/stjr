@@ -6,6 +6,7 @@ use Drupal\file\Entity\File;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Url;
+use \Drupal\node\Entity\Node;
 
 /**
  * Class DefaultService.
@@ -317,7 +318,84 @@ class DefaultService {
     $temp_store->set('transports_ready', $resultats);
     return  $resultats ;
   }
+  function resetTransport(){
+    $temp_store_factory = \Drupal::service('session_based_temp_store');
+    $uid = \Drupal::currentUser()->id();// User ID
+    $temp_store = $temp_store_factory->get($uid.'_custom_vbo_collect', 106400); 
+    $trans_current =  $temp_store->get('transports_ready');
+    
+    foreach($trans_current as $i){
+      $nid  = $i["node"]["nid"];
+      $node = Node::load($nid);
+      if ($node) {
+        $node->delete();
+      }
+    }
+    $temp_store->delete('transports_ready');
+  }
+  function printTransports(){
+    $temp_store_factory = \Drupal::service('session_based_temp_store');
+    $uid = \Drupal::currentUser()->id();// User ID
+    $temp_store = $temp_store_factory->get($uid.'_custom_vbo_collect', 106400); 
+    $trans_current =  $temp_store->get('transports_ready');
+    $prepares=[];
+    foreach($trans_current as $key => $row){
+      $prepares[$key]['details'] =  $row ;
+      foreach($row["node"]["field_personnels"] as $person){
+        $place = $person["field_place"];
+        $nom = $person["field_personnel"]["node"]->field_nom->value ;
+        $adress = $person["field_personnel"]["node"]->field_adresse->entity->label() ;
+        $contact = $person["field_personnel"]["node"]->field_contact->value ;
+        $prepares[$key]['personnels'][] = ["place" =>  $place ,"matricule"=>$person["field_personnel"]["title"],"nom" => $nom ,"adresse" => $adress ,"contact" => $contact];
+      }
+    }
+    return  $prepares ;
+  }
+  function exportTransports(){
+    $temp_store_factory = \Drupal::service('session_based_temp_store');
+    $uid = \Drupal::currentUser()->id();// User ID
+    $temp_store = $temp_store_factory->get($uid.'_custom_vbo_collect', 106400); 
+    $trans_current =  $temp_store->get('transports_ready');
+    $prepares=[];
+    $prepares[] = [];
+    foreach($trans_current as $row){
+      $prepares[] = [null, $row["node"]["field_client"]["title"] , $row["node"]["field_itinaire"]["title"]];
+      $prepares[] = [null ,$row["date"]  , " ", $row["node"]["field_type"] , $row["node"]["field_heure_de_depot_"]["title"]];
+      $prepares[] = [null , "Voiture" , $row["voiture"]["title"] ];
+      $prepares[] = [null , "Chauffeur" , $row["chauffeur"]["nom"],"Contact",$row["chauffeur"]["contact"]];
+      $prepares[] = [];
+      $prepares[] = [];
 
+      $prepares[] = [null,null,null,null,null,"PRENOM","ADRESSE","CONTACT"];
+      foreach($row["node"]["field_personnels"] as $person){
+        $nom = $person["field_personnel"]["node"]->field_nom->value ;
+        $adress = $person["field_personnel"]["node"]->field_adresse->entity->label() ;
+        $contact = $person["field_personnel"]["node"]->field_contact->value ;
+        $prepares[] = [null,null,null,null,null,$nom , $adress ,$contact  ];
+      }
+      $prepares[] = [];
+    }
 
+    $filename = "export_".strtolower($trans_current[0]["node"]["field_client"]["title"])."_". $trans_current[0]["node"]["field_type"] ."_".$trans_current[0]["node"]["field_heure_de_depot_"]["title"].".csv";
+    header('Content-Type: application/csv');
+    header('Content-Disposition: attachment; filename="'.$filename.'";');
+    ob_end_clean();
+    $header = ["Date", ["date"] ];
+    $handle = fopen('php://output', 'w');
+    if( $fields){
+      fprintf($handle,chr(0xEF).chr(0xBB).chr(0xBF));
+      fputcsv($handle, $fields);
+    }
+    foreach($prepares as $row){
+        fprintf($handle,chr(0xEF).chr(0xBB).chr(0xBF));
+        fputcsv($handle, $row);
+    }
+    fclose($handle);
+    ob_flush();
+    exit();
 
+   // $service_helper = \Drupal::service('drupal.helper');
+   // $service_helper->helper->exportToCSV($trans_current,[]);
+  }
 }
+
