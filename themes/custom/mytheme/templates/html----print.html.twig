@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Liste de Dépôt NOVOTEL</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      font-size: 12px;
+    }
+
+    .no-print {
+      margin-bottom: 20px;
+    }
+
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+       thead {
+        display: table-header-group;
+         background-color: #e6f3ff;
+      }
+      tfoot {
+        display: table-footer-group;
+      }
+     th {
+      background-color: #e6f3ff;
+       }
+    }
+
+    .header {
+      text-align: center;
+    }
+
+    .header h1 {
+      margin: 5px 0;
+      font-size: 22px;
+      color: #003366;
+    }
+
+    .highlight {
+      background-color: yellow;
+      font-weight: bold;
+      padding: 5px;
+      display: inline-block;
+    }
+
+    .details {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      page-break-inside: auto;
+      
+    }
+
+    table, th, td {
+      border: 1px solid #000;
+    }
+
+    th, td {
+      padding: 6px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #e6f3ff;
+    }
+
+    tr {
+      page-break-inside: avoid;
+      page-break-after: auto;
+    }
+
+    .contact {
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <button onclick="window.print()" class="no-print">🖨️ Imprimer</button>
+
+ 
+
+{% for col in collections %}
+  <table>
+    <thead>
+     <tr>
+        <th colspan="6" style="text-align: center; border: none;">
+            <br>
+            <div><strong>{{ col.details.node.field_itinaire.title }} </strong></div>
+            <div><strong> {{ col.details.node.field_type }}  {{ col.details.node.field_heure_de_depot_.title }} h  </strong></div>
+            <h1 style="margin: 5px 0; font-size: 20px; color: #003366;"> {{ col.details.node.field_client.title }} </h1>
+            <div style="background: yellow; display: inline-block; font-weight: bold;">{{col.details.date}}</div>
+            <div style="margin-top: 10px;">
+              Nbre de personnes : <strong>{{ col.personnels|length }} personnes</strong><br>
+              Chauffeur : <strong>{{ col.details.chauffeur.nom }} ( {{ col.details.chauffeur.contact }}  ) </strong>
+            </div>
+        </th>
+    </tr>
+      <tr>
+        <th>Numero de place</th>
+        <th>Matricule</th>
+        <th>Nom</th>
+        <th>Adresse</th>
+        <th>Contact</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for pers  in col.personnels %}
+                <tr>
+                <td>Place {{pers.place}}</td>
+                <td>{{pers.matricule}}</td>
+                <td>{{pers.nom}}</td>
+                <td>{{pers.adresse}}</td>
+                <td class="contact">{{pers.contact}}</td>
+                </tr>
+        {% endfor %}        
+      <!-- END -->
+      </tbody>
+        </table>
+        <br>
+    {% endfor %}
+
+
+</body>
+</html>
