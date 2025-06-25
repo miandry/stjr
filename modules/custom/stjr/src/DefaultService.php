@@ -382,10 +382,7 @@ class DefaultService {
     ob_end_clean();
     $header = ["Date", ["date"] ];
     $handle = fopen('php://output', 'w');
-    if( $fields){
-      fprintf($handle,chr(0xEF).chr(0xBB).chr(0xBF));
-      fputcsv($handle, $fields);
-    }
+
     foreach($prepares as $row){
         fprintf($handle,chr(0xEF).chr(0xBB).chr(0xBF));
         fputcsv($handle, $row);
